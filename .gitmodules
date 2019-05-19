@@ -1,0 +1,3 @@
+[submodule "ca-steel-design"]
+	path = ca-steel-design
+	url = https://nholtz@github.com/nholtz/ca-steel-design.git

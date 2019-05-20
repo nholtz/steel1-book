@@ -48,6 +48,9 @@
   - title: Class Examples
     url: tension/class_examples_01
     not_numbered: true
+    subsections:
+    - title: Lap Splice 01
+      url: tension/lap-splice-01
   - title: Solved Problems
     url: tension/tension_examples_01
     not_numbered: true

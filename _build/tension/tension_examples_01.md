@@ -3,8 +3,8 @@ redirect_from:
   - "tension/tension-examples-01"
 title: 'Solved Problems'
 prev_page:
-  url: /tension/class_examples_01
-  title: 'Class Examples'
+  url: /tension/lap-splice-01
+  title: 'Lap Splice 01'
 next_page:
   url: 
   title: ''

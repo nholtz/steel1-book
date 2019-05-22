@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width,minimum-scale=1">
 
   <title>Lap Splice 01</title>
-  <meta name="description" content="Compute Tr - Plate Lap Splice">
+  <meta name="description" content="Tension Member: Lap SpliceCompute the factored tension resistance, $T_r$, of the following plate tension member with a lap splice.Ignore the connection detai...">
 
   <link rel="canonical" href="http://www.nealholtz.ca/dontknowyet//tension/lap-splice-01.html">
   <link rel="alternate" type="application/rss+xml" title="CIVE3205 - Steel I" href="http://www.nealholtz.ca/dontknowyet//feed.xml">
@@ -16,7 +16,7 @@
   <meta property="og:url"         content="http://www.nealholtz.ca/dontknowyet//tension/lap-splice-01.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="Lap Splice 01" />
-<meta property="og:description" content="Compute Tr - Plate Lap Splice" />
+<meta property="og:description" content="Tension Member: Lap SpliceCompute the factored tension resistance, $T_r$, of the following plate tension member with a lap splice.Ignore the connection detai..." />
 <meta property="og:image"       content="" />
 
 
@@ -29,11 +29,11 @@
   "headline":
     "Lap Splice 01",
   "datePublished":
-    "2019-05-20T16:10:34-04:00",
+    "2019-05-22T19:07:25-04:00",
   "dateModified":
-    "2019-05-20T16:10:34-04:00",
+    "2019-05-22T19:07:25-04:00",
   "description":
-    "Compute Tr - Plate Lap Splice",
+    "Tension Member: Lap SpliceCompute the factored tension resistance, $T_r$, of the following plate tension member with a lap splice.Ignore the connection detai...",
   "author": {
     "@type": "Person",
     "name": "N.M. Holtz"
@@ -730,59 +730,501 @@ initFunction(initQuery);
 
 
             <div class="c-textbook__content">
-              <h1 id="compute-tr---plate-lap-splice">Compute Tr - Plate Lap Splice</h1>
-
-<div class="cell code_cell">
-  <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">'../ca-steel-design/lib'</span><span class="p">]</span>
-<span class="kn">from</span> <span class="nn">Designer</span> <span class="kn">import</span> <span class="n">SST</span><span class="p">,</span><span class="n">show</span>
-</code></pre></div>    </div>
-  </div>
-
-</div>
+              <h1 id="tension-member-lap-splice">Tension Member: Lap Splice</h1>
+<p>Compute the factored tension resistance, $T_r$, of the following plate tension member with a lap splice.
+Ignore the connection details at the far ends of the member (not shown).  The bolts are 3/4” A325 in a
+bearing-type connection (assume threads intercepted).  The plates are of CSA G40.21 350W steel.</p>
 
 <p><img src="images/lap-splice-01.svg" alt="Lap Splice" /></p>
 
 <div class="cell code_cell">
   <div class="input_area">
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Main plate dimensions:</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">'../ca-steel-design/lib'</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">Designer</span> <span class="kn">import</span> <span class="n">show</span><span class="p">,</span><span class="n">Recorder</span>
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Material properties:</span>
+<span class="n">Fy</span> <span class="o">=</span> <span class="mf">350.</span>   <span class="c"># CSA G40.21 350W</span>
+<span class="n">Fu</span> <span class="o">=</span> <span class="mf">450.</span>
+<span class="n">Fub</span> <span class="o">=</span> <span class="mf">825.</span>  <span class="c"># bolt, ASTM A325</span>
+<span class="c"># Main plate dimensions:</span>
 <span class="n">W1</span> <span class="o">=</span> <span class="mf">300.</span>
 <span class="n">T1</span> <span class="o">=</span> <span class="mf">25.</span>
-<span class="n">c</span> <span class="o">=</span> <span class="mf">10.</span>   <span class="c"># clearance between ends</span>
+<span class="n">C</span> <span class="o">=</span> <span class="mf">10.</span>   <span class="c"># clearance between ends</span>
 <span class="c"># Lap plate dimensions:</span>
 <span class="n">W2</span> <span class="o">=</span> <span class="mf">220.</span>
 <span class="n">T2</span> <span class="o">=</span> <span class="mf">14.</span>
 <span class="n">L2</span> <span class="o">=</span> <span class="mf">350.</span>
 <span class="c"># bolting dimensions</span>
+<span class="n">D</span> <span class="o">=</span> <span class="mf">25.4</span><span class="o">*</span><span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>   <span class="c"># bolt dia</span>
+<span class="n">threads_intercepted</span> <span class="o">=</span> <span class="bp">True</span>
 <span class="n">HA</span> <span class="o">=</span> <span class="mf">22.</span> <span class="o">+</span> <span class="mf">2.</span>  <span class="c"># hole allowance - 3/4" bolts in 22mm punched holes</span>
 <span class="n">G</span> <span class="o">=</span> <span class="mf">75.</span>     <span class="c"># gauge</span>
 <span class="n">S</span> <span class="o">=</span> <span class="mf">75.</span>     <span class="c"># transverse spacing</span>
 <span class="n">NT</span> <span class="o">=</span> <span class="mi">3</span>      <span class="c"># number of bolts across</span>
 <span class="n">NL</span> <span class="o">=</span> <span class="mi">2</span>      <span class="c"># number of lines of bolts each side</span>
 <span class="n">S2</span> <span class="o">=</span> <span class="mf">140.</span>
-<span class="n">show</span><span class="p">(</span><span class="s">'W1,T1,c,W2,T2,L2,HA,G,S,S2,NT,NL'</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'Fy,Fu,Fub,W1,T1,C,W2,T2,L2,D,HA,G,S,S2,NT,NL'</span><span class="p">)</span>
 </code></pre></div>    </div>
   </div>
 
   <div class="output_wrapper">
     <div class="output_subarea">
-      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>W1 = 300
-T1 = 25
-c  = 10
-W2 = 220
-T2 = 14
-L2 = 350
-HA = 24
-G  = 75
-S  = 75
-S2 = 140
-NT = 3
-NL = 2
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Fy  = 350
+Fu  = 450
+Fub = 825
+W1  = 300
+T1  = 25
+C   = 10
+W2  = 220
+T2  = 14
+L2  = 350
+D   = 19.05
+HA  = 24
+G   = 75
+S   = 75
+S2  = 140
+NT  = 3
+NL  = 2
 </code></pre></div>      </div>
     </div>
   </div>
 </div>
+
+<h2 id="check-bolting-details">Check Bolting Details</h2>
+<p>Edge distance, end distance and spacing</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">min_edge</span> <span class="o">=</span> <span class="mi">32</span>   <span class="c"># S16 22.3.2, min edge distance, 3/4" bolt, sheared edge, Table 6</span>
+<span class="n">max_edge</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">12</span><span class="o">*</span><span class="n">T2</span><span class="p">,</span><span class="mi">150</span><span class="p">)</span> <span class="c"># S16 22.3.3</span>
+<span class="n">min_end</span> <span class="o">=</span> <span class="n">min_edge</span> <span class="k">if</span> <span class="n">NL</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">D</span>  <span class="c"># S16 22.3.4</span>
+<span class="n">min_pitch</span> <span class="o">=</span> <span class="mf">2.7</span><span class="o">*</span><span class="n">D</span>    <span class="c"># S16 22.3.1</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'min_pitch,min_edge,min_end,max_edge'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>min_pitch = 51.43
+min_edge  = 32
+min_end   = 28.57
+max_edge  = 150
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h3 id="center-plate">Center plate:</h3>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">edge</span> <span class="o">=</span> <span class="p">(</span><span class="n">W1</span> <span class="o">-</span> <span class="p">(</span><span class="n">NT</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">G</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span>
+<span class="n">end</span> <span class="o">=</span> <span class="p">(</span><span class="n">S2</span> <span class="o">-</span> <span class="n">C</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'edge,end'</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">edge</span> <span class="o">&gt;=</span> <span class="n">min_edge</span>
+<span class="k">assert</span> <span class="n">edge</span> <span class="o">&lt;=</span> <span class="n">max_edge</span>
+<span class="k">assert</span> <span class="n">end</span> <span class="o">&gt;=</span> <span class="n">min_end</span>
+<span class="c">##assert S &gt;= min_pitch</span>
+<span class="c">##assert G &gt;= min_pitch</span>
+<span class="k">assert</span> <span class="n">S2</span> <span class="o">&gt;=</span> <span class="n">S</span>
+<span class="k">assert</span> <span class="n">S</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">G</span><span class="o">**</span><span class="mi">2</span> <span class="o">&gt;=</span> <span class="n">min_pitch</span><span class="o">**</span><span class="mi">2</span>    <span class="c"># to be more precise ...</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>edge = 75
+end  = 65
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h3 id="lap-plate">Lap plate:</h3>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">edge</span> <span class="o">=</span> <span class="p">(</span><span class="n">W2</span> <span class="o">-</span> <span class="p">(</span><span class="n">NT</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">G</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span>
+<span class="n">end</span> <span class="o">=</span> <span class="p">(</span><span class="n">L2</span> <span class="o">-</span> <span class="p">((</span><span class="n">NL</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">G</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="n">S2</span><span class="p">))</span><span class="o">/</span><span class="mf">2.</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'edge,end'</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">edge</span> <span class="o">&gt;=</span> <span class="n">min_edge</span>
+<span class="k">assert</span> <span class="n">edge</span> <span class="o">&lt;=</span> <span class="n">max_edge</span>
+<span class="k">assert</span> <span class="n">end</span> <span class="o">&gt;=</span> <span class="n">min_end</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>edge = 35
+end  = 30
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h2 id="factored-resistance">Factored Resistance</h2>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">record</span> <span class="o">=</span> <span class="n">Recorder</span><span class="p">()</span>
+</code></pre></div>    </div>
+  </div>
+
+</div>
+
+<h3 id="main-plate">Main plate</h3>
+<p><img src="images/lap-splice-01-main.svg" alt="Main Plate" /></p>
+
+<h4 id="yield-on-gross-area">Yield on Gross Area</h4>
+
+<p>If the gross (unrediced) cross-section reaches the yield stress, there will be considerable
+axial elongation as yield starins are reached of the lenght of the member.  This is considered a failure (and a limit state).</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Ag</span> <span class="o">=</span> <span class="n">W1</span><span class="o">*</span><span class="n">T1</span>    <span class="c"># gross x-sectional area</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Ag</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-3</span>  <span class="c"># S16 13.2 a) i)</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'Ag,Tr'</span><span class="p">)</span>
+<span class="n">record</span><span class="p">(</span><span class="s">'Tr'</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="s">'13.2 a) i) - gross area yield, centre plate'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ag = 7500
+Tr = 2362
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h4 id="fracture-on-effective-net-area">Fracture on Effective Net Area</h4>
+<p>When the average stress across the net (reduced) area occurs, fracture will occur on that area.  This is, of
+course, a failure mode.  Normally, an account is made of how non-uniform load transfers can affect the stress
+distribution across the cross-section - that is done by computing an effective net area, $A_{ne}$.  Because the 
+bolts in this connection transfer loads approximately uniformly across the entire cross-section, we can consider the effective net area to be equal to the net area of possible failure surface 1 in the above figure.   (S16 12.3.3.1)</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wn</span> <span class="o">=</span> <span class="n">W1</span> <span class="o">-</span> <span class="n">NT</span><span class="o">*</span><span class="n">HA</span>    <span class="c"># subtract total width of material removed by holes, failure path 1</span>
+<span class="n">Ane</span> <span class="o">=</span> <span class="n">An</span> <span class="o">=</span> <span class="n">wn</span><span class="o">*</span><span class="n">T1</span>
+<span class="n">phiu</span> <span class="o">=</span> <span class="mf">0.75</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">Fu</span> <span class="o">*</span> <span class="mf">1E-3</span>    <span class="c"># S16 13.2 a) iii)</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'wn,An,Ane,Tr'</span><span class="p">)</span>
+<span class="n">record</span><span class="p">(</span><span class="s">'Tr'</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="s">'13.2 a) iii) - Net section fracture, centre plate'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wn  = 228
+An  = 5700
+Ane = 5700
+Tr  = 1924
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h4 id="block-shear">Block Shear</h4>
+<p>Other potential failure modes involve tension and shear ruptures in combination around
+the bolt holes.  The following figure shows 3 different potential failure patterns that must be
+investigated. Note that Pattern 3 is often called ‘tear-out’ or ‘pull-out’.
+<img src="images/lap-splice-01-main-blocks.svg" alt="Black Shear Patterns" /></p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## Pattern 1</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">S2</span><span class="o">/</span><span class="mf">2.</span> <span class="o">-</span> <span class="n">C</span><span class="o">/</span><span class="mf">2.</span>     <span class="c"># end distance to centre of 1st bolt hole</span>
+<span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">NL</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">S</span><span class="p">)</span><span class="o">*</span><span class="n">T1</span><span class="o">*</span><span class="mf">2.</span>  <span class="c"># shear area</span>
+<span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="n">NT</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">G</span> <span class="o">*</span> <span class="n">T1</span>          <span class="c"># tension area</span>
+<span class="n">Ut</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">phiu</span> <span class="o">=</span> <span class="mf">0.75</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">((</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1E-3</span>     <span class="c"># S16 13.11</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'Ut,An,Agv,Tr'</span><span class="p">)</span>
+<span class="n">record</span><span class="p">(</span><span class="s">'Tr'</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="s">'13.2 a) ii) - 13.11 - Block Shear Pattern 1 - centre plate'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ut  = 1
+An  = 3750
+Agv = 7000
+Tr  = 2526
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## Pattern 2</span>
+<span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">NL</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">S</span><span class="p">)</span><span class="o">*</span><span class="n">T1</span>  <span class="c"># shear area</span>
+<span class="n">g1</span> <span class="o">=</span> <span class="p">(</span><span class="n">W1</span> <span class="o">-</span> <span class="p">(</span><span class="n">NT</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">G</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span>  <span class="c"># edge distance to centre of hole</span>
+<span class="n">An</span> <span class="o">=</span> <span class="p">((</span><span class="n">W1</span><span class="o">-</span><span class="n">g1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">NT</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">HA</span><span class="p">)</span><span class="o">*</span><span class="n">T1</span>
+<span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.6</span>                 <span class="c"># no good guidelines in commentary - this should be conservative</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">((</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1E-3</span>     <span class="c"># S16 13.11</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'Ut,An,Agv,Tr'</span><span class="p">)</span>
+<span class="n">record</span><span class="p">(</span><span class="s">'Tr'</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="s">'13.2 a) ii) - 13.11 - Block Shear Pattern 2 - centre plate'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ut  = 0.6
+An  = 4125
+Agv = 3500
+Tr  = 1465
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## Pattern 3 - tear-out</span>
+<span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">NL</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">S</span><span class="p">)</span><span class="o">*</span><span class="n">T1</span> <span class="o">*</span> <span class="p">(</span><span class="n">NT</span><span class="o">*</span><span class="mf">2.</span><span class="p">)</span> <span class="c"># shear area</span>
+<span class="n">An</span> <span class="o">=</span> <span class="mf">0.</span>
+<span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.</span>               <span class="c"># N.A.</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">((</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1E-3</span>     <span class="c"># S16 13.11</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'Ut,An,Agv,Tr'</span><span class="p">)</span>
+<span class="n">record</span><span class="p">(</span><span class="s">'Tr'</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="s">'13.2 a) ii) - 13.11 - Block Shear Pattern 3 - centre plate'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ut  = 0
+An  = 0
+Agv = 21000
+Tr  = 3780
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h3 id="lap-plates">Lap Plates</h3>
+<p><img src="images/lap-splice-01-side.svg" alt="Lap Plate" /></p>
+
+<p>The side plates have similar failure modes and so will be computed here without much additional comment.  In all cases we will use the dimensions of a single plate, then will multiply the resistance by 2 to
+account for the two plates.</p>
+
+<h4 id="yield-on-gross-area-1">Yield on Gross Area</h4>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Ag</span> <span class="o">=</span> <span class="n">W2</span><span class="o">*</span><span class="n">T2</span>    <span class="c"># gross x-sectional area</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">phi</span><span class="o">*</span><span class="n">Ag</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-3</span>  <span class="c"># S16 13.2 a) i)</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'Ag,Tr'</span><span class="p">)</span>
+<span class="n">record</span><span class="p">(</span><span class="s">'Tr'</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="s">'13.2 a) i) - gross area yield, two side plates'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ag = 3080
+Tr = 1940
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h4 id="fracture-on-effective-net-area-1">Fracture on Effective Net Area</h4>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wn</span> <span class="o">=</span> <span class="n">W2</span> <span class="o">-</span> <span class="n">NT</span><span class="o">*</span><span class="n">HA</span>    <span class="c"># subtract total width of material removed by holes, failure path 2</span>
+<span class="n">Ane</span> <span class="o">=</span> <span class="n">An</span> <span class="o">=</span> <span class="n">wn</span><span class="o">*</span><span class="n">T2</span>
+<span class="n">phiu</span> <span class="o">=</span> <span class="mf">0.75</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">Fu</span> <span class="o">*</span> <span class="mf">1E-3</span>    <span class="c"># S16 13.2 a) iii)</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'wn,An,Ane,Tr'</span><span class="p">)</span>
+<span class="n">record</span><span class="p">(</span><span class="s">'Tr'</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="s">'13.2 a) iii) - Net section fracture, two side plates'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wn  = 148
+An  = 2072
+Ane = 2072
+Tr  = 1399
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h4 id="block-shear-1">Block Shear</h4>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## Pattern 1</span>
+<span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">L2</span> <span class="o">-</span> <span class="n">S2</span> <span class="o">-</span> <span class="p">(</span><span class="n">NL</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">S</span><span class="o">*</span><span class="mf">2.</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span>   <span class="c"># end distance to centre of 1st bolt hole</span>
+<span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">NL</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">S</span><span class="p">)</span><span class="o">*</span><span class="n">T2</span><span class="o">*</span><span class="mf">2.</span>  <span class="c"># shear area</span>
+<span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="n">NT</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">G</span> <span class="o">*</span> <span class="n">T2</span>          <span class="c"># tension area</span>
+<span class="n">Ut</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">phiu</span> <span class="o">=</span> <span class="mf">0.75</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">phiu</span><span class="o">*</span><span class="p">((</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1E-3</span>     <span class="c"># S16 13.11</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'Ut,An,Agv,Tr'</span><span class="p">)</span>
+<span class="n">record</span><span class="p">(</span><span class="s">'Tr'</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="s">'13.2 a) ii) - 13.11 - Block Shear Pattern 1 - two side plates'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ut  = 1
+An  = 2100
+Agv = 2940
+Tr  = 2476
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## Pattern 2</span>
+<span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">NL</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">S</span><span class="p">)</span><span class="o">*</span><span class="n">T2</span>  <span class="c"># shear area</span>
+<span class="n">g2</span> <span class="o">=</span> <span class="p">(</span><span class="n">W2</span> <span class="o">-</span> <span class="p">(</span><span class="n">NT</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">G</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span>  <span class="c"># edge distance to centre of hole</span>
+<span class="n">An</span> <span class="o">=</span> <span class="p">((</span><span class="n">W2</span><span class="o">-</span><span class="n">g2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">NT</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">HA</span><span class="p">)</span><span class="o">*</span><span class="n">T2</span>
+<span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.6</span>                 <span class="c"># no good guidelines in commentary - this should be conservative</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">phiu</span><span class="o">*</span><span class="p">((</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1E-3</span>     <span class="c"># S16 13.11</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'Ut,An,Agv,Tr'</span><span class="p">)</span>
+<span class="n">record</span><span class="p">(</span><span class="s">'Tr'</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="s">'13.2 a) ii) - 13.11 - Block Shear Pattern 2 - two side plates'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ut  = 0.6
+An  = 1750
+Agv = 1470
+Tr  = 1238
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## Pattern 3 - tear-out</span>
+<span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">NL</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">S</span><span class="p">)</span><span class="o">*</span><span class="n">T2</span> <span class="o">*</span> <span class="p">(</span><span class="n">NT</span><span class="o">*</span><span class="mf">2.</span><span class="p">)</span> <span class="c"># shear area</span>
+<span class="n">An</span> <span class="o">=</span> <span class="mf">0.</span>
+<span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.</span>               <span class="c"># N.A.</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">phiu</span><span class="o">*</span><span class="p">((</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1E-3</span>     <span class="c"># S16 13.11</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'Ut,An,Agv,Tr'</span><span class="p">)</span>
+<span class="n">record</span><span class="p">(</span><span class="s">'Tr'</span><span class="p">,</span><span class="n">Tr</span><span class="p">,</span><span class="s">'13.2 a) ii) - 13.11 - Block Shear Pattern 3 - two side plates'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ut  = 0
+An  = 0
+Agv = 8820
+Tr  = 3175
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h3 id="fasteners-bolts">Fasteners (Bolts)</h3>
+
+<h4 id="shear">Shear</h4>
+
+<p>Here we compute the shear strength of one of the bolt groups.</p>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n</span> <span class="o">=</span> <span class="n">NT</span><span class="o">*</span><span class="n">NL</span>      <span class="c"># number of bolts</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mf">2.</span>         <span class="c"># number of faying surfaces</span>
+<span class="n">Ab</span> <span class="o">=</span> <span class="mf">3.14159</span><span class="o">*</span><span class="n">D</span><span class="o">*</span><span class="n">D</span><span class="o">/</span><span class="mf">4.</span>
+<span class="n">phib</span> <span class="o">=</span> <span class="mf">0.80</span>
+<span class="n">Vr</span> <span class="o">=</span> <span class="mf">0.60</span><span class="o">*</span><span class="n">phib</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">Ab</span><span class="o">*</span><span class="n">Fub</span> <span class="o">*</span> <span class="mf">1E-3</span>      <span class="c"># S16 13.12.1.2 c)</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">NL</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">S</span> <span class="o">&gt;=</span> <span class="mf">760.</span><span class="p">:</span>
+    <span class="n">Vr</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span><span class="o">/</span><span class="mf">0.6</span><span class="p">)</span><span class="o">*</span><span class="n">Vr</span>
+<span class="k">if</span> <span class="n">threads_intercepted</span><span class="p">:</span>
+    <span class="n">Vr</span> <span class="o">=</span> <span class="mf">0.7</span><span class="o">*</span><span class="n">Vr</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'n,m,Ab,Vr'</span><span class="p">)</span>
+<span class="n">record</span><span class="p">(</span><span class="s">'Tr'</span><span class="p">,</span><span class="n">Vr</span><span class="p">,</span><span class="s">'13.12.1.2 c) - shear resistance of bolts'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>n  = 6
+m  = 2
+Ab = 285
+Vr = 948.1
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h4 id="bearing">Bearing</h4>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n</span> <span class="o">=</span> <span class="n">NT</span><span class="o">*</span><span class="n">NL</span>
+<span class="n">t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">T1</span><span class="p">,</span><span class="mf">2.</span><span class="o">*</span><span class="n">T2</span><span class="p">)</span>
+<span class="n">phibr</span> <span class="o">=</span> <span class="mf">0.80</span>
+<span class="n">Br</span> <span class="o">=</span> <span class="mf">3.</span><span class="o">*</span><span class="n">phibr</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">D</span><span class="o">*</span><span class="n">Fu</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">show</span><span class="p">(</span><span class="s">'n,t,Br'</span><span class="p">)</span>
+<span class="n">record</span><span class="p">(</span><span class="s">'Tr'</span><span class="p">,</span><span class="n">Br</span><span class="p">,</span><span class="s">'13.12.1.2 a) - bearing resistance at bolt holes'</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>n  = 6
+t  = 25
+Br = 3086
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h2 id="summary">Summary</h2>
+
+<div class="cell code_cell">
+  <div class="input_area">
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">record</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</code></pre></div>    </div>
+  </div>
+
+  <div class="output_wrapper">
+    <div class="output_subarea">
+      <div class="output_stream highlighter-rouge"><div class="highlight"><pre class="highlight"><code>            Tr = 2362     - 13.2 a) i) - gross area yield, centre plate                  
+            Tr = 1924     - 13.2 a) iii) - Net section fracture, centre plate            
+            Tr = 2526     - 13.2 a) ii) - 13.11 - Block Shear Pattern 1 - centre plate   
+            Tr = 1465     - 13.2 a) ii) - 13.11 - Block Shear Pattern 2 - centre plate   
+            Tr = 3780     - 13.2 a) ii) - 13.11 - Block Shear Pattern 3 - centre plate   
+            Tr = 1940     - 13.2 a) i) - gross area yield, two side plates               
+            Tr = 1399     - 13.2 a) iii) - Net section fracture, two side plates         
+            Tr = 2476     - 13.2 a) ii) - 13.11 - Block Shear Pattern 1 - two side plates
+            Tr = 1238     - 13.2 a) ii) - 13.11 - Block Shear Pattern 2 - two side plates
+            Tr = 3175     - 13.2 a) ii) - 13.11 - Block Shear Pattern 3 - two side plates
+governs --&gt; Tr = 948.1    - 13.12.1.2 c) - shear resistance of bolts                     
+            Tr = 3086     - 13.12.1.2 a) - bearing resistance at bolt holes              
+</code></pre></div>      </div>
+    </div>
+  </div>
+</div>
+
+<h2 id="things-not-done">Things not done</h2>
+<ul>
+  <li>L/r ratio</li>
+  <li>Connections at ends</li>
+</ul>
 
               <nav class="c-page__nav">
   

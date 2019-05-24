@@ -13,8 +13,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 ---
 
 # Tension Member: Lap Splice
-Compute the factored tension resistance, $T_r$, of the following plate tension member with a lap splice.
-Ignore the connection details at the far ends of the member (not shown).  The bolts are 3/4" A325 in a
+Compute the factored tension resistance, $T_r$, of the following plate tension member, lap splice and fasteners.
+Ignore the connection details at the far ends of the member (not shown).  Bolts are 3/4" A325 in a
 bearing-type connection (assume threads intercepted).  The plates are of CSA G40.21 350W steel.
 
 ![Lap Splice](images/lap-splice-01.svg)
@@ -89,6 +89,16 @@ Edge distance, end distance and spacing
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
+assert NT >= 2    # number of longitudinal lines (# of bolts per transverse line)
+assert NL >= 2    # number of transverse lines (# of bolts per longitudinal line)
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
 min_edge = 32   # S16 22.3.2, min edge distance, 3/4" bolt, sheared edge, Table 6
 max_edge = min(12*T2,150) # S16 22.3.3
 min_end = min_edge if NL > 2 else 1.5*D  # S16 22.3.4
@@ -139,7 +149,7 @@ end  = 65
 </div>
 </div>
 
-### Lap plate:
+### Lap plates:
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -180,8 +190,8 @@ record = Recorder()
 
 #### Yield on Gross Area
 
-If the gross (unrediced) cross-section reaches the yield stress, there will be considerable
-axial elongation as yield starins are reached of the lenght of the member.  This is considered a failure (and a limit state).
+If the gross (unreduced) cross-section reaches the yield stress, there will be considerable
+axial elongation as yield strains are reached over the length of the member.  This is considered a failure state.
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -206,10 +216,14 @@ Tr = 2362
 </div>
 
 #### Fracture on Effective Net Area
-When the average stress across the net (reduced) area occurs, fracture will occur on that area.  This is, of
+When the average stress across the net (reduced) area reaches the fracture stress, 
+fracture will occur on that area.  This is, of
 course, a failure mode.  Normally, an account is made of how non-uniform load transfers can affect the stress
-distribution across the cross-section - that is done by computing an effective net area, $A_{ne}$.  Because the 
-bolts in this connection transfer loads approximately uniformly across the entire cross-section, we can consider the effective net area to be equal to the net area of possible failure surface 1 in the above figure.   (S16 12.3.3.1)
+distribution across the cross-section; if the stress distribution is markedly non-uniform, fracture may occur *before* the average stress reaches the ultimate.   This account 
+is done by computing and using an effective net area, $A_{ne}$.  
+
+Because the 
+bolts in this connection transfer loads approximately uniformly across the entire cross-section, we can consider the effective net area to be equal to the net area in possible failure path 1 in the above figure.   (S16 12.3.3.1)
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -238,8 +252,18 @@ Tr  = 1924
 
 #### Block Shear
 Other potential failure modes involve tension and shear ruptures in combination around
-the bolt holes.  The following figure shows 3 different potential failure patterns that must be
-investigated. Note that Pattern 3 is often called 'tear-out' or 'pull-out'.
+the bolt holes.  The following figure shows 4 different potential failure patterns that must be
+investigated. 
+
+Patterns 1 and 2 are sort of "opposites" - in Pattern 1 in the tension rupture extends across the
+end of the bolts, while in Pattern 2 the tension rupture extends from one line of bolts to
+the outside edges of the plates.  Pattern 2 probably is only important when there are 2 longitudinal
+lines of bolts (there are three shown on the drawing, though our calculations will allow
+for any number, 2 or more).  If there are more than 3 longitudnal lines (I.e., more than 3 bolts across),
+other patterns similar to Pattern 2 could be drawn but thay will not have lower strengths.
+
+Note that Pattern 4 is often called 'tear-out' or 'pull-out'.
+
 ![Black Shear Patterns](images/lap-splice-01-main-blocks.svg)
 
 <div markdown="1" class="cell code_cell">
@@ -274,13 +298,42 @@ Tr  = 2526
 <div class="input_area" markdown="1">
 ```python
 ## Pattern 2
+Agv = 2.*(e + (NL-1)*S)*T1  # shear area
+g1 = (W1 - (NT-1)*G)/2.  # edge distance to centre of hole
+An = (g1 + g1 - 2.*HA/2.)*T1    # to outside from edge of outside pair of holes
+if NT >= 3:
+    An = An + (NT-2.)*(G - 2.*HA/2.)*T1    # additional between holes
+Ut = 0.6                 # no good guidelines in commentary - this should be conservative
+Tr = phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
+show('Ut,An,Agv,Tr')
+record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 2 - centre plate')    
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+Ut  = 0.6
+An  = 4425
+Agv = 7000
+Tr  = 2156
+```
+</div>
+</div>
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+## Pattern 3
 Agv = (e + (NL-1)*S)*T1  # shear area
 g1 = (W1 - (NT-1)*G)/2.  # edge distance to centre of hole
 An = ((W1-g1) - (NT-0.5)*HA)*T1
 Ut = 0.6                 # no good guidelines in commentary - this should be conservative
 Tr = phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
 show('Ut,An,Agv,Tr')
-record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 2 - centre plate')
+record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 3 - centre plate')
 ```
 </div>
 
@@ -300,13 +353,13 @@ Tr  = 1465
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-## Pattern 3 - tear-out
+## Pattern 4 - tear-out
 Agv = (e + (NL-1)*S)*T1 * (NT*2.) # shear area
 An = 0.
 Ut = 0.               # N.A.
 Tr = phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
 show('Ut,An,Agv,Tr')
-record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 3 - centre plate')
+record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 4 - centre plate')
 ```
 </div>
 
@@ -414,13 +467,42 @@ Tr  = 2476
 <div class="input_area" markdown="1">
 ```python
 ## Pattern 2
+Agv = 2.*(e + (NL-1)*S)*T2  # shear area
+g1 = (W2 - (NT-1)*G)/2.  # edge distance to centre of hole
+An = (g1 + g1 - 2.*HA/2.)*T2    # to outside from edge of outside pair of holes
+if NT >= 3:
+    An = An + (NT-2.)*(G - 2.*HA/2.)*T2    # additional between holes
+Ut = 0.6                 # no good guidelines in commentary - this should be conservative
+Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
+show('Ut,An,Agv,Tr')
+record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 2 - two side plates')    
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+Ut  = 0.6
+An  = 1358
+Agv = 2940
+Tr  = 1608
+```
+</div>
+</div>
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+## Pattern 3
 Agv = (e + (NL-1)*S)*T2  # shear area
 g2 = (W2 - (NT-1)*G)/2.  # edge distance to centre of hole
 An = ((W2-g2) - (NT-0.5)*HA)*T2
 Ut = 0.6                 # no good guidelines in commentary - this should be conservative
 Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
 show('Ut,An,Agv,Tr')
-record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 2 - two side plates')
+record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 3 - two side plates')
 ```
 </div>
 
@@ -440,13 +522,13 @@ Tr  = 1238
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-## Pattern 3 - tear-out
+## Pattern 4 - tear-out
 Agv = (e + (NL-1)*S)*T2 * (NT*2.) # shear area
 An = 0.
 Ut = 0.               # N.A.
 Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
 show('Ut,An,Agv,Tr')
-record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 3 - two side plates')
+record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 4 - two side plates')
 ```
 </div>
 
@@ -541,13 +623,15 @@ record.summary()
             Tr = 2362     - 13.2 a) i) - gross area yield, centre plate                  
             Tr = 1924     - 13.2 a) iii) - Net section fracture, centre plate            
             Tr = 2526     - 13.2 a) ii) - 13.11 - Block Shear Pattern 1 - centre plate   
-            Tr = 1465     - 13.2 a) ii) - 13.11 - Block Shear Pattern 2 - centre plate   
-            Tr = 3780     - 13.2 a) ii) - 13.11 - Block Shear Pattern 3 - centre plate   
+            Tr = 2156     - 13.2 a) ii) - 13.11 - Block Shear Pattern 2 - centre plate   
+            Tr = 1465     - 13.2 a) ii) - 13.11 - Block Shear Pattern 3 - centre plate   
+            Tr = 3780     - 13.2 a) ii) - 13.11 - Block Shear Pattern 4 - centre plate   
             Tr = 1940     - 13.2 a) i) - gross area yield, two side plates               
             Tr = 1399     - 13.2 a) iii) - Net section fracture, two side plates         
             Tr = 2476     - 13.2 a) ii) - 13.11 - Block Shear Pattern 1 - two side plates
-            Tr = 1238     - 13.2 a) ii) - 13.11 - Block Shear Pattern 2 - two side plates
-            Tr = 3175     - 13.2 a) ii) - 13.11 - Block Shear Pattern 3 - two side plates
+            Tr = 1608     - 13.2 a) ii) - 13.11 - Block Shear Pattern 2 - two side plates
+            Tr = 1238     - 13.2 a) ii) - 13.11 - Block Shear Pattern 3 - two side plates
+            Tr = 3175     - 13.2 a) ii) - 13.11 - Block Shear Pattern 4 - two side plates
 governs --> Tr = 948.1    - 13.12.1.2 c) - shear resistance of bolts                     
             Tr = 3086     - 13.12.1.2 a) - bearing resistance at bolt holes              
 ```

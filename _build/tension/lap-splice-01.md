@@ -2,13 +2,13 @@
 interact_link: content/tension/lap-splice-01.ipynb
 kernel_name: python3
 has_widgets: false
-title: 'Lap Splice 01'
+title: 'T10 - Lap Splice 01'
 prev_page:
-  url: /tension/class_examples_01
-  title: 'Class Examples'
+  url: /tension/example_problems_01
+  title: 'Example Problems'
 next_page:
-  url: /tension/tension_examples_01
-  title: 'Solved Problems'
+  url: 
+  title: ''
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

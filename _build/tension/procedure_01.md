@@ -6,8 +6,8 @@ prev_page:
   url: /tension/tension
   title: 'Tension Members'
 next_page:
-  url: /tension/class_examples_01
-  title: 'Class Examples'
+  url: /tension/example_problems_01
+  title: 'Example Problems'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 # Procedure: To compute $T_r$ of a Tension Member

@@ -11,5 +11,4 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 # Tension Members
 
 * [General Procedure for Tension Members](procedure_01)
-* [Class Examples](class_examples_01) - examples from class lectures.
-* [Example Problems, Tension Members](tension_examples_01)
+* [Example Problems, Tension Members](example_problems_01)

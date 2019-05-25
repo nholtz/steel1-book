@@ -6,8 +6,8 @@ prev_page:
   url: /tension/procedure_01
   title: 'Procedures'
 next_page:
-  url: /tension/example_problems_01#basic-analysis
-  title: 'Basic Analysis'
+  url: 
+  title: ''
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 # Tension Members - Example Problems

@@ -1,7 +1,7 @@
 ---
 title: 'Tension Members'
 prev_page:
-  url: /intro
+  url: /steel_1
   title: 'Home'
 next_page:
   url: /tension/procedure_01

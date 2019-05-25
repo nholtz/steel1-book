@@ -45,7 +45,7 @@
     url: tension/procedure_01
   - title: Example Problems
     url: tension/example_problems_01
-
-      
-
-
+    subsections:
+    - title: Lap Splice
+      url: tension/lap-splice-01
+     

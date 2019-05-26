@@ -6,8 +6,8 @@ prev_page:
   url: /tension/procedure_01
   title: 'Procedures'
 next_page:
-  url: 
-  title: ''
+  url: /tension/T10/lap-splice-01
+  title: 'Lap Splice'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 # Tension Members - Example Problems
@@ -19,7 +19,7 @@ and their connections.
 
 ## Intermediate Analysis
 
-* **[T10: Lap Splice 1](lap-splice-01)**
+* **[T10: Lap Splice 1](T10/lap-splice-01)**
 
 ## Basic Design
 

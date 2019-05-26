@@ -7,7 +7,7 @@ and their connections.
 
 ## Intermediate Analysis
 
-* **[T10: Lap Splice 1](lap-splice-01)**
+* **[T10: Lap Splice 1](T10/lap-splice-01)**
 
 ## Basic Design
 

@@ -9,8 +9,8 @@ prev_page:
   url: /tension/example_problems_01
   title: 'Example Problems'
 next_page:
-  url: 
-  title: ''
+  url: /tension/T20/W-brace-01
+  title: 'W Brace'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

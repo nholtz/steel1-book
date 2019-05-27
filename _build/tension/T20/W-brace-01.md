@@ -22,7 +22,7 @@ shown.  Note that the upper left brace has the flange tips removed from the W-sh
 ductility under seismic forces).  We will compute the strength of a brace similar to that shown
 in the photo.
 
-![Cross Braces](images/_DSC6443-small.jpg)
+![Cross Braces](images/_DSC6443-small.JPG)
 
 Note that this was given as problem PA2, Jan 22, 2015.
 

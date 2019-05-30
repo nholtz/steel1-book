@@ -9,8 +9,8 @@ prev_page:
   url: /tension/T10/lap-splice-01
   title: 'Lap Splice'
 next_page:
-  url: 
-  title: ''
+  url: /tension/T30/HSS-brace-01
+  title: 'HSS Brace'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

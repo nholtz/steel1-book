@@ -17,7 +17,8 @@ and their connections.
 
 ## Basic Analysis
 
-* **[T01: Net Areas of Plates with Staggered Holes](T01/net-areas-01)**
+* **[T01: Net Areas of Plates with Staggered Holes](T01/net-areas-01)**  (Traditional Solution)
+* **[T01i: Net Areas of Plates with Staggered Holes](T01/net-areas-01i)**
 
 ## Intermediate Analysis
 

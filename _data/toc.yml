@@ -48,6 +48,8 @@
     subsections:
     - title: Net Areas
       url: tension/T01/net-areas-01
+    - title: Net Areas
+      url: tension/T01/net-areas-01i
     - title: Lap Splice
       url: tension/T10/lap-splice-01
     - title: W Brace

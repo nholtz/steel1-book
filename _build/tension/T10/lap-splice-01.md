@@ -6,8 +6,8 @@ kernel_name: python3
 has_widgets: false
 title: 'Lap Splice'
 prev_page:
-  url: /tension/example_problems_01
-  title: 'Example Problems'
+  url: /tension/T01/net-areas-01
+  title: 'Net Areas'
 next_page:
   url: /tension/T20/W-brace-01
   title: 'W Brace'

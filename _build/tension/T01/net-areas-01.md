@@ -9,8 +9,8 @@ prev_page:
   url: /tension/example_problems_01
   title: 'Example Problems'
 next_page:
-  url: /tension/T10/lap-splice-01
-  title: 'Lap Splice'
+  url: /tension/T01/net-areas-01i
+  title: 'Net Areas'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

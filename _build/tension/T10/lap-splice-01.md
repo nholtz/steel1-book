@@ -6,7 +6,7 @@ kernel_name: python3
 has_widgets: false
 title: 'Lap Splice'
 prev_page:
-  url: /tension/T01/net-areas-01
+  url: /tension/T01/net-areas-01i
   title: 'Net Areas'
 next_page:
   url: /tension/T20/W-brace-01

@@ -6,8 +6,8 @@ prev_page:
   url: /tension/procedure_01
   title: 'Procedures'
 next_page:
-  url: /tension/T10/lap-splice-01
-  title: 'Lap Splice'
+  url: /tension/T01/net-areas-01
+  title: 'Net Areas'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 # Tension Members - Example Problems
@@ -16,6 +16,8 @@ Here are some solved example problems for tension members
 and their connections.
 
 ## Basic Analysis
+
+* **[T01: Net Areas of Plates with Staggered Holes](T01/net-areas-01)**
 
 ## Intermediate Analysis
 

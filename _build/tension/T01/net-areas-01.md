@@ -16,13 +16,17 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 # Example T01: Net Areas of Plates with Staggered Holes
 
-The following figure shows an irregular bolt pattern in a lap tension splice.  To compute the
+Please note that the following type of hole pattern rarely occurs in practice -- practical patterns are more regular and 'grid-like'.  This example illustrates:
+* how failure patterns depend on the direction of the load relative to the hole group.
+* the calculations necessary to determine a net cross-sectional area for each potential failure pattern.
+
+The  figure shows an irregular bolt pattern in a lap tension splice.  To compute the
 net areas of the plates, we must examine every possible failure path that has the
 following attributes:
 
 * it separates each plate into 2 complete parts.
 * it is of minimum length for that path.
-* there are no bolts or holes conpletely on the loaded side of the path.
+* there are no bolts or holes completely on the loaded side of the path; all of the bolt bearing areas are on the side opposite the load.
 
 In the following example, we will assume M20 bolts in punched holes, and thus the hole
 allowance is $20~\mathrm{mm}+2~\mathrm{mm}+2~\mathrm{mm} = 24~\mathrm{mm}$.

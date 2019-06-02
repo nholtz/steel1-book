@@ -17,8 +17,9 @@ and their connections.
 
 ## Basic Analysis
 
-* **[T01: Net Areas of Plates with Staggered Holes](T01/net-areas-01)**  (Traditional Solution)
-* **[T01i: Net Areas of Plates with Staggered Holes](T01/net-areas-01i)**
+* **[T01: Net Areas of Plates with Staggered Holes](T01/net-areas-01)**  (Traditional Solution, figures + math only)
+* **[T01i: Net Areas of Plates with Staggered Holes](T01/net-areas-01i)** Notebook solution. 
+Active cells containing Python code that may be modified and re-executed.  Otherwise, same as the above.
 
 ## Intermediate Analysis
 

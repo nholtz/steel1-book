@@ -26,8 +26,6 @@ This notebook shows the computations necessary to compute the factored tension r
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-import sys
-sys.path[1:1] = ['../../ca-steel-design/lib']
 from Designer import Designer, SST, Data
 import math
 sind = lambda deg: math.sin(math.radians(deg))
@@ -996,7 +994,7 @@ Values of Tr:
 
 ## Notes
 
-* Weld of HSS to Tongue plate is be far the lowest strength.  Increase length of weld from 100mm to 200mm(?)
-and length of tongue from 280 to 380.
-* Cover plate welding may be inadequate. Increasing the HSS to tongue weld will leave space for more
-welds there (up to 190mm) which should be more than enough.
+* The factored resistance of this component is low, governed by the weld of the HSS to the tongue plate.  Its capacity is 498 kN, almost 1/2 of the next lowest item (the shear strength of the bolts).
+* To increase the overall strength, the first thing to do would be to increase length of that weld from 100mm to something considerably larger. 200mm of weld would require increasing the length of tongue from 280mm to 380mm but would double that strength at very small cost.
+* The cover plate welding to the HSS may be inadequate as it is shown. Increasing the length of the HSS to tongue weld will leave space for more weld on the cover plate, up to 190mm on one side of the minimum cross-section, which should be more than enough.
+* Increasing the HSS to tongue plate weld length may also increase $T_r$ for _Tongue Plate, Welded End, Net Section Fracture_ and _HSS Net Section Fracture_.

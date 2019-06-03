@@ -1,5 +1,9 @@
 # Notes for the Future
 
+## Other example problems
+
+* get examples from ca-steel-design/Steel-1, particularly 'Tension-Members/Single-Bolted-Angle'
+
 ## Changes to S16
 
 * If we properly tag code (and markdown) cells with S16 references,

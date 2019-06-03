@@ -36,8 +36,6 @@ Note that 40mm is cut from each flange tip of the W250x67.
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-import sys
-sys.path[1:1] = ['../../ca-steel-design/lib']
 from Designer import show, Recorder, SST
 record = Recorder()
 ```

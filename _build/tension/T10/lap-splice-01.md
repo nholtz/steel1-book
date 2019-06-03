@@ -24,8 +24,6 @@ bearing-type connection (assume threads intercepted).  The plates are of CSA G40
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-import sys
-sys.path[1:1] = ['../../ca-steel-design/lib']
 from Designer import show,Recorder
 ```
 </div>

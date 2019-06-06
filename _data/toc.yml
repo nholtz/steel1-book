@@ -50,6 +50,8 @@
       url: tension/T01/net-areas-01
     - title: Net Areas
       url: tension/T01/net-areas-01i
+    - title: Single Angle, Bolted One Leg
+      url: tension/T05/bolted-single-angle-01
     - title: Lap Splice
       url: tension/T10/lap-splice-01
     - title: W Brace

@@ -36,8 +36,8 @@ Note that 40mm is cut from each flange tip of the W250x67.
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from Designer import show, Recorder, SST
-record = Recorder()
+from Designer import show, DesignNotes, SST
+notes = DesignNotes('Tr',trace=True)
 ```
 </div>
 
@@ -118,11 +118,10 @@ wn  = 133.9
 <div class="input_area" markdown="1">
 ```python
 An = wn*t
-Ane = 0.8*An   # 12.3.3.2 (b) (i) - connected 1 leg 4 lines of bolts
+Ane = 0.8*An   # S16-14: 12.3.3.2 (b) (i) - connected 1 leg 4 lines of bolts
 phiu = 0.75
-Tr = 4. * phiu*Ane*Fu * 1E-3     # 13.2 a) iii)
-show('An,Ane,Tr')
-record('Tr',Tr,'Net section fracture, 4 angles')
+Tr = 4. * phiu*Ane*Fu * 1E-3     # S16-14: 13.2 a) iii)
+notes.record(Tr,'Net section fracture, 4 angles','An,Ane,Tr,Fu');
 ```
 </div>
 
@@ -130,9 +129,8 @@ record('Tr',Tr,'Net section fracture, 4 angles')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-An  = 1701
-Ane = 1361
-Tr  = 1837
+    Net section fracture, 4 angles: Tr = 1837
+       (An=1701, Ane=1361, Fu=450)
 ```
 </div>
 </div>
@@ -144,9 +142,8 @@ Tr  = 1837
 <div class="input_area" markdown="1">
 ```python
 phi = 0.9
-Tr = 4. * phi*Ag*Fy * 1E-3    # 13.2 a) i)
-show('Ag,Tr')
-record('Tr',Tr,'Gross section yield, 4 angles')
+Tr = 4. * phi*Ag*Fy * 1E-3    # S16-14: 13.2 a) i)
+notes.record(Tr,'Gross section yield, 4 angles','Ag,Tr');
 ```
 </div>
 
@@ -154,8 +151,8 @@ record('Tr',Tr,'Gross section yield, 4 angles')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ag = 2100
-Tr = 2646
+    Gross section yield, 4 angles: Tr = 2646
+       (Ag=2100)
 ```
 </div>
 </div>
@@ -171,8 +168,7 @@ An = (min(d-g1,b-g2) - ha/2.)*t
 Ut = 0.3
 phiu = 0.75
 Tr = 4. * phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.) * 1E-3
-show('Ut,An,Agv,Tr')
-record('Tr',Tr,'Block shear, 4 angles')
+notes.record(Tr,'Block shear, 4 angles','Ut,An,Agv,Tr');
 ```
 </div>
 
@@ -180,10 +176,8 @@ record('Tr',Tr,'Block shear, 4 angles')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ut  = 0.3
-An  = 243.8
-Agv = 3366
-Tr  = 2522
+    Block shear, 4 angles: Tr = 2522
+       (Ut=0.3, An=243.8, Agv=3366)
 ```
 </div>
 </div>
@@ -237,11 +231,10 @@ wc = 40    # width cut from flange tips
 ```python
 # Path 1-1: net = gross  +  plates  -  holes
 An = Ag  +  2*tp*wp   -  2*ha*(w+tp+tp)
-Ane = 0.85*An    # 12.3.3.2 (c) (i)
+Ane = 0.85*An    # S16-14: 12.3.3.2 (c) (i)
 phiu = 0.75
 Tr = phiu*Ane*Fu * 1E-3
-show('An,Ane,Tr')
-record('Tr',Tr,'Net section fracture, W shape')
+notes.record(Tr,'Net section fracture, W shape','An,Ane,Tr');
 ```
 </div>
 
@@ -249,9 +242,8 @@ record('Tr',Tr,'Net section fracture, W shape')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-An  = 10390
-Ane = 8836
-Tr  = 2982
+    Net section fracture, W shape: Tr = 2982
+       (An=10390, Ane=8836)
 ```
 </div>
 </div>
@@ -264,9 +256,8 @@ Tr  = 2982
 ```python
 Agr = Ag - 4*wc*t   # reduced area due to flange cuts
 phi = 0.9
-Tr = phi*Fy*Agr * 1E-3
-show('Agr,Tr')
-record('Tr',Tr,'Gross section yield, W shape')
+Tr = phi*Fy*Agr * 1E-3     # S16-14: 13.2 a) i)
+notes.record(Tr,'Gross section yield, W shape','Agr,Tr');
 ```
 </div>
 
@@ -274,8 +265,8 @@ record('Tr',Tr,'Gross section yield, W shape')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Agr = 6038
-Tr  = 1902
+    Gross section yield, W shape: Tr = 1902
+       (Agr=6038)
 ```
 </div>
 </div>
@@ -291,9 +282,8 @@ Agv = 2*(40 + 3*75)*T
 An = (g2 + g2 + 25 - ha)*T   # estimate 25mm spacing between angles (gusset thickness)
 Ut = 1.0
 phiu = 0.75
-Tr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.) * 1E-3
-show('T,Ut,An,Agv,Tr')
-record('Tr',Tr,'Block shear, W shape')
+Tr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.) * 1E-3       # S16-14: 13.11
+notes.record(Tr,'Block shear, W shape','T,Ut,An,Agv,Tr');
 ```
 </div>
 
@@ -301,11 +291,8 @@ record('Tr',Tr,'Block shear, W shape')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-T   = 24.9
-Ut  = 1
-An  = 2266
-Agv = 13200
-Tr  = 3140
+    Block shear, W shape: Tr = 3140
+       (T=24.9, Ut=1.0, An=2266, Agv=13200)
 ```
 </div>
 </div>
@@ -320,9 +307,8 @@ Agv = 4*(40 + 3*75)*T
 An = 0.
 Ut = 1.0
 phiu = 0.75
-Tr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.) * 1E-3
-show('Ut,An,Agv,Tr')
-record('Tr',Tr,'Tearout, W shape')
+Tr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.) * 1E-3      # S16-14: 13.11
+notes.record(Tr,'Tearout, W shape','Ut,An,Agv,Tr');
 ```
 </div>
 
@@ -330,10 +316,8 @@ record('Tr',Tr,'Tearout, W shape')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ut  = 1
-An  = 0
-Agv = 26390
-Tr  = 4751
+    Tearout, W shape: Tr = 4751
+       (Ut=1.0, An=0, Agv=26390)
 ```
 </div>
 </div>
@@ -344,7 +328,7 @@ Tr  = 4751
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-record.summary()
+notes.summary()
 ```
 </div>
 
@@ -352,13 +336,23 @@ record.summary()
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-governs --> Tr = 1837    - Net section fracture, 4 angles
-            Tr = 2646    - Gross section yield, 4 angles 
-            Tr = 2522    - Block shear, 4 angles         
-            Tr = 2982    - Net section fracture, W shape 
-            Tr = 1902    - Gross section yield, W shape  
-            Tr = 3140    - Block shear, W shape          
-            Tr = 4751    - Tearout, W shape              
+
+Summary of DesignNotes for Tr
+=============================
+
+Values of Tr:
+-------------
+    Net section fracture, 4 angles: Tr = 1840  <-- governs
+    Gross section yield, 4 angles:  Tr = 2650
+    Block shear, 4 angles:          Tr = 2520
+    Net section fracture, W shape:  Tr = 2980
+    Gross section yield, W shape:   Tr = 1900
+    Block shear, W shape:           Tr = 3140
+    Tearout, W shape:               Tr = 4750
+
+    Governing Value:
+    ----------------
+       Tr = 1840 
 ```
 </div>
 </div>

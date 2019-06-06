@@ -6,8 +6,8 @@ kernel_name: python3
 has_widgets: false
 title: 'Lap Splice'
 prev_page:
-  url: /tension/T01/net-areas-01i
-  title: 'Net Areas'
+  url: /tension/T05/bolted-single-angle-01
+  title: 'Single Angle, Bolted One Leg'
 next_page:
   url: /tension/T20/W-brace-01
   title: 'W Brace'
@@ -24,7 +24,7 @@ bearing-type connection (assume threads intercepted).  The plates are of CSA G40
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from Designer import show,Recorder
+from Designer import DesignNotes, show
 ```
 </div>
 
@@ -179,7 +179,8 @@ end  = 30
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-record = Recorder()
+notes = DesignNotes('Tr',title='Lap Plate Splice',trace=True)
+REC = notes.record
 ```
 </div>
 
@@ -198,9 +199,8 @@ axial elongation as yield strains are reached over the length of the member.  Th
 ```python
 Ag = W1*T1    # gross x-sectional area
 phi = 0.9
-Tr = phi*Ag*Fy * 1E-3  # S16 13.2 a) i)
-show('Ag,Tr')
-record('Tr',Tr,'13.2 a) i) - gross area yield, centre plate')
+Tr = phi*Ag*Fy * 1E-3  # S16-14: 13.2 a) i)
+REC(Tr,'Gross area yield, centre plate','Ag,Fy')
 ```
 </div>
 
@@ -208,9 +208,21 @@ record('Tr',Tr,'13.2 a) i) - gross area yield, centre plate')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ag = 7500
-Tr = 2362
+    Gross area yield, centre plate: Tr = 2362
+       (Ag=7500, Fy=350.0)
 ```
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+2362.5
+```
+
+
 </div>
 </div>
 </div>
@@ -231,9 +243,8 @@ bolts in this connection transfer loads approximately uniformly across the entir
 wn = W1 - NT*HA    # net width: subtract total width of material removed by holes, failure path 1
 Ane = An = wn*T1
 phiu = 0.75
-Tr = phiu*Ane*Fu * 1E-3    # S16 13.2 a) iii)
-show('wn,An,Ane,Tr')
-record('Tr',Tr,'13.2 a) iii) - Net section fracture, centre plate')
+Tr = phiu*Ane*Fu * 1E-3    # S16-14: 13.2 a) iii)
+REC(Tr,'Net section fracture, centre plate','wn,An,Ane,Tr,Fu')
 ```
 </div>
 
@@ -241,11 +252,21 @@ record('Tr',Tr,'13.2 a) iii) - Net section fracture, centre plate')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-wn  = 228
-An  = 5700
-Ane = 5700
-Tr  = 1924
+    Net section fracture, centre plate: Tr = 1924
+       (wn=228.0, An=5700, Ane=5700, Fu=450.0)
 ```
+</div>
+</div>
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+
+{:.output_data_text}
+```
+1923.75
+```
+
+
 </div>
 </div>
 </div>
@@ -269,15 +290,25 @@ Note that Pattern 4 is often called 'tear-out' or 'pull-out'.
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
+Fv = (Fy+Fu)/2.      # S16-14: 13.11 footnote
+if Fy > 460.:
+    Fv = Fy
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
 ## Pattern 1
 e = S2/2. - C/2.     # end distance to centre of 1st bolt hole
 Agv = (e + (NL-1)*S)*T1*2.  # shear area
 An = (NT-1)*G * T1          # tension area
 Ut = 1.0
 phiu = 0.75
-Tr = phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
-show('Ut,An,Agv,Tr')
-record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 1 - centre plate')
+Tr = phiu*((Ut*An*Fu) + (0.6*Agv*Fv)) * 1E-3     # S16-14: 13.11
+REC(Tr,'Block Shear Pattern 1 - centre plate','Ut,An,Agv,Tr');
 ```
 </div>
 
@@ -285,10 +316,8 @@ record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 1 - centre plate')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ut  = 1
-An  = 3750
-Agv = 7000
-Tr  = 2526
+    Block Shear Pattern 1 - centre plate: Tr = 2526
+       (Ut=1.0, An=3750, Agv=7000)
 ```
 </div>
 </div>
@@ -304,9 +333,8 @@ An = (g1 + g1 - 2.*HA/2.)*T1    # to outside from edge of outside pair of holes
 if NT >= 3:
     An = An + (NT-2.)*(G - 2.*HA/2.)*T1    # additional between holes
 Ut = 0.6                 # no good guidelines in commentary - this should be conservative
-Tr = phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
-show('Ut,An,Agv,Tr')
-record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 2 - centre plate')    
+Tr = phiu*((Ut*An*Fu) + (0.6*Agv*Fv)) * 1E-3     # S16-14: 13.11
+REC(Tr,'Block Shear Pattern 2 - centre plate','Ut,An,Agv,Tr');  
 ```
 </div>
 
@@ -314,10 +342,8 @@ record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 2 - centre plate')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ut  = 0.6
-An  = 4425
-Agv = 7000
-Tr  = 2156
+    Block Shear Pattern 2 - centre plate: Tr = 2156
+       (Ut=0.6, An=4425, Agv=7000)
 ```
 </div>
 </div>
@@ -331,9 +357,8 @@ Agv = (e + (NL-1)*S)*T1  # shear area
 g1 = (W1 - (NT-1)*G)/2.  # edge distance to centre of hole
 An = ((W1-g1) - (NT-0.5)*HA)*T1
 Ut = 0.6                 # no good guidelines in commentary - this should be conservative
-Tr = phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
-show('Ut,An,Agv,Tr')
-record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 3 - centre plate')
+Tr = phiu*((Ut*An*Fu) + (0.6*Agv*Fv)) * 1E-3     # S16-14: 13.11
+REC(Tr,'Block Shear Pattern 3 - centre plate','Ut,An,Agv,Tr');
 ```
 </div>
 
@@ -341,10 +366,8 @@ record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 3 - centre plate')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ut  = 0.6
-An  = 4125
-Agv = 3500
-Tr  = 1465
+    Block Shear Pattern 3 - centre plate: Tr = 1465
+       (Ut=0.6, An=4125, Agv=3500)
 ```
 </div>
 </div>
@@ -357,9 +380,8 @@ Tr  = 1465
 Agv = (e + (NL-1)*S)*T1 * (NT*2.) # shear area
 An = 0.
 Ut = 0.               # N.A.
-Tr = phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
-show('Ut,An,Agv,Tr')
-record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 4 - centre plate')
+Tr = phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16-14: 13.11
+REC(Tr,'Block Shear Pattern 4 - centre plate','Ut,An,Agv,Tr');
 ```
 </div>
 
@@ -367,10 +389,8 @@ record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 4 - centre plate')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ut  = 0
-An  = 0
-Agv = 21000
-Tr  = 3780
+    Block Shear Pattern 4 - centre plate: Tr = 3780
+       (Ut=0, An=0, Agv=21000)
 ```
 </div>
 </div>
@@ -389,9 +409,8 @@ account for the two plates.
 ```python
 Ag = W2*T2    # gross x-sectional area
 phi = 0.9
-Tr = 2. * phi*Ag*Fy * 1E-3  # S16 13.2 a) i)
-show('Ag,Tr')
-record('Tr',Tr,'13.2 a) i) - gross area yield, two side plates')
+Tr = 2. * phi*Ag*Fy * 1E-3  # S16-14: 13.2 a) i)
+REC(Tr,'Gross area yield, two side plates','Ag,Tr');
 ```
 </div>
 
@@ -399,8 +418,8 @@ record('Tr',Tr,'13.2 a) i) - gross area yield, two side plates')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ag = 3080
-Tr = 1940
+    Gross area yield, two side plates: Tr = 1940
+       (Ag=3080)
 ```
 </div>
 </div>
@@ -414,9 +433,8 @@ Tr = 1940
 wn = W2 - NT*HA    # subtract total width of material removed by holes, failure path 2
 Ane = An = wn*T2
 phiu = 0.75
-Tr = 2. * phiu*Ane*Fu * 1E-3    # S16 13.2 a) iii)
-show('wn,An,Ane,Tr')
-record('Tr',Tr,'13.2 a) iii) - Net section fracture, two side plates')
+Tr = 2. * phiu*Ane*Fu * 1E-3    # S1614: 13.2 a) iii)
+REC(Tr,'Net section fracture, two side plates','wn,An,Ane,Tr');
 ```
 </div>
 
@@ -424,10 +442,8 @@ record('Tr',Tr,'13.2 a) iii) - Net section fracture, two side plates')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-wn  = 148
-An  = 2072
-Ane = 2072
-Tr  = 1399
+    Net section fracture, two side plates: Tr = 1399
+       (wn=148.0, An=2072, Ane=2072)
 ```
 </div>
 </div>
@@ -446,9 +462,8 @@ Agv = (e + (NL-1)*S)*T2*2.  # shear area
 An = (NT-1)*G * T2          # tension area
 Ut = 1.0
 phiu = 0.75
-Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
-show('Ut,An,Agv,Tr')
-record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 1 - two side plates')
+Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16-14: 13.11
+REC(Tr,'Block Shear Pattern 1 - two side plates','Ut,An,Agv,Tr');
 ```
 </div>
 
@@ -456,10 +471,8 @@ record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 1 - two side plates')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ut  = 1
-An  = 2100
-Agv = 2940
-Tr  = 2476
+    Block Shear Pattern 1 - two side plates: Tr = 2476
+       (Ut=1.0, An=2100, Agv=2940)
 ```
 </div>
 </div>
@@ -475,9 +488,8 @@ An = (g1 + g1 - 2.*HA/2.)*T2    # to outside from edge of outside pair of holes
 if NT >= 3:
     An = An + (NT-2.)*(G - 2.*HA/2.)*T2    # additional between holes
 Ut = 0.6                 # no good guidelines in commentary - this should be conservative
-Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
-show('Ut,An,Agv,Tr')
-record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 2 - two side plates')    
+Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16-14: 13.11
+REC(Tr,'Block Shear Pattern 2 - two side plates','Ut,An,Agv,Tr');
 ```
 </div>
 
@@ -485,10 +497,8 @@ record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 2 - two side plates')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ut  = 0.6
-An  = 1358
-Agv = 2940
-Tr  = 1608
+    Block Shear Pattern 2 - two side plates: Tr = 1608
+       (Ut=0.6, An=1358, Agv=2940)
 ```
 </div>
 </div>
@@ -502,9 +512,8 @@ Agv = (e + (NL-1)*S)*T2  # shear area
 g2 = (W2 - (NT-1)*G)/2.  # edge distance to centre of hole
 An = ((W2-g2) - (NT-0.5)*HA)*T2
 Ut = 0.6                 # no good guidelines in commentary - this should be conservative
-Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
-show('Ut,An,Agv,Tr')
-record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 3 - two side plates')
+Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16-14: 13.11
+REC(Tr,'Block Shear Pattern 3 - two side plates','Ut,An,Agv,Tr');
 ```
 </div>
 
@@ -512,10 +521,8 @@ record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 3 - two side plates')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ut  = 0.6
-An  = 1750
-Agv = 1470
-Tr  = 1238
+    Block Shear Pattern 3 - two side plates: Tr = 1238
+       (Ut=0.6, An=1750, Agv=1470)
 ```
 </div>
 </div>
@@ -528,9 +535,8 @@ Tr  = 1238
 Agv = (e + (NL-1)*S)*T2 * (NT*2.) # shear area
 An = 0.
 Ut = 0.               # N.A.
-Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16 13.11
-show('Ut,An,Agv,Tr')
-record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 4 - two side plates')
+Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16-14: 13.11
+REC(Tr,'Block Shear Pattern 4 - two side plates','Ut,An,Agv,Tr');
 ```
 </div>
 
@@ -538,10 +544,8 @@ record('Tr',Tr,'13.2 a) ii) - 13.11 - Block Shear Pattern 4 - two side plates')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ut  = 0
-An  = 0
-Agv = 8820
-Tr  = 3175
+    Block Shear Pattern 4 - two side plates: Tr = 3175
+       (Ut=0, An=0, Agv=8820)
 ```
 </div>
 </div>
@@ -560,13 +564,12 @@ n = NT*NL      # number of bolts
 m = 2.         # number of faying surfaces
 Ab = 3.14159*D*D/4.
 phib = 0.80
-Vr = 0.60*phib*n*m*Ab*Fub * 1E-3      # S16 13.12.1.2 c)
+Vr = 0.60*phib*n*m*Ab*Fub * 1E-3      # S16-14: 13.12.1.2 c)
 if (NL-1)*S >= 760.:
     Vr = (0.5/0.6)*Vr
 if threads_intercepted:
     Vr = 0.7*Vr
-show('n,m,Ab,Vr')
-record('Tr',Vr,'13.12.1.2 c) - shear resistance of bolts')
+REC(Vr,'Shear resistance of bolts','n,m,Ab,Vr');
 ```
 </div>
 
@@ -574,10 +577,8 @@ record('Tr',Vr,'13.12.1.2 c) - shear resistance of bolts')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-n  = 6
-m  = 2
-Ab = 285
-Vr = 948.1
+    Shear resistance of bolts: Tr = 948.1
+       (n=6, m=2.0, Ab=285.0, Vr=948.1)
 ```
 </div>
 </div>
@@ -592,8 +593,7 @@ n = NT*NL
 t = min(T1,2.*T2)
 phibr = 0.80
 Br = 3.*phibr*n*t*D*Fu * 1E-3
-show('n,t,Br')
-record('Tr',Br,'13.12.1.2 a) - bearing resistance at bolt holes')
+REC(Br,'Bearing resistance at bolt holes','n,t,Br,Fu');
 ```
 </div>
 
@@ -601,9 +601,8 @@ record('Tr',Br,'13.12.1.2 a) - bearing resistance at bolt holes')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-n  = 6
-t  = 25
-Br = 3086
+    Bearing resistance at bolt holes: Tr = 3086
+       (n=6, t=25.0, Br=3086, Fu=450.0)
 ```
 </div>
 </div>
@@ -614,7 +613,7 @@ Br = 3086
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-record.summary()
+notes.summary()
 ```
 </div>
 
@@ -622,20 +621,30 @@ record.summary()
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-            Tr = 2362     - 13.2 a) i) - gross area yield, centre plate                  
-            Tr = 1924     - 13.2 a) iii) - Net section fracture, centre plate            
-            Tr = 2526     - 13.2 a) ii) - 13.11 - Block Shear Pattern 1 - centre plate   
-            Tr = 2156     - 13.2 a) ii) - 13.11 - Block Shear Pattern 2 - centre plate   
-            Tr = 1465     - 13.2 a) ii) - 13.11 - Block Shear Pattern 3 - centre plate   
-            Tr = 3780     - 13.2 a) ii) - 13.11 - Block Shear Pattern 4 - centre plate   
-            Tr = 1940     - 13.2 a) i) - gross area yield, two side plates               
-            Tr = 1399     - 13.2 a) iii) - Net section fracture, two side plates         
-            Tr = 2476     - 13.2 a) ii) - 13.11 - Block Shear Pattern 1 - two side plates
-            Tr = 1608     - 13.2 a) ii) - 13.11 - Block Shear Pattern 2 - two side plates
-            Tr = 1238     - 13.2 a) ii) - 13.11 - Block Shear Pattern 3 - two side plates
-            Tr = 3175     - 13.2 a) ii) - 13.11 - Block Shear Pattern 4 - two side plates
-governs --> Tr = 948.1    - 13.12.1.2 c) - shear resistance of bolts                     
-            Tr = 3086     - 13.12.1.2 a) - bearing resistance at bolt holes              
+
+Summary of DesignNotes for Tr: Lap Plate Splice
+===============================================
+
+Values of Tr:
+-------------
+    Gross area yield, centre plate:          Tr = 2360
+    Net section fracture, centre plate:      Tr = 1920
+    Block Shear Pattern 1 - centre plate:    Tr = 2530
+    Block Shear Pattern 2 - centre plate:    Tr = 2160
+    Block Shear Pattern 3 - centre plate:    Tr = 1470
+    Block Shear Pattern 4 - centre plate:    Tr = 3780
+    Gross area yield, two side plates:       Tr = 1940
+    Net section fracture, two side plates:   Tr = 1400
+    Block Shear Pattern 1 - two side plates: Tr = 2480
+    Block Shear Pattern 2 - two side plates: Tr = 1610
+    Block Shear Pattern 3 - two side plates: Tr = 1240
+    Block Shear Pattern 4 - two side plates: Tr = 3180
+    Shear resistance of bolts:               Tr = 948  <-- governs
+    Bearing resistance at bolt holes:        Tr = 3090
+
+    Governing Value:
+    ----------------
+       Tr = 948 
 ```
 </div>
 </div>

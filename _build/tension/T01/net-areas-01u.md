@@ -9,7 +9,7 @@ prev_page:
   url: /tension/T01/net-areas-01i
   title: 'Net Areas (notebook)'
 next_page:
-  url: /tension/T05/bolted-single-angle-01
+  url: /tension/T05.prev/bolted-single-angle-01
   title: 'Single Angle, Bolted One Leg'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
@@ -25,8 +25,8 @@ plate lap joint.  The net areas may be different for the central (20 mm) and sid
 
 Please note that this  type of hole pattern rarely occurs in practice -- 
 practical patterns are more regular and 'grid-like'.  This example illustrates:
-* how failure patterns depend on the direction of the load relative to the hole group.
-* the calculations necessary to determine a net cross-sectional area for each potential failure pattern.
+* how failure paths depend on the direction of the load relative to the hole group.
+* the calculations necessary to determine a net cross-sectional area for each potential failure path.
 
 The  figure shows an irregular bolt pattern in a lap tension splice.  To determine the
 net areas of the plates, we must examine every possible failure path that has the
@@ -36,26 +36,24 @@ following attributes:
 * it is of minimum length for that path.
 * there are no bolts or holes completely on the loaded side of the path; all of the bolt bearing areas are on the side opposite the load.
 
-Then determine the area from the path with minimum width.
+We then determine the area from the path with minimum width.
 
 In this example, we will assume M20 bolts in punched holes, and thus the hole
-allowance to be used is $20~\mathrm{mm}+2~\mathrm{mm}+2~\mathrm{mm} = 24~\mathrm{mm}$.
+allowance to be used is $d = 20~\mathrm{mm}+2~\mathrm{mm}+2~\mathrm{mm} = 24~\mathrm{mm}$.
 
+
+#### Compute with units
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 import pint                   # setup to use the module for computing with units
 ureg = pint.UnitRegistry()
-MPa = ureg['MPa']
-kN = ureg['kN']
-N = ureg['N']
 mm = ureg['mm']
-m = ureg['m']
 ureg.default_format = '~P'
 
 # if you do not want to use units, simply uncomment the following line:
-# MPa = kN = N = mm = m = 1
+# mm = 1
 ```
 </div>
 
@@ -71,6 +69,8 @@ no complete holes on that side of any path.
 
 **Failure Paths for Net Area Calculations, Outside (10mm) plates**
 
+### Define the Data:
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
@@ -82,20 +82,16 @@ g1,g2,g3,g4,g5 = (35,50,45,50,30) * mm
 t1 = 10 * mm                # thickness of one outside plate
 t2 = 20 * mm                # thickness of inside plate
 wg = g1+g2+g3+g4+g5
-wg                          # gross width of plate
+print('wg =',wg)                         # gross width of plate
 ```
 </div>
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-
-
-
-<div markdown="0" class="output output_html">
-210 mm
-</div>
-
-
+{:.output_stream}
+```
+wg = 210 mm
+```
 </div>
 </div>
 </div>
@@ -104,7 +100,7 @@ In the following, we will compute the net width, $w_n$, for each failure path, t
 
 ### Path 1-1:
 For path 1-1, it is only necessary to deduct the allowance for one hole from the gross width.
-In general, if no segements are inclined to the load,
+In general, if no path segments are inclined to the load:
 
 $w_n = w_g - \sum d$
 
@@ -131,6 +127,8 @@ wn_11
 </div>
 
 ### Path 2-2:
+For paths with segments inclined to the load, we subtract all hole allowances, $d$, then
+add the $s^2/4g$ correction term for each inclined segment:
 
 $w_n = w_g - \sum d + \sum{s^2\over 4g}$
 
@@ -416,3 +414,5 @@ An
 </div>
 </div>
 </div>
+
+The net area fracture strength of the plates will therefore be governed by the net area of the inner plate.

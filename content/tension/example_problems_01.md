@@ -11,7 +11,8 @@ Active cells containing Python code that may be modified and re-executed.  Other
 * **[T01u: Net Areas of Plates with Staggered Holes](T01/net-areas-01i)** Notebook solution.
 Mostly the same as T01i, except slightly reworded and re-organized **and computes with units** 
 using the Python '[pint](https://pint.readthedocs.io/en/0.9/)' module.
-* **[T05: Single Angle, Bolted One Leg](T05/bolted-single-angle-01)** 
+* **[T05: Single Angle, Bolted One Leg](T05.prev/bolted-single-angle-01)** 
+* **[T05u: Angle, Bolted One Leg](T05/bolted-single-angle-01u)** Same problem as T05 above, but simplified Python, cleaned up presentation, and uses units in the calculations.  Also handles 1 or 2 angles back-to-back.
 
 ## Intermediate Analysis
 

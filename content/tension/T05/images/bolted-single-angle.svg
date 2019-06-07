@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8.08"
-     inkscape:cx="106.68801"
-     inkscape:cy="113.46151"
+     inkscape:zoom="2.8567114"
+     inkscape:cx="225.37637"
+     inkscape:cy="123.44205"
      inkscape:document-units="in"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -653,14 +653,14 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Verdana;-inkscape-font-specification:'Verdana, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="211.20001"
-       y="188.10153"
+       x="-188.47047"
+       y="215.80002"
        id="text3648"
-       transform="rotate(-90,213.68448,185.986)"><tspan
+       transform="rotate(-90)"><tspan
          sodipodi:role="line"
          id="tspan3650"
-         x="211.20001"
-         y="188.10153"
+         x="-188.47047"
+         y="215.80002"
          style="font-size:10px;line-height:1.25">g1</tspan></text>
     <text
        xml:space="preserve"
@@ -686,7 +686,7 @@
          y="66.968803"
          style="font-size:16.00000191px;line-height:1.25">T<tspan
    style="font-size:16.00000191px;baseline-shift:sub"
-   id="tspan3453">f</tspan></tspan></text>
+   id="tspan3453">r</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2.11200023;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker4587)"
        d="m 442.56345,49.261343 47.99999,0"
@@ -704,7 +704,7 @@
          sodipodi:role="line"
          style="font-size:16.00000191px;line-height:1.25">T<tspan
    id="tspan5739"
-   style="font-size:16.00000191px;baseline-shift:sub">f</tspan></tspan></text>
+   style="font-size:16.00000191px;baseline-shift:sub">r</tspan></tspan></text>
     <path
        inkscape:connector-curvature="0"
        id="path5741"
@@ -762,11 +762,11 @@
        d="M 220.8,145.2 220.8,125.976"
        style="stroke-linejoin:miter;text-rendering:auto;color-rendering:auto;fill-opacity:1;color:#000000;marker-start:url(#DimensionTick);shape-rendering:auto;solid-color:#000000;stroke:#404040;stroke-linecap:butt;stroke-width:0.75;color-interpolation-filters:linearRGB;fill:none;solid-opacity:1;fill-rule:evenodd;mix-blend-mode:normal;stroke-miterlimit:4;marker-mid:url(#DimensionTick);opacity:1;visibility:visible;clip-rule:nonzero;image-rendering:auto;overflow:visible;marker-end:url(#DimensionTick);stroke-opacity:1;isolation:auto;stroke-dashoffset:0;stroke-dasharray:none;enable-background:accumulate;display:inline;color-interpolation:sRGB" />
     <text
-       transform="matrix(-0.000000,-1.000000,1.000000,-0.000000,80.200100,351.787870)"
+       transform="rotate(-90,215.99398,135.79388)"
        id="text131"
        y="135.59991"
        x="211.20001"
-       style="stroke-width:1px;stroke-linejoin:miter;letter-spacing:0px;font-family:Verdana;stroke-opacity:1;fill-opacity:1;font-size:10px;line-height:25px;word-spacing:0px;stroke:none;stroke-linecap:butt;font-weight:normal;font-style:normal;fill:#000000"
+       style="font-style:normal;font-weight:normal;font-size:10px;line-height:25px;font-family:Verdana;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
          y="135.59991"
          x="211.20001"

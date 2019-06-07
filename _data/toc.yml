@@ -46,10 +46,12 @@
   - title: Example Problems
     url: tension/example_problems_01
     subsections:
-    - title: Net Areas
+    - title: Net Areas (traditional)
       url: tension/T01/net-areas-01
-    - title: Net Areas
+    - title: Net Areas (notebook)
       url: tension/T01/net-areas-01i
+    - title: Net Areas (notebook with units)
+      url: tension/T01/net-areas-01u
     - title: Single Angle, Bolted One Leg
       url: tension/T05/bolted-single-angle-01
     - title: Lap Splice

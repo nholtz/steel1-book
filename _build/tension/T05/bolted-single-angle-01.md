@@ -6,8 +6,8 @@ kernel_name: python3
 has_widgets: false
 title: 'Single Angle, Bolted One Leg'
 prev_page:
-  url: /tension/T01/net-areas-01i
-  title: 'Net Areas'
+  url: /tension/T01/net-areas-01u
+  title: 'Net Areas (notebook with units)'
 next_page:
   url: /tension/T10/lap-splice-01
   title: 'Lap Splice'

@@ -52,12 +52,12 @@
       url: tension/T01/net-areas-01i
     - title: Net Areas (notebook with units)
       url: tension/T01/net-areas-01u
-    - title: Single Angle, Bolted One Leg
-      url: tension/T05.prev/bolted-single-angle-01
-    - title: 1 or 2 Angles, Bolted One Leg (with units)
-      url: tension/T05/bolted-single-angle-01u
     - title: Lap Splice
       url: tension/T10/lap-splice-01
+    - title: Single Angle, Bolted One Leg
+      url: tension/T15.prev/bolted-single-angle-01
+    - title: 1 or 2 Angles, Bolted One Leg (with units)
+      url: tension/T15/bolted-single-angle-01u
     - title: W Brace
       url: tension/T20/W-brace-01
     - title: HSS Brace

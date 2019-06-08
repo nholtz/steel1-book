@@ -4,13 +4,13 @@ redirect_from:
 interact_link: content/tension/T01/net-areas-01i.ipynb
 kernel_name: python3
 has_widgets: false
-title: 'Net Areas'
+title: 'Net Areas (notebook)'
 prev_page:
   url: /tension/T01/net-areas-01
-  title: 'Net Areas'
+  title: 'Net Areas (traditional)'
 next_page:
-  url: /tension/T10/lap-splice-01
-  title: 'Lap Splice'
+  url: /tension/T01/net-areas-01u
+  title: 'Net Areas (notebook with units)'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

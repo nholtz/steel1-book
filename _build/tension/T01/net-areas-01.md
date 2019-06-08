@@ -4,13 +4,13 @@ redirect_from:
 interact_link: content/tension/T01/net-areas-01.ipynb
 kernel_name: python3
 has_widgets: false
-title: 'Net Areas'
+title: 'Net Areas (traditional)'
 prev_page:
   url: /tension/example_problems_01
   title: 'Example Problems'
 next_page:
   url: /tension/T01/net-areas-01i
-  title: 'Net Areas'
+  title: 'Net Areas (notebook)'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

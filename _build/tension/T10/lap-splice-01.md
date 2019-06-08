@@ -6,20 +6,22 @@ kernel_name: python3
 has_widgets: false
 title: 'Lap Splice'
 prev_page:
-  url: /tension/T05/bolted-single-angle-01
-  title: 'Single Angle, Bolted One Leg'
+  url: /tension/T01/net-areas-01u
+  title: 'Net Areas (notebook with units)'
 next_page:
-  url: /tension/T20/W-brace-01
-  title: 'W Brace'
+  url: /tension/T15.prev/bolted-single-angle-01
+  title: 'Single Angle, Bolted One Leg'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-# Tension Member: Lap Splice
+# Example T10: Tension Member Lap Splice
 Compute the factored tension resistance, $T_r$, of the following plate tension member, lap splice and fasteners.
 Ignore the connection details at the far ends of the member (not shown).  Bolts are 3/4" A325 in a
-bearing-type connection (assume threads intercepted).  The plates are of CSA G40.21 350W steel.
+bearing-type connection, in 22mm punched holes (assume threads intercepted).  The plates are of CSA G40.21 350W steel.
 
 ![Lap Splice](images/lap-splice-01.svg)
+
+## Import and Setup Library Modules
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -33,27 +35,56 @@ from Designer import DesignNotes, show
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
+import pint                  # setup to use the module for computing with units
+ureg = pint.UnitRegistry()
+mm = ureg['mm']
+inch = ureg['inch']
+kN = ureg['kN']
+MPa = ureg['MPa']
+ureg.default_format = '~P'
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+notes = DesignNotes('Tr',title='Lap Plate Splice',trace=True,units=kN)
+REQ = notes.require      # convenient abbreviations
+CHK = notes.check
+REC = notes.record
+```
+</div>
+
+</div>
+
+## Set the Problem Parameters (data)
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
 # Material properties:
-Fy = 350.   # CSA G40.21 350W
-Fu = 450.
-Fub = 825.  # bolt, ASTM A325
+Fy = 350*MPa   # CSA G40.21 350W
+Fu = 450*MPa
+Fub = 825*MPa  # bolt, ASTM A325, 3/4"
 # Main plate dimensions:
-W1 = 300.
-T1 = 25.
-C = 10.   # clearance between ends
-# Lap plate dimensions:
-W2 = 220.
-T2 = 14.
-L2 = 350.
+W1 = 300*mm
+T1 = 25*mm
+C = 10*mm   # clearance between ends
+# Side plate dimensions:
+W2 = 220*mm
+T2 = 14*mm
+L2 = 350*mm
 # bolting dimensions
-D = 25.4*(3/4)   # bolt dia
+D = (3/4*inch).to(mm)       # bolt diameter
 threads_intercepted = True
-HA = 22. + 2.  # hole allowance - 3/4" bolts in 22mm punched holes
-G = 75.     # gauge (transverse spacing)
-S = 75.     # longitudinal spacing
-NT = 3      # number of bolts across
-NL = 2      # number of lines of bolts each side
-S2 = 140.
+HA = (22 + 2)*mm  # hole allowance - 3/4" bolts in 22mm punched holes
+G = 75*mm     # gauge (transverse spacing)
+S = 75*mm     # longitudinal spacing
+NT = 3        # number of bolts across
+NL = 2        # number of lines of bolts each side
+S2 = 140*mm   # distance between inner lines of bolts
 show('Fy,Fu,Fub,W1,T1,C,W2,T2,L2,D,HA,G,S,S2,NT,NL')
 ```
 </div>
@@ -62,35 +93,36 @@ show('Fy,Fu,Fub,W1,T1,C,W2,T2,L2,D,HA,G,S,S2,NT,NL')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Fy  = 350
-Fu  = 450
-Fub = 825
-W1  = 300
-T1  = 25
-C   = 10
-W2  = 220
-T2  = 14
-L2  = 350
-D   = 19.05
-HA  = 24
-G   = 75
-S   = 75
-S2  = 140
-NT  = 3
-NL  = 2
+Fy  = 350   MPa
+Fu  = 450   MPa
+Fub = 825   MPa
+W1  = 300   mm
+T1  = 25    mm
+C   = 10    mm
+W2  = 220   mm
+T2  = 14    mm
+L2  = 350   mm
+D   = 19.05 mm
+HA  = 24    mm
+G   = 75    mm
+S   = 75    mm
+S2  = 140   mm
+NT  = 3     
+NL  = 2     
 ```
 </div>
 </div>
 </div>
 
 ## Check Bolting Details
-Edge distance, end distance and spacing
+Edge distance, end distance and spacing.  If a REQuirement is not met, execution
+terminates with an error message.
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-assert NT >= 2    # number of longitudinal lines (# of bolts per transverse line)
-assert NL >= 2    # number of transverse lines (# of bolts per longitudinal line)
+REQ( NT >= 2, "NT - Number of bolts across (on a line transverse to load)" )
+REQ( NL >= 2, "NL - number of transverse lines (# of bolts per longitudinal line)" )
 ```
 </div>
 
@@ -99,8 +131,8 @@ assert NL >= 2    # number of transverse lines (# of bolts per longitudinal line
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-min_edge = 32   # S16 22.3.2, min edge distance, 3/4" bolt, sheared edge, Table 6
-max_edge = min(12*T2,150) # S16 22.3.3
+min_edge = 32*mm      # S16 22.3.2, min edge distance, 3/4" bolt, sheared edge, Table 6
+max_edge = min(12*T2,150*mm)    # S16 22.3.3
 min_end = min_edge if NL > 2 else 1.5*D  # S16 22.3.4
 min_pitch = 2.7*D    # S16 22.3.1
 show('min_pitch,min_edge,min_end,max_edge')
@@ -111,10 +143,10 @@ show('min_pitch,min_edge,min_end,max_edge')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-min_pitch = 51.43
-min_edge  = 32
-min_end   = 28.57
-max_edge  = 150
+min_pitch = 51.43 mm
+min_edge  = 32    mm
+min_end   = 28.57 mm
+max_edge  = 150   mm
 ```
 </div>
 </div>
@@ -128,13 +160,13 @@ max_edge  = 150
 edge = (W1 - (NT-1)*G)/2.
 end = (S2 - C)/2.
 show('edge,end')
-assert edge >= min_edge
-assert edge <= max_edge
-assert end >= min_end
-##assert S >= min_pitch
-##assert G >= min_pitch
-assert S2 >= S
-assert S**2 + G**2 >= min_pitch**2    # to be more precise ...
+REQ(edge >= min_edge)
+REQ(edge <= max_edge)
+REQ(end >= min_end)
+REQ(S >= min_pitch)
+REQ(G >= min_pitch)
+REQ(S2 >= S)
+REQ(S**2 + G**2 >= min_pitch**2)    # to be more precise ...
 ```
 </div>
 
@@ -142,14 +174,14 @@ assert S**2 + G**2 >= min_pitch**2    # to be more precise ...
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-edge = 75
-end  = 65
+edge = 75 mm
+end  = 65 mm
 ```
 </div>
 </div>
 </div>
 
-### Lap plates:
+### Side plates:
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -157,9 +189,9 @@ end  = 65
 edge = (W2 - (NT-1)*G)/2.
 end = (L2 - ((NL-1)*G*2 + S2))/2.
 show('edge,end')
-assert edge >= min_edge
-assert edge <= max_edge
-assert end >= min_end
+REQ(edge >= min_edge)
+REQ(edge <= max_edge)
+REQ(end >= min_end)
 ```
 </div>
 
@@ -167,24 +199,14 @@ assert end >= min_end
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-edge = 35
-end  = 30
+edge = 35 mm
+end  = 30 mm
 ```
 </div>
 </div>
 </div>
 
 ## Factored Resistance
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area" markdown="1">
-```python
-notes = DesignNotes('Tr',title='Lap Plate Splice',trace=True)
-REC = notes.record
-```
-</div>
-
-</div>
 
 ### Main plate
 ![Main Plate](images/lap-splice-01-main.svg)
@@ -199,7 +221,7 @@ axial elongation as yield strains are reached over the length of the member.  Th
 ```python
 Ag = W1*T1    # gross x-sectional area
 phi = 0.9
-Tr = phi*Ag*Fy * 1E-3  # S16-14: 13.2 a) i)
+Tr = phi*Ag*Fy  # S16-14: 13.2 a) i)
 REC(Tr,'Gross area yield, centre plate','Ag,Fy')
 ```
 </div>
@@ -208,21 +230,9 @@ REC(Tr,'Gross area yield, centre plate','Ag,Fy')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Gross area yield, centre plate: Tr = 2362
-       (Ag=7500, Fy=350.0)
+    Gross area yield, centre plate: Tr = 2362 kN
+       (Ag=7500mm², Fy=350MPa)
 ```
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-2362.5
-```
-
-
 </div>
 </div>
 </div>
@@ -243,7 +253,7 @@ bolts in this connection transfer loads approximately uniformly across the entir
 wn = W1 - NT*HA    # net width: subtract total width of material removed by holes, failure path 1
 Ane = An = wn*T1
 phiu = 0.75
-Tr = phiu*Ane*Fu * 1E-3    # S16-14: 13.2 a) iii)
+Tr = phiu*Ane*Fu    # S16-14: 13.2 a) iii)
 REC(Tr,'Net section fracture, centre plate','wn,An,Ane,Tr,Fu')
 ```
 </div>
@@ -252,21 +262,9 @@ REC(Tr,'Net section fracture, centre plate','wn,An,Ane,Tr,Fu')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Net section fracture, centre plate: Tr = 1924
-       (wn=228.0, An=5700, Ane=5700, Fu=450.0)
+    Net section fracture, centre plate: Tr = 1924 kN
+       (wn=228mm, An=5700mm², Ane=5700mm², Fu=450MPa)
 ```
-</div>
-</div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-1923.75
-```
-
-
 </div>
 </div>
 </div>
@@ -291,7 +289,7 @@ Note that Pattern 4 is often called 'tear-out' or 'pull-out'.
 <div class="input_area" markdown="1">
 ```python
 Fv = (Fy+Fu)/2.      # S16-14: 13.11 footnote
-if Fy > 460.:
+if Fy > 460*MPa:
     Fv = Fy
 ```
 </div>
@@ -307,7 +305,7 @@ Agv = (e + (NL-1)*S)*T1*2.  # shear area
 An = (NT-1)*G * T1          # tension area
 Ut = 1.0
 phiu = 0.75
-Tr = phiu*((Ut*An*Fu) + (0.6*Agv*Fv)) * 1E-3     # S16-14: 13.11
+Tr = phiu*((Ut*An*Fu) + (0.6*Agv*Fv))     # S16-14: 13.11
 REC(Tr,'Block Shear Pattern 1 - centre plate','Ut,An,Agv,Tr');
 ```
 </div>
@@ -316,8 +314,8 @@ REC(Tr,'Block Shear Pattern 1 - centre plate','Ut,An,Agv,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Block Shear Pattern 1 - centre plate: Tr = 2526
-       (Ut=1.0, An=3750, Agv=7000)
+    Block Shear Pattern 1 - centre plate: Tr = 2526 kN
+       (Ut=1.0, An=3750mm², Agv=7000mm²)
 ```
 </div>
 </div>
@@ -333,7 +331,7 @@ An = (g1 + g1 - 2.*HA/2.)*T1    # to outside from edge of outside pair of holes
 if NT >= 3:
     An = An + (NT-2.)*(G - 2.*HA/2.)*T1    # additional between holes
 Ut = 0.6                 # no good guidelines in commentary - this should be conservative
-Tr = phiu*((Ut*An*Fu) + (0.6*Agv*Fv)) * 1E-3     # S16-14: 13.11
+Tr = phiu*((Ut*An*Fu) + (0.6*Agv*Fv))     # S16-14: 13.11
 REC(Tr,'Block Shear Pattern 2 - centre plate','Ut,An,Agv,Tr');  
 ```
 </div>
@@ -342,8 +340,8 @@ REC(Tr,'Block Shear Pattern 2 - centre plate','Ut,An,Agv,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Block Shear Pattern 2 - centre plate: Tr = 2156
-       (Ut=0.6, An=4425, Agv=7000)
+    Block Shear Pattern 2 - centre plate: Tr = 2156 kN
+       (Ut=0.6, An=4425mm², Agv=7000mm²)
 ```
 </div>
 </div>
@@ -357,7 +355,7 @@ Agv = (e + (NL-1)*S)*T1  # shear area
 g1 = (W1 - (NT-1)*G)/2.  # edge distance to centre of hole
 An = ((W1-g1) - (NT-0.5)*HA)*T1
 Ut = 0.6                 # no good guidelines in commentary - this should be conservative
-Tr = phiu*((Ut*An*Fu) + (0.6*Agv*Fv)) * 1E-3     # S16-14: 13.11
+Tr = phiu*((Ut*An*Fu) + (0.6*Agv*Fv))     # S16-14: 13.11
 REC(Tr,'Block Shear Pattern 3 - centre plate','Ut,An,Agv,Tr');
 ```
 </div>
@@ -366,8 +364,8 @@ REC(Tr,'Block Shear Pattern 3 - centre plate','Ut,An,Agv,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Block Shear Pattern 3 - centre plate: Tr = 1465
-       (Ut=0.6, An=4125, Agv=3500)
+    Block Shear Pattern 3 - centre plate: Tr = 1465 kN
+       (Ut=0.6, An=4125mm², Agv=3500mm²)
 ```
 </div>
 </div>
@@ -378,9 +376,9 @@ REC(Tr,'Block Shear Pattern 3 - centre plate','Ut,An,Agv,Tr');
 ```python
 ## Pattern 4 - tear-out
 Agv = (e + (NL-1)*S)*T1 * (NT*2.) # shear area
-An = 0.
+An = 0*mm*mm
 Ut = 0.               # N.A.
-Tr = phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16-14: 13.11
+Tr = phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.))     # S16-14: 13.11
 REC(Tr,'Block Shear Pattern 4 - centre plate','Ut,An,Agv,Tr');
 ```
 </div>
@@ -389,8 +387,8 @@ REC(Tr,'Block Shear Pattern 4 - centre plate','Ut,An,Agv,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Block Shear Pattern 4 - centre plate: Tr = 3780
-       (Ut=0, An=0, Agv=21000)
+    Block Shear Pattern 4 - centre plate: Tr = 3780 kN
+       (Ut=0, An=0mm², Agv=21000mm²)
 ```
 </div>
 </div>
@@ -409,7 +407,7 @@ account for the two plates.
 ```python
 Ag = W2*T2    # gross x-sectional area
 phi = 0.9
-Tr = 2. * phi*Ag*Fy * 1E-3  # S16-14: 13.2 a) i)
+Tr = 2. * phi*Ag*Fy  # S16-14: 13.2 a) i)
 REC(Tr,'Gross area yield, two side plates','Ag,Tr');
 ```
 </div>
@@ -418,8 +416,8 @@ REC(Tr,'Gross area yield, two side plates','Ag,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Gross area yield, two side plates: Tr = 1940
-       (Ag=3080)
+    Gross area yield, two side plates: Tr = 1940 kN
+       (Ag=3080mm²)
 ```
 </div>
 </div>
@@ -433,7 +431,7 @@ REC(Tr,'Gross area yield, two side plates','Ag,Tr');
 wn = W2 - NT*HA    # subtract total width of material removed by holes, failure path 2
 Ane = An = wn*T2
 phiu = 0.75
-Tr = 2. * phiu*Ane*Fu * 1E-3    # S1614: 13.2 a) iii)
+Tr = 2. * phiu*Ane*Fu    # S1614: 13.2 a) iii)
 REC(Tr,'Net section fracture, two side plates','wn,An,Ane,Tr');
 ```
 </div>
@@ -442,8 +440,8 @@ REC(Tr,'Net section fracture, two side plates','wn,An,Ane,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Net section fracture, two side plates: Tr = 1399
-       (wn=148.0, An=2072, Ane=2072)
+    Net section fracture, two side plates: Tr = 1399 kN
+       (wn=148mm, An=2072mm², Ane=2072mm²)
 ```
 </div>
 </div>
@@ -462,7 +460,7 @@ Agv = (e + (NL-1)*S)*T2*2.  # shear area
 An = (NT-1)*G * T2          # tension area
 Ut = 1.0
 phiu = 0.75
-Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16-14: 13.11
+Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.))     # S16-14: 13.11
 REC(Tr,'Block Shear Pattern 1 - two side plates','Ut,An,Agv,Tr');
 ```
 </div>
@@ -471,8 +469,8 @@ REC(Tr,'Block Shear Pattern 1 - two side plates','Ut,An,Agv,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Block Shear Pattern 1 - two side plates: Tr = 2476
-       (Ut=1.0, An=2100, Agv=2940)
+    Block Shear Pattern 1 - two side plates: Tr = 2476 kN
+       (Ut=1.0, An=2100mm², Agv=2940mm²)
 ```
 </div>
 </div>
@@ -488,7 +486,7 @@ An = (g1 + g1 - 2.*HA/2.)*T2    # to outside from edge of outside pair of holes
 if NT >= 3:
     An = An + (NT-2.)*(G - 2.*HA/2.)*T2    # additional between holes
 Ut = 0.6                 # no good guidelines in commentary - this should be conservative
-Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16-14: 13.11
+Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.))     # S16-14: 13.11
 REC(Tr,'Block Shear Pattern 2 - two side plates','Ut,An,Agv,Tr');
 ```
 </div>
@@ -497,8 +495,8 @@ REC(Tr,'Block Shear Pattern 2 - two side plates','Ut,An,Agv,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Block Shear Pattern 2 - two side plates: Tr = 1608
-       (Ut=0.6, An=1358, Agv=2940)
+    Block Shear Pattern 2 - two side plates: Tr = 1608 kN
+       (Ut=0.6, An=1358mm², Agv=2940mm²)
 ```
 </div>
 </div>
@@ -512,7 +510,7 @@ Agv = (e + (NL-1)*S)*T2  # shear area
 g2 = (W2 - (NT-1)*G)/2.  # edge distance to centre of hole
 An = ((W2-g2) - (NT-0.5)*HA)*T2
 Ut = 0.6                 # no good guidelines in commentary - this should be conservative
-Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16-14: 13.11
+Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.))     # S16-14: 13.11
 REC(Tr,'Block Shear Pattern 3 - two side plates','Ut,An,Agv,Tr');
 ```
 </div>
@@ -521,8 +519,8 @@ REC(Tr,'Block Shear Pattern 3 - two side plates','Ut,An,Agv,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Block Shear Pattern 3 - two side plates: Tr = 1238
-       (Ut=0.6, An=1750, Agv=1470)
+    Block Shear Pattern 3 - two side plates: Tr = 1238 kN
+       (Ut=0.6, An=1750mm², Agv=1470mm²)
 ```
 </div>
 </div>
@@ -533,9 +531,9 @@ REC(Tr,'Block Shear Pattern 3 - two side plates','Ut,An,Agv,Tr');
 ```python
 ## Pattern 4 - tear-out
 Agv = (e + (NL-1)*S)*T2 * (NT*2.) # shear area
-An = 0.
+An = 0*mm*mm
 Ut = 0.               # N.A.
-Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.)) * 1E-3     # S16-14: 13.11
+Tr = 2. * phiu*((Ut*An*Fu) + (0.6*Agv*(Fy+Fu)/2.))     # S16-14: 13.11
 REC(Tr,'Block Shear Pattern 4 - two side plates','Ut,An,Agv,Tr');
 ```
 </div>
@@ -544,8 +542,8 @@ REC(Tr,'Block Shear Pattern 4 - two side plates','Ut,An,Agv,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Block Shear Pattern 4 - two side plates: Tr = 3175
-       (Ut=0, An=0, Agv=8820)
+    Block Shear Pattern 4 - two side plates: Tr = 3175 kN
+       (Ut=0, An=0mm², Agv=8820mm²)
 ```
 </div>
 </div>
@@ -561,15 +559,15 @@ Here we compute the shear strength of one of the bolt groups.
 <div class="input_area" markdown="1">
 ```python
 n = NT*NL      # number of bolts
-m = 2.         # number of faying surfaces
+m = 2          # number of faying surfaces
 Ab = 3.14159*D*D/4.
 phib = 0.80
-Vr = 0.60*phib*n*m*Ab*Fub * 1E-3      # S16-14: 13.12.1.2 c)
-if (NL-1)*S >= 760.:
+Vr = 0.60*phib*n*m*Ab*Fub      # S16-14: 13.12.1.2 c)
+if (NL-1)*S >= 760*mm:
     Vr = (0.5/0.6)*Vr
 if threads_intercepted:
     Vr = 0.7*Vr
-REC(Vr,'Shear resistance of bolts','n,m,Ab,Vr');
+REC(Vr,'Shear resistance of bolts','n,m,Ab');
 ```
 </div>
 
@@ -577,8 +575,8 @@ REC(Vr,'Shear resistance of bolts','n,m,Ab,Vr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Shear resistance of bolts: Tr = 948.1
-       (n=6, m=2.0, Ab=285.0, Vr=948.1)
+    Shear resistance of bolts: Tr = 948.1 kN
+       (n=6, m=2, Ab=285.0mm²)
 ```
 </div>
 </div>
@@ -592,8 +590,8 @@ REC(Vr,'Shear resistance of bolts','n,m,Ab,Vr');
 n = NT*NL
 t = min(T1,2.*T2)
 phibr = 0.80
-Br = 3.*phibr*n*t*D*Fu * 1E-3
-REC(Br,'Bearing resistance at bolt holes','n,t,Br,Fu');
+Br = 3.*phibr*n*t*D*Fu
+REC(Br,'Bearing resistance at bolt holes','n,D,t,Fu');
 ```
 </div>
 
@@ -601,8 +599,8 @@ REC(Br,'Bearing resistance at bolt holes','n,t,Br,Fu');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Bearing resistance at bolt holes: Tr = 3086
-       (n=6, t=25.0, Br=3086, Fu=450.0)
+    Bearing resistance at bolt holes: Tr = 3086 kN
+       (n=6, D=19.05mm, t=25mm, Fu=450MPa)
 ```
 </div>
 </div>
@@ -627,24 +625,24 @@ Summary of DesignNotes for Tr: Lap Plate Splice
 
 Values of Tr:
 -------------
-    Gross area yield, centre plate:          Tr = 2360
-    Net section fracture, centre plate:      Tr = 1920
-    Block Shear Pattern 1 - centre plate:    Tr = 2530
-    Block Shear Pattern 2 - centre plate:    Tr = 2160
-    Block Shear Pattern 3 - centre plate:    Tr = 1470
-    Block Shear Pattern 4 - centre plate:    Tr = 3780
-    Gross area yield, two side plates:       Tr = 1940
-    Net section fracture, two side plates:   Tr = 1400
-    Block Shear Pattern 1 - two side plates: Tr = 2480
-    Block Shear Pattern 2 - two side plates: Tr = 1610
-    Block Shear Pattern 3 - two side plates: Tr = 1240
-    Block Shear Pattern 4 - two side plates: Tr = 3180
-    Shear resistance of bolts:               Tr = 948  <-- governs
-    Bearing resistance at bolt holes:        Tr = 3090
+    Gross area yield, centre plate:          Tr = 2360 kN
+    Net section fracture, centre plate:      Tr = 1920 kN
+    Block Shear Pattern 1 - centre plate:    Tr = 2530 kN
+    Block Shear Pattern 2 - centre plate:    Tr = 2160 kN
+    Block Shear Pattern 3 - centre plate:    Tr = 1470 kN
+    Block Shear Pattern 4 - centre plate:    Tr = 3780 kN
+    Gross area yield, two side plates:       Tr = 1940 kN
+    Net section fracture, two side plates:   Tr = 1400 kN
+    Block Shear Pattern 1 - two side plates: Tr = 2480 kN
+    Block Shear Pattern 2 - two side plates: Tr = 1610 kN
+    Block Shear Pattern 3 - two side plates: Tr = 1240 kN
+    Block Shear Pattern 4 - two side plates: Tr = 3180 kN
+    Shear resistance of bolts:               Tr = 948 kN  <-- governs
+    Bearing resistance at bolt holes:        Tr = 3090 kN
 
     Governing Value:
     ----------------
-       Tr = 948 
+       Tr = 948 kN
 ```
 </div>
 </div>

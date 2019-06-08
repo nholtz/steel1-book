@@ -9,8 +9,8 @@ prev_page:
   url: /tension/T01/net-areas-01i
   title: 'Net Areas (notebook)'
 next_page:
-  url: /tension/T05.prev/bolted-single-angle-01
-  title: 'Single Angle, Bolted One Leg'
+  url: /tension/T10/lap-splice-01
+  title: 'Lap Splice'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

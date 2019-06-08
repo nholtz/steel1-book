@@ -6,8 +6,8 @@ kernel_name: python3
 has_widgets: false
 title: 'W Brace'
 prev_page:
-  url: /tension/T10/lap-splice-01
-  title: 'Lap Splice'
+  url: /tension/T15/bolted-single-angle-01u
+  title: '1 or 2 Angles, Bolted One Leg (with units)'
 next_page:
   url: /tension/T30/HSS-brace-01
   title: 'HSS Brace'

@@ -1,20 +1,20 @@
 ---
 redirect_from:
-  - "tension/t05.prev/bolted-single-angle-01"
-interact_link: content/tension/T05.prev/bolted-single-angle-01.ipynb
+  - "tension/t15.prev/bolted-single-angle-01"
+interact_link: content/tension/T15.prev/bolted-single-angle-01.ipynb
 kernel_name: python3
 has_widgets: false
 title: 'Single Angle, Bolted One Leg'
 prev_page:
-  url: /tension/T01/net-areas-01u
-  title: 'Net Areas (notebook with units)'
+  url: /tension/T10/lap-splice-01
+  title: 'Lap Splice'
 next_page:
-  url: /tension/T05/bolted-single-angle-01u
+  url: /tension/T15/bolted-single-angle-01u
   title: '1 or 2 Angles, Bolted One Leg (with units)'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-### Tr for Single Angle Bolted Through One Leg
+# T15: Tr for Single Angle Bolted Through One Leg
 
 Calculate factored tension resistance, $T_r$, of a single angle bolted through one leg.
 

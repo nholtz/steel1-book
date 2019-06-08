@@ -1,20 +1,20 @@
 ---
 redirect_from:
-  - "tension/t05/bolted-single-angle-01u"
-interact_link: content/tension/T05/bolted-single-angle-01u.ipynb
+  - "tension/t15/bolted-single-angle-01u"
+interact_link: content/tension/T15/bolted-single-angle-01u.ipynb
 kernel_name: python3
 has_widgets: false
 title: '1 or 2 Angles, Bolted One Leg (with units)'
 prev_page:
-  url: /tension/T05.prev/bolted-single-angle-01
+  url: /tension/T15.prev/bolted-single-angle-01
   title: 'Single Angle, Bolted One Leg'
 next_page:
-  url: /tension/T10/lap-splice-01
-  title: 'Lap Splice'
+  url: /tension/T20/W-brace-01
+  title: 'W Brace'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-### Tr for Angle Bolted Through One Leg
+# Example T15u: Tension Member -  Angle Bolted Through One Leg
 
 Calculate factored tension resistance, $T_r$, of a single angle bolted through one leg.
 Assume 3/4" ASTM A325 bolts in 22mm punched holes, and CSA G40.21 350W steel.

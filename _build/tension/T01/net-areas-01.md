@@ -9,8 +9,8 @@ prev_page:
   url: /tension/example_problems_01
   title: 'Example Problems'
 next_page:
-  url: /tension/T01/net-areas-01i
-  title: 'Net Areas (notebook)'
+  url: /tension/T01/net-areas-01u
+  title: 'Net Areas (notebook with units)'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

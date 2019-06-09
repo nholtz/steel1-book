@@ -18,17 +18,14 @@ and their connections.
 ## Basic Analysis
 
 * **[T01: Net Areas of Plates with Staggered Holes](T01/net-areas-01)**  (Traditional Solution, figures + math only)
-* **[T01i: Net Areas of Plates with Staggered Holes](T01/net-areas-01i)** Notebook solution. 
-Active cells containing Python code that may be modified and re-executed.  Otherwise, same as the above.
-* **[T01u: Net Areas of Plates with Staggered Holes](T01/net-areas-01i)** Notebook solution.
-Mostly the same as T01i, except slightly reworded and re-organized **and computes with units** 
-using the Python '[pint](https://pint.readthedocs.io/en/0.9/)' module.
+* **[T01u: Net Areas of Plates with Staggered Holes](T01/net-areas-01u)** Notebook solution.
+Mostly the same as T01, except slightly reworded and re-organized **and computes with units** 
+using the Python '[pint](https://pint.readthedocs.io/)' module.
 
 ## Intermediate Analysis
 
-* **[T10: Lap Splice 1](T10/lap-splice-01)**
-* **[T15: Single Angle, Bolted One Leg](T15.prev/bolted-single-angle-01)** 
-* **[T15u: Angle, Bolted One Leg](T15/bolted-single-angle-01u)** Same problem as T15 above, but simplified Python, cleaned up presentation, and uses units in the calculations.  Also handles 1 or 2 angles back-to-back.
+* **[T10: Lap Splice 1](T10/lap-splice-01)**  Uses [units](https://pint.readthedocs.io/).
+* **[T15: Angle, Bolted One Leg](T15/bolted-single-angle-01u)**  1 angle or (2 angles back-to-back) bolted through one leg. Uses [units](https://pint.readthedocs.io/).
 * **[T20: W Bracing System](T20/W-brace-01)**
 * **[T30: HSS Bracing System](T30/HSS-brace-01)**
 

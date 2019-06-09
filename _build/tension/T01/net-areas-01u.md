@@ -6,8 +6,8 @@ kernel_name: python3
 has_widgets: false
 title: 'Net Areas (notebook with units)'
 prev_page:
-  url: /tension/T01/net-areas-01i
-  title: 'Net Areas (notebook)'
+  url: /tension/T01/net-areas-01
+  title: 'Net Areas (traditional)'
 next_page:
   url: /tension/T10/lap-splice-01
   title: 'Lap Splice'

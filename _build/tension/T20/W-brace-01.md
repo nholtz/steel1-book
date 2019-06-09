@@ -7,7 +7,7 @@ has_widgets: false
 title: 'W Brace'
 prev_page:
   url: /tension/T15/bolted-single-angle-01u
-  title: '1 or 2 Angles, Bolted One Leg (with units)'
+  title: '1 or 2 Angles, Bolted One Leg'
 next_page:
   url: /tension/T30/HSS-brace-01
   title: 'HSS Brace'
@@ -26,8 +26,9 @@ in the photo.
 
 Note that this was given as problem PA2, Jan 22, 2015.
 
-Compute the factored tension resistance, $T_r$, of the following assembly.  Steel is G40.21 350W and bolts
-are 3/4" ASTM A325 in 22mm punched holes.
+## Problem Statement
+
+Compute the factored tension resistance, $T_r$, of the following assembly.  Steel is G40.21 350W and bolts are 3/4" ASTM A325 in 22mm punched holes.
 
 ![End Details](images/brace1.svg)
 
@@ -43,7 +44,7 @@ notes = DesignNotes('Tr',trace=True)
 
 </div>
 
-## Tr for Angles
+## Angles
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -63,20 +64,24 @@ show('d,b,t,Ag,bd,ha,g1,g2')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-d  = 102
-b  = 76.2
-t  = 12.7
-Ag = 2100
-bd = 19.05
-ha = 24
-g1 = 65
-g2 = 45
+d  = 102   
+b  = 76.2  
+t  = 12.7  
+Ag = 2100  
+bd = 19.05 
+ha = 24    
+g1 = 65    
+g2 = 45    
 ```
 </div>
 </div>
 </div>
 
 ![Angle Details](images/angle.svg)
+
+### Check Details (TO BE DONE!)
+* Bolt spacings, edge distances
+* Fit within flanges (need gusset thickness)
 
 ### Net Section Fracture:
 
@@ -103,12 +108,12 @@ show('wg,g,s,wn1,wn2,wn')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-wg  = 165.5
-g   = 97.3
-s   = 80
-wn1 = 141.5
-wn2 = 133.9
-wn  = 133.9
+wg  = 165.5 
+g   = 97.3  
+s   = 80    
+wn1 = 141.5 
+wn2 = 133.9 
+wn  = 133.9 
 ```
 </div>
 </div>
@@ -201,13 +206,13 @@ show('Ag,b,d,t,w,Fy,Fu')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ag = 8550
-b  = 204
-d  = 257
-t  = 15.7
-w  = 8.9
-Fy = 350
-Fu = 450
+Ag = 8550 
+b  = 204  
+d  = 257  
+t  = 15.7 
+w  = 8.9  
+Fy = 350  
+Fu = 450  
 ```
 </div>
 </div>
@@ -352,7 +357,7 @@ Values of Tr:
 
     Governing Value:
     ----------------
-       Tr = 1840 
+       Tr = 1840
 ```
 </div>
 </div>
@@ -360,6 +365,11 @@ Values of Tr:
 
 ## To do:
 
+- check bolt detailing
+- check fit of angles between flanges
 - bolts, shear
 - bolts, bearing
 - weld, reinforcing plates to web
+
+## Notes
+* Note that gross section yield of the W should govern, but it does not by a small margin.  One thing to try would be slightly larger angles. Perhaps L127x76x13 (which would not require any additional space between flanges).  Or could shave a few more millimeters from flange tips.  Of course, all this has to be compared with factored applied loads.

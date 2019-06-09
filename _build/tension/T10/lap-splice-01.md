@@ -9,8 +9,8 @@ prev_page:
   url: /tension/T01/net-areas-01u
   title: 'Net Areas (notebook with units)'
 next_page:
-  url: /tension/T15.prev/bolted-single-angle-01
-  title: 'Single Angle, Bolted One Leg'
+  url: /tension/T15/bolted-single-angle-01u
+  title: '1 or 2 Angles, Bolted One Leg'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

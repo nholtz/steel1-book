@@ -26,6 +26,43 @@ in the photo.
 
 Note that this was given as problem PA2, Jan 22, 2015.
 
+#### Load and Setup the Library Modules
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+from Designer import show, DesignNotes, SST, Part
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+import pint                  # setup to use the module for computing with units
+ureg = pint.UnitRegistry()
+mm = ureg['mm']
+inch = ureg['inch']
+kN = ureg['kN']
+MPa = ureg['MPa']
+ureg.default_format = '~P'
+```
+</div>
+
+</div>
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+notes = DesignNotes('Tr',trace=True,units=kN)      # initial the note/record keeping object
+RECORD = notes.record     # useful abbreviations
+CHECK = notes.check
+```
+</div>
+
+</div>
+
 ## Problem Statement
 
 Compute the factored tension resistance, $T_r$, of the following assembly.  Steel is G40.21 350W and bolts are 3/4" ASTM A325 in 22mm punched holes.
@@ -34,29 +71,62 @@ Compute the factored tension resistance, $T_r$, of the following assembly.  Stee
 
 Note that 40mm is cut from each flange tip of the W250x67.
 
+## Angles
+
+![Angle Details](images/angle.svg)
+
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from Designer import show, DesignNotes, SST
-notes = DesignNotes('Tr',trace=True)
+Bolts = Part( "Bolts",
+            grade = 'ASTM A325',
+            size = '3/4"',
+            bd = (3/4*inch).to(mm),
+            Fub = 825*MPa,
+            )
+Bolts.Ab = 3.14159*Bolts.bd**2/4.
+
+with Bolts:
+    show('grade,size,bd,Fub,Ab')
 ```
 </div>
 
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+grade = ASTM A325 
+size  = 3/4"      
+bd    = 19.05     mm
+Fub   = 825       MPa
+Ab    = 285       mm²
+```
 </div>
-
-## Angles
+</div>
+</div>
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 Fy = 350
 Fu = 450
-d,b,t,Ag = SST.section('L102x76x13','D,B,T,A')
-bd = 25.4 * 3/4   # bolt size, mm
-ha = 22 + 2  # hole allowance  - punched holes
-g1 = 65      # gauge, longer leg
-g2 = 45      # gauge, shorter leg
-show('d,b,t,Ag,bd,ha,g1,g2')
+d,b,t,Ag,Dsg = SST.section('L102x76x13','D,B,T,A,Dsg')
+Angles = Part( "Angles",
+              grade = 'CSA G40.21 350W',
+              Fy = 350*MPa,
+              Fu = 450*MPa,
+              size = Dsg,
+              d = d*mm,
+              b = b*mm,
+              t = t*mm,
+              Ag = Ag*mm*mm,
+              ha = (22 + 2)*mm,  # hole allowance  - punched holes
+              g1 = 65*mm,      # gauge, longer leg
+              g2 = 45*mm,      # gauge, shorter leg
+              s = 80*mm,       # dist between innermost holes on each end
+             )
+with Angles:
+    show('grade,Fy,Fu,size,d,b,t,Ag,g1,g2,s,ha',object=Angles)
 ```
 </div>
 
@@ -64,43 +134,63 @@ show('d,b,t,Ag,bd,ha,g1,g2')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-d  = 102   
-b  = 76.2  
-t  = 12.7  
-Ag = 2100  
-bd = 19.05 
-ha = 24    
-g1 = 65    
-g2 = 45    
+grade = CSA G40.21 350W 
+Fy    = 350             MPa
+Fu    = 450             MPa
+size  = L102x76x13      
+d     = 102             mm
+b     = 76.2            mm
+t     = 12.7            mm
+Ag    = 2100            mm²
+g1    = 65              mm
+g2    = 45              mm
+s     = 80              mm
+ha    = 24              mm
 ```
 </div>
 </div>
 </div>
 
-![Angle Details](images/angle.svg)
-
 ### Check Details (TO BE DONE!)
 * Bolt spacings, edge distances
 * Fit within flanges (need gusset thickness)
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+CHECK(False,'Bolting and fitting details have not been checked.')
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+    Bolting and fitting details have not been checked.?  NG! *****
+      ()
+```
+</div>
+</div>
+</div>
 
 ### Net Section Fracture:
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-# gross width = "flattened" width of angle:
-wg = d + b - t
+with Angles:
+    # gross width = "flattened" width of angle:
+    wg = d + b - t
 
-# failure path 1-1: 1 hole
-wn1 = wg - 1*ha
+    # failure path 1-1: 1 hole
+    wn1 = wg - 1*ha
 
-# failure path 2-2: 2 holes
-g = g1 + g2 - t
-s = 80
-wn2 = wg - 2*ha + s**2/(4*g)
+    # failure path 2-2: 2 holes
+    g = g1 + g2 - t
+    wn2 = wg - 2*ha + s**2/(4*g)
 
-wn = min(wn1,wn2)
-show('wg,g,s,wn1,wn2,wn')
+    wn = min(wn1,wn2)
+    show('wg,g,s,wn1,wn2,wn')
 ```
 </div>
 
@@ -108,12 +198,12 @@ show('wg,g,s,wn1,wn2,wn')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-wg  = 165.5 
-g   = 97.3  
-s   = 80    
-wn1 = 141.5 
-wn2 = 133.9 
-wn  = 133.9 
+wg  = 165.5 mm
+g   = 97.3  mm
+s   = 80    mm
+wn1 = 141.5 mm
+wn2 = 133.9 mm
+wn  = 133.9 mm
 ```
 </div>
 </div>
@@ -122,11 +212,12 @@ wn  = 133.9
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-An = wn*t
-Ane = 0.8*An   # S16-14: 12.3.3.2 (b) (i) - connected 1 leg 4 lines of bolts
-phiu = 0.75
-Tr = 4. * phiu*Ane*Fu * 1E-3     # S16-14: 13.2 a) iii)
-notes.record(Tr,'Net section fracture, 4 angles','An,Ane,Tr,Fu');
+with Angles:
+    An = wn*t
+    Ane = 0.8*An   # S16-14: 12.3.3.2 (b) (i) - connected 1 leg 4 lines of bolts
+    phiu = 0.75
+    Tr = 4. * phiu*Ane*Fu    # S16-14: 13.2 a) iii)
+    RECORD(Tr,'Net section fracture, 4 angles','An,Ane,Tr,Fu');
 ```
 </div>
 
@@ -134,8 +225,8 @@ notes.record(Tr,'Net section fracture, 4 angles','An,Ane,Tr,Fu');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Net section fracture, 4 angles: Tr = 1837
-       (An=1701, Ane=1361, Fu=450)
+    Net section fracture, 4 angles: Tr = 1837 kN
+       (An=1701mm², Ane=1361mm², Fu=450MPa)
 ```
 </div>
 </div>
@@ -146,9 +237,10 @@ notes.record(Tr,'Net section fracture, 4 angles','An,Ane,Tr,Fu');
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-phi = 0.9
-Tr = 4. * phi*Ag*Fy * 1E-3    # S16-14: 13.2 a) i)
-notes.record(Tr,'Gross section yield, 4 angles','Ag,Tr');
+with Angles:
+    phi = 0.9
+    Tr = 4. * phi*Ag*Fy    # S16-14: 13.2 a) i)
+    RECORD(Tr,'Gross section yield, 4 angles','Ag,Fy,Tr');
 ```
 </div>
 
@@ -156,8 +248,8 @@ notes.record(Tr,'Gross section yield, 4 angles','Ag,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Gross section yield, 4 angles: Tr = 2646
-       (Ag=2100)
+    Gross section yield, 4 angles: Tr = 2646 kN
+       (Ag=2100mm², Fy=350MPa)
 ```
 </div>
 </div>
@@ -168,12 +260,13 @@ notes.record(Tr,'Gross section yield, 4 angles','Ag,Tr');
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-Agv = (40. + 3*75.)*t
-An = (min(d-g1,b-g2) - ha/2.)*t
-Ut = 0.3
-phiu = 0.75
-Tr = 4. * phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.) * 1E-3
-notes.record(Tr,'Block shear, 4 angles','Ut,An,Agv,Tr');
+with Angles:
+    Agv = (40*mm + 3*75*mm)*t
+    An = (min(d-g1,b-g2) - ha/2.)*t
+    Ut = 0.3
+    phiu = 0.75
+    Tr = 4. * phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)
+    RECORD(Tr,'Block shear, 4 angles','Ut,An,Agv,Tr');
 ```
 </div>
 
@@ -181,8 +274,8 @@ notes.record(Tr,'Block shear, 4 angles','Ut,An,Agv,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Block shear, 4 angles: Tr = 2522
-       (Ut=0.3, An=243.8, Agv=3366)
+    Block shear, 4 angles: Tr = 2522 kN
+       (Ut=0.3, An=243.8mm², Agv=3366mm²)
 ```
 </div>
 </div>
@@ -195,10 +288,25 @@ notes.record(Tr,'Block shear, 4 angles','Ut,An,Agv,Tr');
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-Fy = 350.
-Fu = 450.
-Ag,b,d,t,w = SST.section('W250x67',properties='A,B,D,T,W')
-show('Ag,b,d,t,w,Fy,Fu')
+Ag,b,d,t,w,Dsg = SST.section('W250x67',properties='A,B,D,T,W,Dsg')
+
+WShape = Part( "WShape",
+            grade = 'ASTM A992',
+             Fy = 345*MPa,
+             Fu = 450*MPa,
+             size = Dsg,
+             Ag = Ag*mm*mm,
+             b = b*mm,
+             d = d*mm,
+             t = t*mm,
+             w = w*mm,
+              wp = 190*mm,          # width of web reinforcing PL
+              tp = 8*mm,            # thickness of web reinforcing PL
+              wc = 40*mm,           # width cut from flange tips
+             )
+
+with WShape:
+    show('grade,size,Fy,Fy,Ag,b,d,t,w,wp,tp,wc')
 ```
 </div>
 
@@ -206,27 +314,21 @@ show('Ag,b,d,t,w,Fy,Fu')
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-Ag = 8550 
-b  = 204  
-d  = 257  
-t  = 15.7 
-w  = 8.9  
-Fy = 350  
-Fu = 450  
+grade = ASTM A992 
+size  = W250x67   
+Fy    = 345       MPa
+Fy    = 345       MPa
+Ag    = 8550      mm²
+b     = 204       mm
+d     = 257       mm
+t     = 15.7      mm
+w     = 8.9       mm
+wp    = 190       mm
+tp    = 8         mm
+wc    = 40        mm
 ```
 </div>
 </div>
-</div>
-
-<div markdown="1" class="cell code_cell">
-<div class="input_area" markdown="1">
-```python
-wp = 190   # width of web reinforcing PL
-tp = 8     # thickness of web reinforcing PL
-wc = 40    # width cut from flange tips
-```
-</div>
-
 </div>
 
 ### Net section fracture
@@ -235,11 +337,12 @@ wc = 40    # width cut from flange tips
 <div class="input_area" markdown="1">
 ```python
 # Path 1-1: net = gross  +  plates  -  holes
-An = Ag  +  2*tp*wp   -  2*ha*(w+tp+tp)
-Ane = 0.85*An    # S16-14: 12.3.3.2 (c) (i)
-phiu = 0.75
-Tr = phiu*Ane*Fu * 1E-3
-notes.record(Tr,'Net section fracture, W shape','An,Ane,Tr');
+with Angles,WShape:
+    An = Ag  +  2*tp*wp   -  2*ha*(w+tp+tp)
+    Ane = 0.85*An    # S16-14: 12.3.3.2 (c) (i)
+    phiu = 0.75
+    Tr = phiu*Ane*Fu
+    RECORD(Tr,'Net section fracture, W shape','Ag,ha,w,tp,An,Ane,Tr');
 ```
 </div>
 
@@ -247,8 +350,8 @@ notes.record(Tr,'Net section fracture, W shape','An,Ane,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Net section fracture, W shape: Tr = 2982
-       (An=10390, Ane=8836)
+    Net section fracture, W shape: Tr = 2982 kN
+       (Ag=8550mm², ha=24mm, w=8.9mm, tp=8mm, An=10390mm², Ane=8836mm²)
 ```
 </div>
 </div>
@@ -259,10 +362,11 @@ notes.record(Tr,'Net section fracture, W shape','An,Ane,Tr');
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-Agr = Ag - 4*wc*t   # reduced area due to flange cuts
-phi = 0.9
-Tr = phi*Fy*Agr * 1E-3     # S16-14: 13.2 a) i)
-notes.record(Tr,'Gross section yield, W shape','Agr,Tr');
+with WShape:
+    Agr = Ag - 4*wc*t   # reduced area due to flange cuts
+    phi = 0.9
+    Tr = phi*Fy*Agr     # S16-14: 13.2 a) i)
+    RECORD(Tr,'Gross section yield, W shape','Agr,Tr');
 ```
 </div>
 
@@ -270,8 +374,8 @@ notes.record(Tr,'Gross section yield, W shape','Agr,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Gross section yield, W shape: Tr = 1902
-       (Agr=6038)
+    Gross section yield, W shape: Tr = 1875 kN
+       (Agr=6038mm²)
 ```
 </div>
 </div>
@@ -282,13 +386,14 @@ notes.record(Tr,'Gross section yield, W shape','Agr,Tr');
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-T = w + tp + tp          # thickness of web + reinforcing plates
-Agv = 2*(40 + 3*75)*T
-An = (g2 + g2 + 25 - ha)*T   # estimate 25mm spacing between angles (gusset thickness)
-Ut = 1.0
-phiu = 0.75
-Tr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.) * 1E-3       # S16-14: 13.11
-notes.record(Tr,'Block shear, W shape','T,Ut,An,Agv,Tr');
+with Angles,WShape:
+    T = w + tp + tp          # thickness of web + reinforcing plates
+    Agv = 2*(40*mm + 3*75*mm)*T
+    An = (g2 + g2 + 25*mm - ha)*T   # estimate 25mm spacing between angles (gusset thickness)
+    Ut = 1.0
+    phiu = 0.75
+    Tr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)       # S16-14: 13.11
+    RECORD(Tr,'Block shear, W shape','T,Ut,An,Agv,Tr');
 ```
 </div>
 
@@ -296,8 +401,8 @@ notes.record(Tr,'Block shear, W shape','T,Ut,An,Agv,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Block shear, W shape: Tr = 3140
-       (T=24.9, Ut=1.0, An=2266, Agv=13200)
+    Block shear, W shape: Tr = 3125 kN
+       (T=24.9mm, Ut=1.0, An=2266mm², Agv=13200mm²)
 ```
 </div>
 </div>
@@ -308,12 +413,13 @@ notes.record(Tr,'Block shear, W shape','T,Ut,An,Agv,Tr');
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-Agv = 4*(40 + 3*75)*T
-An = 0.
-Ut = 1.0
-phiu = 0.75
-Tr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.) * 1E-3      # S16-14: 13.11
-notes.record(Tr,'Tearout, W shape','Ut,An,Agv,Tr');
+with WShape:
+    Agv = 4*(40*mm + 3*75*mm)*T
+    An = 0*mm*mm
+    Ut = 1.0
+    phiu = 0.75
+    Tr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)       # S16-14: 13.11
+    notes.record(Tr,'Tearout, W shape','Ut,An,Agv,Tr');
 ```
 </div>
 
@@ -321,8 +427,8 @@ notes.record(Tr,'Tearout, W shape','Ut,An,Agv,Tr');
 <div class="output_subarea" markdown="1">
 {:.output_stream}
 ```
-    Tearout, W shape: Tr = 4751
-       (Ut=1.0, An=0, Agv=26390)
+    Tearout, W shape: Tr = 4721 kN
+       (Ut=1.0, An=0mm², Agv=26390mm²)
 ```
 </div>
 </div>
@@ -345,19 +451,24 @@ notes.summary()
 Summary of DesignNotes for Tr
 =============================
 
+Checks:
+-------
+    Bolting and fitting details have not been checked.?   NG! *****
+      ()
+
 Values of Tr:
 -------------
-    Net section fracture, 4 angles: Tr = 1840  <-- governs
-    Gross section yield, 4 angles:  Tr = 2650
-    Block shear, 4 angles:          Tr = 2520
-    Net section fracture, W shape:  Tr = 2980
-    Gross section yield, W shape:   Tr = 1900
-    Block shear, W shape:           Tr = 3140
-    Tearout, W shape:               Tr = 4750
+    Net section fracture, 4 angles: Tr = 1840 kN  <-- governs
+    Gross section yield, 4 angles:  Tr = 2650 kN
+    Block shear, 4 angles:          Tr = 2520 kN
+    Net section fracture, W shape:  Tr = 2980 kN
+    Gross section yield, W shape:   Tr = 1870 kN
+    Block shear, W shape:           Tr = 3130 kN
+    Tearout, W shape:               Tr = 4720 kN
 
     Governing Value:
     ----------------
-       Tr = 1840
+       Tr = 1840 kN
 ```
 </div>
 </div>

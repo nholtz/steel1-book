@@ -14,7 +14,7 @@ next_page:
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-# W Brace with Reduced cross-section
+# Example T20: W Brace with Reduced cross-section
 
 This example shows the computation of the factored tension resistance of a W shape used as a tension
 member in a lateral brace in a building such as that shown in the following photo.  There are 4 braces

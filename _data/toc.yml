@@ -22,7 +22,7 @@
 # See the links below for an example.
 
 # Top-level page
-- title: Home
+- title: Steel Design
   url: steel_1
   not_numbered: true
 
@@ -32,6 +32,10 @@
 
 # Divider for meta-pages and content page
 - divider: true
+
+- title: Programming Style
+  url: Programming-Style
+  not_numbered: True
 
 # Add a header and sample content section
 - header: Steel I Notes

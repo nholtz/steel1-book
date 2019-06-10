@@ -22,14 +22,40 @@ of structural steel components.
 It is not intended to teach Python programming, though it is hoped that eventally
 they will be able to make small modifications to any of the notebooks and see the effect.
 
-But the important part is that the Python not get in the way of understanding the engineering.
+This document is an attempt to show alternative Python programming styles, and to compare them.
 
 The base documents from which the students are working will almost
 always use single character identifiers to refer to various physical quantities.  Therefore
 there will be a lot of overloading.  For example, _t_ is always a thickness, but context will
 tell what thickness it is referring to at any particular instant.
 
-I think it important that the Python code mimic this as closely as is practical.
+I think it important that the Python code mimic this as closely as is practical. 
+But the important part is that the Python not get in the way of understanding the engineering.
+
+
+### Problem Characteristics
+
+Problems are mostly to compute strengths of specialized physical objects made of structural steel.  These are the general characteristics:
+* The simplist problems will have 5 to 10 parameters (usually single numbers specifying a dimension
+of a part, or a material characteristics, or an option, etc.).  The most complex problems may have up to 30 or 40 or so parameters.
+* In the most complex problems, these parameters may be spread over 5 or 10 different physical parts and a couple of different materials.  Multiple parts could have dimensions that are 
+typically referred to using the same name, for example _thickness_, and denoted using the same symbol, _t_.
+* Calculations involve fairly small amounts of logic to calculate a specific quantity. Usually that
+logic is easily expressible in no more than 5 lines of Python.
+* Simple problems may have 5 sets of these calculations; complex problems may have 30 or 40.
+* The notebook structure is ideal for this, with one calculation set per cell.
+* This is all to support what we call "design" - determining the proper sizes of an object
+for structural safety.  In all but the simplese cases, this is trial and error: choose a set
+of parameters, calculate a strength; if not right, change something and do it all over.
+* Mostly, the calculations are specified by very specific and precise rules and formulae that cover many common 
+cases.  In our case, the document is the [CSA S16-14 Design of Steel Structures](https://www.scc.ca/en/standardsdb/standards/27714), supplemented with lecture material.
+
+Below we will perform one typical set of calculations to determine tension strength
+with respect to a complete fracture of the cross-section (there are other failure modes).
+We will show a number of different ways of structuring the Python to do this, and
+discuss the relative merits of each.
+
+**My favorite is currently Alternative 4 - using the 'with' statement.**
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -52,7 +78,9 @@ physical quantities.  In a more complex problem than shown here, we would have
 ```t1```, ```t2```, ```t3``` or ```t_angle```, ```t_gusset```, ```t_plate```, etc.
 to refer to the various thicknesses.  It becomes unwieldy and makes the code less re-usable.
 
-So the first step is to use normal Python objects, and use attribute values to store the data.
+So the first step is to use normal Python  objects, and use 
+attribute values to store the data.  These are essentially just a way of providing multiple
+namespaces (i.e., association this instance of _t_ with the correct object).
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -84,7 +112,7 @@ Nothing special.
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-An = AngleB7.A - AngleB7.hd*AngleB7.t
+An = AngleB7.A - AngleB7.hd*AngleB7.t  # net x-sect area is gross minus allowance for one hole
 if AngleB7.nbolts >= 4:         # CSA S16-14 12.3.3.2 b)
     Ane = 0.8*An                #                        i)
 else:
@@ -116,11 +144,14 @@ on in the notebook.
 * very explicit.  there is no doubt what the _t_ belongs to in the first line.
 
 **Cons:**
-* harder to understand with all those extra (and usually extraneous) identifiers in the expressions.  As expressions get more complex, this gets worse.
+* harder to read with all those extra (and usually extraneous) identifiers in the expressions.  As expressions get more complex, this gets worse.
+* detracts from re-useability of the code.  If this is copied to serve another part, it
+will have to be edited (and defining functions to do the calculations is problematic as well - adds
+more conceptual overhead).
 
 ### Alternative 2:
 Extract the required attribute values into global variables at the start of each cell.
-We can arrange some special functionality so that this can be made more compact (obviously,
+We can arrange some special object functionality so that this can be done more compactly (obviously,
 the indexing operator returns a tuple of the values of the attributes given as the "index").
 The values can even be renamed if that is wise or convenient.
 
@@ -130,7 +161,7 @@ The values can even be renamed if that is wise or convenient.
 Ag,hd,t,n = AngleB7['A,hd,t,nbolts']
 Fu = Steel.Fu
 
-An = Ag - hd*t
+An = Ag - hd*t                # net x-sect area is gross minus allowance for one hole
 if n >= 4:                    # CSA S16-14 12.3.3.2 b)
     Ane = 0.8*An
 else:
@@ -164,20 +195,20 @@ Tr.to(kN)
 following cells by defining symbols, such as _t_, that shouldn't be defined later.
 * Overloads the indexing functionality, which is not standard Python, and  some people
 may find that weird or hard to understand.
-* Their is obviously more than one way to extract the attribute values - again a bit
+* There is obviously more than one way to extract the attribute values - again a bit
 more conceptual overhead.
 
 ### Alternative 3
-Much the same concept as Alternative 2 above, except we provided and 'extract' function 
+Much the same concept as Alternative 2 above, except we provide an 'extract' function 
 that more explicitly gets the attribute values.  We made this a function rather than a method
-so that we could extract from multiple objects.
+so that we could more easily extract from multiple objects.
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
 Ag,hd,t,n,Fu = extract('A,hd,t,nbolts,Fu',AngleB7,Steel)
 
-An = Ag - hd*t
+An = Ag - hd*t                # net x-sect area is gross minus allowance for one hole
 if n >= 4:                    # CSA S16-14 12.3.3.2 b)
     Ane = 0.8*An
 else:
@@ -221,7 +252,7 @@ at the end of the block.  Could even make them produce warnings if values are ov
 <div class="input_area" markdown="1">
 ```python
 with Steel,AngleB7:
-    An = A - hd*t
+    An = A - hd*t             # net x-sect area is gross minus allowance for one hole
     if nbolts >= 4:           # CSA S16-14 12.3.3.2 b)
         Ane = 0.8*An
     else:
@@ -269,8 +300,8 @@ Have all computations done in a function, where the parameter list names the loc
 <div class="input_area" markdown="1">
 ```python
 def fun1(Ag,hd,t,n,Fu):
-    An = Ag - hd*t
-    if nbolts >= 4:           # CSA S16-14 12.3.3.2 b)
+    An = Ag - hd*t       # net x-sect area is gross minus allowance for one hole
+    if n >= 4:           # CSA S16-14 12.3.3.2 b)
         Ane = 0.8*An
     else:
         Ane = 0.6*An

@@ -15,7 +15,7 @@
    height="5.2850018in"
    id="svg2"
    version="1.1"
-   inkscape:version="0.92.3 (unknown)"
+   inkscape:version="0.92.4 (unknown)"
    sodipodi:docname="gusset-details.svg"
    viewBox="0 0 655.99901 507.36017">
   <sodipodi:namedview
@@ -27,15 +27,15 @@
      inkscape:pageshadow="2"
      inkscape:zoom="2.6213385"
      inkscape:cx="224.69647"
-     inkscape:cy="193.19049"
+     inkscape:cy="330.52491"
      inkscape:document-units="in"
      inkscape:current-layer="layer1"
      showgrid="true"
      units="in"
-     inkscape:window-width="3055"
-     inkscape:window-height="2016"
-     inkscape:window-x="469"
-     inkscape:window-y="83"
+     inkscape:window-width="2552"
+     inkscape:window-height="1373"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
      inkscape:window-maximized="0"
      showguides="true"
      fit-margin-top="0.2"
@@ -451,7 +451,7 @@
              id="tspan4010"
              x="-366.2226"
              y="130.73581"
-             style="font-size:12px;line-height:1.25">w1 (=280)</tspan></text>
+             style="font-size:12px;line-height:1.25">W (=280)</tspan></text>
         <path
            inkscape:connector-curvature="0"
            id="path4128"
@@ -505,7 +505,7 @@
              x="-36.126389"
              id="tspan4429"
              sodipodi:role="line"
-             style="font-size:13.33333397px;line-height:1.25">w2(=110)</tspan></text>
+             style="font-size:13.33333397px;line-height:1.25">W2(=110)</tspan></text>
         <path
            inkscape:connector-curvature="0"
            id="path5292"

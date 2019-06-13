@@ -4,13 +4,13 @@ redirect_from:
 interact_link: content/tension/T15/bolted-single-angle-01u.ipynb
 kernel_name: python3
 has_widgets: false
-title: '1 or 2 Angles, Bolted One Leg'
+title: 'T15. Angle, Bolted One Leg'
 prev_page:
   url: /tension/T10/lap-splice-01
-  title: 'Lap Splice'
+  title: 'T10. Lap Splice'
 next_page:
   url: /tension/T20/W-brace-01
-  title: 'W Brace'
+  title: 'T20. W Brace'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

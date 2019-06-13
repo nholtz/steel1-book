@@ -4,13 +4,13 @@ redirect_from:
 interact_link: content/tension/T20/W-brace-01.ipynb
 kernel_name: python3
 has_widgets: false
-title: 'T20. W Brace'
+title: 'T20: W Brace'
 prev_page:
   url: /tension/T15/bolted-single-angle-01u
-  title: 'T15. Angle, Bolted One Leg'
+  title: 'T15: Angle, Bolted One Leg'
 next_page:
   url: /tension/T30/HSS-brace-01-v1
-  title: 'T30 v1. HSS Brace'
+  title: 'T30 v1: HSS Brace'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

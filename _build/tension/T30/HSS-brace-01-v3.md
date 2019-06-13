@@ -1,20 +1,20 @@
 ---
 redirect_from:
-  - "tension/t30/hss-brace-01-v1"
-interact_link: content/tension/T30/HSS-brace-01-v1.ipynb
+  - "tension/t30/hss-brace-01-v3"
+interact_link: content/tension/T30/HSS-brace-01-v3.ipynb
 kernel_name: python3
 has_widgets: false
-title: 'T30 v1: HSS Brace'
+title: 'T30 v3: HSS Brace'
 prev_page:
-  url: /tension/T20/W-brace-01
-  title: 'T20: W Brace'
-next_page:
   url: /tension/T30/HSS-brace-01-v2
   title: 'T30 v2: HSS Brace'
+next_page:
+  url: 
+  title: ''
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
-# Example T30 v1: HSS Brace Analysis
+# Example T30 v3: HSS Brace Analysis
 The photo shows the end details of a typical brace in a 4-storey steel structure.  This was photographed in Ottawa, in September, 2015.
 
 This notebook shows the computations necessary to compute the factored tension resistance, $T_r$, for a similar brace.  **Note**, all of the dimensions and properties were invented by the author of this notebook; no attempt has been made to have an accurate model of the real structure.
@@ -118,6 +118,11 @@ HSS = Part('HSS Column',
         Fy = 350*MPa,
         Fu = 450*MPa,
           )    
+D,T,A = SST.section(HSS.size,'D,T,A')
+HSS.set( D = D*mm,
+         T = T*mm,
+         A = A*mm*mm,
+       )
 
 CoverPlate = Part('Cover Plate',
           T = 10*mm,
@@ -144,7 +149,28 @@ GussetPlate = Part('Gusset Plate',
 
 </div>
 
-## Bollting and Welding Details
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+Bolts('g,s,Fu,d').show()
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+{:.output_stream}
+```
+_doc = A Portion of Bolts 
+d    = 19.05 mm
+Fu   = 825   MPa
+g    = 75    mm
+s    = 75    mm
+```
+</div>
+</div>
+</div>
+
+## Bolting and Welding Details
 
 TBD: Here we should check all spacings, edge distances, etc.
 
@@ -156,17 +182,15 @@ TBD: Here we should check all spacings, edge distances, etc.
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-W,W2,D,theta = GussetPlate['W,W2,D,theta']
-Xu = Welds.Xu
+with GussetPlate('W,W2,theta,D'),Welds('Xu'):
+    L1 = W2+W*cosd(theta)
+    L = (L1/sind(theta))*cosd(theta) + W*sind(theta)
 
-L1 = W2+W*cosd(theta)
-L = (L1/sind(theta))*cosd(theta) + W*sind(theta)
+    Mw = 1.0                  
+    Aw = 2*L*.707*D
+    Vr = 0.67*phiw*Aw*Xu*(1+sind(theta)**1.5)*Mw     # S16-14: 13.13.2.2
 
-Mw = 1.0                  
-Aw = 2*L*.707*D
-Vr = 0.67*phiw*Aw*Xu*(1+sind(theta)**1.5)*Mw     # S16-14: 13.13.2.2
-
-REC(Vr,'Gusset to HSS Weld','W,W2,L1,L,D,theta,Aw,Mw,phiw,Vr')
+    REC(Vr,'Gusset to HSS Weld','W,W2,L1,L,D,theta,Aw,Mw,phiw,Vr')
 ```
 </div>
 
@@ -191,14 +215,12 @@ here because of the increased width of the gusset.
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-nlines,nperline,g,s,ha = Bolts['nlines,nperline,g,s,ha']
-W,e,t,Fy,Fu = GussetPlate['W,e,T,Fy,Fu']
-
-An = t*((nperline-1)*g - (nperline-1)*ha)
-Agv = 2*t*((nlines-1)*s + e)
-Ut = 1.0
-Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)     # S16-14: 13.2 a) ii) & 13.11
-REC(Vr,'Gusset Block Shear Case 1)','Ut,An,Agv,Fy,Fu,Vr')
+with Bolts('nlines,nperline,g,s,ha'),GussetPlate('W,e,T,Fy,Fu'):
+    An = T*((nperline-1)*g - (nperline-1)*ha)
+    Agv = 2*T*((nlines-1)*s + e)
+    Ut = 1.0
+    Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)     # S16-14: 13.2 a) ii) & 13.11
+    REC(Vr,'Gusset Block Shear Case 1)','Ut,An,Agv,Fy,Fu,Vr')
 ```
 </div>
 
@@ -218,12 +240,13 @@ REC(Vr,'Gusset Block Shear Case 1)','Ut,An,Agv,Fy,Fu,Vr')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-edge = (W - (nperline-1)*g)/2.
-An = (((nperline-1)*g+edge)-(nperline-0.5)*ha)*t
-Agv = t*((nlines-1)*s + e)
-Ut = 0.8
-Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)    # S16-14: 13.2 a) ii) & 13.11
-REC(Vr,'Gusset Block Shear Case 2)','edge,Ut,An,Agv,Vr')
+with Bolts('nlines,nperline,g,s,ha'),GussetPlate('W,e,T,Fy,Fu'):
+    edge = (W - (nperline-1)*g)/2.
+    An = (((nperline-1)*g+edge)-(nperline-0.5)*ha)*T
+    Agv = T*((nlines-1)*s + e)
+    Ut = 0.8
+    Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)    # S16-14: 13.2 a) ii) & 13.11
+    REC(Vr,'Gusset Block Shear Case 2)','edge,Ut,An,Agv,Vr')
 ```
 </div>
 
@@ -243,9 +266,10 @@ REC(Vr,'Gusset Block Shear Case 2)','edge,Ut,An,Agv,Vr')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-Agv = t*((nlines-1)*s + e) * nperline * 2
-Vr = phiu * 0.6*Agv*(Fy+Fu)/2.               # S16-14: 13.2 a) ii) & 13.11
-REC(Vr,'Gusset tearout','Agv,Vr')
+with Bolts('nlines,nperline,s'),GussetPlate('e,T,Fy,Fu'):    
+    Agv = T*((nlines-1)*s + e) * nperline * 2
+    Vr = phiu * 0.6*Agv*(Fy+Fu)/2.               # S16-14: 13.2 a) ii) & 13.11
+    REC(Vr,'Gusset tearout','Agv,Vr')
 ```
 </div>
 
@@ -286,10 +310,10 @@ LapPlates = Part('Lap Plates',
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-wg,t,Fy = LapPlates['W,T,Fy']
-Ag = wg*t
-Tr = phi*Ag*Fy          # S16-14: 13.2 a) i)
-REC(Tr,'Lap Plates, Gross Yield','wg,t,Ag,Fy,phi')
+with LapPlates('W,T,Fy'):
+    Ag = W*T
+    Tr = phi*Ag*Fy          # S16-14: 13.2 a) i)
+    REC(Tr,'Lap Plates, Gross Yield','W,T,Ag,Fy,phi')
 ```
 </div>
 
@@ -298,7 +322,7 @@ REC(Tr,'Lap Plates, Gross Yield','wg,t,Ag,Fy,phi')
 {:.output_stream}
 ```
     Lap Plates, Gross Yield: Tr = 1449 kN
-       (wg=230mm, t=20.0mm, Ag=4600mm², Fy=350MPa, phi=0.9)
+       (W=230mm, T=20.0mm, Ag=4600mm², Fy=350MPa, phi=0.9)
 ```
 </div>
 </div>
@@ -309,13 +333,11 @@ REC(Tr,'Lap Plates, Gross Yield','wg,t,Ag,Fy,phi')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-wg,t,Fu = LapPlates['W,T,Fu']
-nperline,ha = Bolts['nperline,ha']
-
-wn = wg - nperline*ha
-Ane = An = wn*t
-Tr = phiu*Ane*Fu          # S16-14: 13.2 a) iii)
-REC(Tr,'Lap Plates, Net Fracture','wg,ha,wn,phiu,Ane,Fu')
+with LapPlates('W,T,Fu'),Bolts('nperline,ha'):
+    wn = W - nperline*ha
+    Ane = An = wn*T
+    Tr = phiu*Ane*Fu          # S16-14: 13.2 a) iii)
+    REC(Tr,'Lap Plates, Net Fracture','W,T,ha,wn,phiu,Ane,Fu')
 ```
 </div>
 
@@ -324,7 +346,7 @@ REC(Tr,'Lap Plates, Net Fracture','wg,ha,wn,phiu,Ane,Fu')
 {:.output_stream}
 ```
     Lap Plates, Net Fracture: Tr = 1066 kN
-       (wg=230mm, ha=24mm, wn=158mm, phiu=0.75, Ane=3160mm², Fu=450MPa)
+       (W=230mm, T=20.0mm, ha=24mm, wn=158mm, phiu=0.75, Ane=3160mm², Fu=450MPa)
 ```
 </div>
 </div>
@@ -336,14 +358,12 @@ REC(Tr,'Lap Plates, Net Fracture','wg,ha,wn,phiu,Ane,Fu')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-t,e,wg,Fy,Fu = LapPlates['T,e,W,Fy,Fu']
-ha,nperline,nlines,s,g = Bolts['ha,nperline,nlines,s,g']
-
-An = ((nperline-1)*g - (nperline-1)*ha)*t
-Agv = (e + (nlines-1)*s)*t*2
-Ut = 1.0
-Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)        # S16-14: 13.2 a) ii) & 13.11
-REC(Vr,'Lap Plates, Block Shear Case 1)','An,Agv,Ut,Fy,Fu,Vr')
+with LapPlates('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
+    An = ((nperline-1)*g - (nperline-1)*ha)*T
+    Agv = (e + (nlines-1)*s)*T*2
+    Ut = 1.0
+    Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)        # S16-14: 13.2 a) ii) & 13.11
+    REC(Vr,'Lap Plates, Block Shear Case 1)','An,Agv,Ut,Fy,Fu,Vr')
 ```
 </div>
 
@@ -363,15 +383,13 @@ REC(Vr,'Lap Plates, Block Shear Case 1)','An,Agv,Ut,Fy,Fu,Vr')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-t,e,wg,Fy,Fu = LapPlates['T,e,W,Fy,Fu']
-ha,nperline,nlines,s,g = Bolts['ha,nperline,nlines,s,g']
-
-edge = (wg - (nperline-1)*g)/2.0
-An = (wg - (edge-ha/2) - nperline*ha)*t
-Agv = (e + (nlines-1)*s)*t
-Ut = 0.8
-Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)       # S16-14: 13.2 a) ii) & 13.11
-REC(Vr,'Lap Plates, Block Shear Case 2)','wg,edge,An,Agv,Ut,Vr')
+with LapPlates('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
+    edge = (W - (nperline-1)*g)/2.0
+    An = (W - (edge-ha/2) - nperline*ha)*T
+    Agv = (e + (nlines-1)*s)*T
+    Ut = 0.8
+    Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)       # S16-14: 13.2 a) ii) & 13.11
+    REC(Vr,'Lap Plates, Block Shear Case 2)','W,T,edge,An,Agv,Ut,Vr')
 ```
 </div>
 
@@ -380,7 +398,7 @@ REC(Vr,'Lap Plates, Block Shear Case 2)','wg,edge,An,Agv,Ut,Vr')
 {:.output_stream}
 ```
     Lap Plates, Block Shear Case 2): Tr = 1116 kN
-       (wg=230mm, edge=40.0mm, An=2600mm², Agv=2300mm², Ut=0.8, Vr=1116000MPa·mm²)
+       (W=230mm, T=20.0mm, edge=40.0mm, An=2600mm², Agv=2300mm², Ut=0.8, Vr=1116000MPa·mm²)
 ```
 </div>
 </div>
@@ -391,14 +409,12 @@ REC(Vr,'Lap Plates, Block Shear Case 2)','wg,edge,An,Agv,Ut,Vr')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-t,e,wg,Fy,Fu = LapPlates['T,e,W,Fy,Fu']
-ha,nperline,nlines,s,g = Bolts['ha,nperline,nlines,s,g']
-
-An = (wg - nperline*ha - (g-ha))*t
-Agv = (e + (nlines-1)*s)*t * 2.
-Ut = 0.6
-Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)        # S16-14: 13.2 a) ii) & 13.11
-REC(Vr,'Lap Plates, Block Shear Case 3)','An,Agv,Ut,Vr')
+with LapPlates('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
+    An = (W - nperline*ha - (g-ha))*T
+    Agv = (e + (nlines-1)*s)*T * 2.
+    Ut = 0.6
+    Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)        # S16-14: 13.2 a) ii) & 13.11
+    REC(Vr,'Lap Plates, Block Shear Case 3)','An,Agv,Ut,Vr')
 ```
 </div>
 
@@ -418,14 +434,12 @@ REC(Vr,'Lap Plates, Block Shear Case 3)','An,Agv,Ut,Vr')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-t,e,wg,Fy,Fu = LapPlates['T,e,W,Fy,Fu']
-ha,nperline,nlines,s,g = Bolts['ha,nperline,nlines,s,g']
-
-An = 0*mm*mm
-Agv = (e + (nlines-1)*s)*t*2*nperline
-Ut = 1
-Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)        # S16-14: 13.2 a) ii) & 13.11
-REC(Vr,'Lap Plates, tearout','Agv,Vr')
+with LapPlates('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
+    An = 0*mm*mm
+    Agv = (e + (nlines-1)*s)*T*2*nperline
+    Ut = 1
+    Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)        # S16-14: 13.2 a) ii) & 13.11
+    REC(Vr,'Lap Plates, tearout','Agv,Vr')
 ```
 </div>
 
@@ -467,10 +481,10 @@ TonguePlate.set(
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-wg,t,Fy = TonguePlate['W,T,Fy']
-Ag = wg*t
-Tr = phi*Ag*Fy                # S16-14: 13.2 a) i)
-REC(Tr,'Tongue Plate, Gross Yield','wg,t,Ag,Fy')
+with TonguePlate('W,T,Fy'):
+    Ag = W*T
+    Tr = phi*Ag*Fy                # S16-14: 13.2 a) i)
+    REC(Tr,'Tongue Plate, Gross Yield','W,T,Ag,Fy')
 ```
 </div>
 
@@ -479,7 +493,7 @@ REC(Tr,'Tongue Plate, Gross Yield','wg,t,Ag,Fy')
 {:.output_stream}
 ```
     Tongue Plate, Gross Yield: Tr = 1764 kN
-       (wg=280mm, t=20mm, Ag=5600mm², Fy=350MPa)
+       (W=280mm, T=20mm, Ag=5600mm², Fy=350MPa)
 ```
 </div>
 </div>
@@ -490,13 +504,11 @@ REC(Tr,'Tongue Plate, Gross Yield','wg,t,Ag,Fy')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-wg,t,Fu = TonguePlate['W,T,Fu']
-ha,n = Bolts['ha,nperline']
-
-wn = wg - n*ha
-Ane = An = wn*t
-Tr = phiu*Ane*Fu              # S16-14: 13.2 a) iii)
-REC(Tr,'Tongue Plate, Bolted End, Net Section Fracture','wg,wn,Ane,Fu')
+with TonguePlate('W,T,Fu'),Bolts('ha,nperline'):
+    wn = W - nperline*ha
+    Ane = An = wn*T
+    Tr = phiu*Ane*Fu              # S16-14: 13.2 a) iii)
+    REC(Tr,'Tongue Plate, Bolted End, Net Section Fracture','W,T,wn,Ane,Fu')
 ```
 </div>
 
@@ -505,7 +517,7 @@ REC(Tr,'Tongue Plate, Bolted End, Net Section Fracture','wg,wn,Ane,Fu')
 {:.output_stream}
 ```
     Tongue Plate, Bolted End, Net Section Fracture: Tr = 1404 kN
-       (wg=280mm, wn=208mm, Ane=4160mm², Fu=450MPa)
+       (W=280mm, T=20mm, wn=208mm, Ane=4160mm², Fu=450MPa)
 ```
 </div>
 </div>
@@ -516,14 +528,12 @@ REC(Tr,'Tongue Plate, Bolted End, Net Section Fracture','wg,wn,Ane,Fu')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-t,e,wg,Fy,Fu = TonguePlate['T,e,W,Fy,Fu']
-ha,nperline,nlines,s,g = Bolts['ha,nperline,nlines,s,g']
-
-An = ((nperline-1)*g - (nperline-1)*ha)*t
-Agv = (e + (nlines-1)*s)*t*2
-Ut = 1.0
-Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)     # S16-14: 13.2 a) ii) & 13.11
-REC(Vr,'Tongue Plate, Block Shear Case 1)','An,Agv,Ut,Fy,Fu,Vr')
+with TonguePlate('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
+    An = ((nperline-1)*g - (nperline-1)*ha)*T
+    Agv = (e + (nlines-1)*s)*T*2
+    Ut = 1.0
+    Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)     # S16-14: 13.2 a) ii) & 13.11
+    REC(Vr,'Tongue Plate, Block Shear Case 1)','An,Agv,Ut,Fy,Fu,Vr')
 ```
 </div>
 
@@ -543,15 +553,13 @@ REC(Vr,'Tongue Plate, Block Shear Case 1)','An,Agv,Ut,Fy,Fu,Vr')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-t,e,wg,Fy,Fu = TonguePlate['T,e,W,Fy,Fu']
-ha,nperline,nlines,s,g = Bolts['ha,nperline,nlines,s,g']
-
-edge = (wg - (nperline-1)*g)/2.0
-An = (wg - (edge-ha/2.) - nperline*ha)*t
-Agv = (e + (nlines-1)*s)*t
-Ut = 0.8
-Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)      # S16-14: 13.2 a) ii) & 13.11
-REC(Vr,'Tongue Plate, Block Shear Case 2)','edge,An,Agv,Ut,Vr')
+with TonguePlate('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
+    edge = (W - (nperline-1)*g)/2.0
+    An = (W - (edge-ha/2.) - nperline*ha)*T
+    Agv = (e + (nlines-1)*s)*T
+    Ut = 0.8
+    Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)      # S16-14: 13.2 a) ii) & 13.11
+    REC(Vr,'Tongue Plate, Block Shear Case 2)','edge,An,Agv,Ut,Vr')
 ```
 </div>
 
@@ -571,14 +579,12 @@ REC(Vr,'Tongue Plate, Block Shear Case 2)','edge,An,Agv,Ut,Vr')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-t,e,wg,Fy,Fu = TonguePlate['T,e,W,Fy,Fu']
-ha,nperline,nlines,s,g = Bolts['ha,nperline,nlines,s,g']
-
-An = (wg - nperline*ha - (g-ha))*t
-Agv = (e + (nlines-1)*s)*t * 2.
-Ut = 0.6
-Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)       # S16-14: 13.2 a) ii) & 13.11
-REC(Vr,'Tongue Plate, Block Shear Case 3)','An,Agv,Ut,Vr')
+with TonguePlate('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
+    An = (W - nperline*ha - (g-ha))*T
+    Agv = (e + (nlines-1)*s)*T * 2.
+    Ut = 0.6
+    Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)       # S16-14: 13.2 a) ii) & 13.11
+    REC(Vr,'Tongue Plate, Block Shear Case 3)','An,Agv,Ut,Vr')
 ```
 </div>
 
@@ -598,14 +604,12 @@ REC(Vr,'Tongue Plate, Block Shear Case 3)','An,Agv,Ut,Vr')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-t,e,wg,Fy,Fu = TonguePlate['T,e,W,Fy,Fu']
-ha,nperline,nlines,s,g = Bolts['ha,nperline,nlines,s,g']
-
-An = 0*mm*mm
-Agv = (e + (nlines-1)*s)*t*2*nperline
-Ut = 1
-Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)       # S16-14: 13.2 a) ii) & 13.11
-REC(Vr,'Tongue Plate tearout','Agv,Vr')
+with TonguePlate('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
+    An = 0*mm*mm
+    Agv = (e + (nlines-1)*s)*T*2*nperline
+    Ut = 1
+    Vr = phiu*(Ut*An*Fu + 0.6*Agv*(Fy+Fu)/2.)       # S16-14: 13.2 a) ii) & 13.11
+    REC(Vr,'Tongue Plate tearout','Agv,Vr')
 ```
 </div>
 
@@ -626,24 +630,23 @@ REC(Vr,'Tongue Plate tearout','Agv,Vr')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-w,w2,L,t,Fu = TonguePlate['W,Dh,Lw,T,Fu']
+with TonguePlate('W,w2=Dh,L=Lw,T,Fu'):
+    if L >= 2*w2:             # S16-14: 12.3.3.3 b)
+        An2 = 1.00*w2*T
+    elif L >= w2:
+        An2 = 0.5*w2*T + 0.25*L*T
+    else:
+        An2 = 0.75*L*T
 
-if L >= 2*w2:             # S16-14: 12.3.3.3 b)
-    An2 = 1.00*w2*t
-elif L >= w2:
-    An2 = 0.5*w2*t + 0.25*L*t
-else:
-    An2 = 0.75*L*t
-    
-w3 = (w-w2)/2.            # S16-14: 12.3.3.3 c)
-xbar = w3/2.
-if L >= w3:
-    An3 = (1.-xbar/L)*w3*t
-else:
-    An3 = 0.50*L*t
-Ane = An2 + An3 + An3     # S16-14: 12.3.3.3 
-Tr = phiu*Ane*Fu
-REC(Tr,'Tongue Plate, Welded End, Net Section Fracture','w2,w3,An2,An3,Ane')
+    w3 = (W-w2)/2.            # S16-14: 12.3.3.3 c)
+    xbar = w3/2.
+    if L >= w3:
+        An3 = (1.-xbar/L)*w3*T
+    else:
+        An3 = 0.50*L*T
+    Ane = An2 + An3 + An3     # S16-14: 12.3.3.3 
+    Tr = phiu*Ane*Fu
+    REC(Tr,'Tongue Plate, Welded End, Net Section Fracture','w2,w3,An2,An3,Ane')
 ```
 </div>
 
@@ -665,17 +668,17 @@ REC(Tr,'Tongue Plate, Welded End, Net Section Fracture','w2,w3,An2,An3,Ane')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-d,Fu,threads_intercepted,s,nlines = Bolts['d,Fu,threads_intercepted,s,nlines']
-n = Bolts.nlines*Bolts.nperline
-m = 2
-Ab = 3.14159*d*d/4.
-Vr = 0.6*phib*n*m*Ab*Fu         # S16-14: 13.12.1.2 c)
-L = (nlines-1)*s
-if L >= 760*mm:
-    Vr = (0.5/0.6)*Vr
-if threads_intercepted:
-    Vr = 0.7*Vr
-REC(Vr,'Bolts in Shear','n,m,d,Ab,Fu,Vr')
+with Bolts('d,Fu,threads_intercepted,s,nlines,nperline'):
+    n = nlines*nperline             # no. of bolts
+    m = 2                           # no. of faying surfaces
+    Ab = 3.14159*d*d/4.
+    Vr = 0.6*phib*n*m*Ab*Fu         # S16-14: 13.12.1.2 c)
+    L = (nlines-1)*s
+    if L >= 760*mm:
+        Vr = (0.5/0.6)*Vr
+    if threads_intercepted:
+        Vr = 0.7*Vr
+    REC(Vr,'Bolts in Shear','n,m,d,Ab,Fu,Vr')
 ```
 </div>
 
@@ -695,10 +698,11 @@ REC(Vr,'Bolts in Shear','n,m,d,Ab,Fu,Vr')
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-Fu = TonguePlate['Fu']
-t = min(GussetPlate.T,TonguePlate.T,2*LapPlates.T)
-Br = 3*phibr*n*t*d*Fu          # S16-14: 13.12.1.2 a)
-REC(Br,'Bolts in Bearing','n,t,d,Fu');
+with Bolts('d,nlines,nperline'),TonguePlate('Fu'):
+    n = nlines*nperline
+    t = min(GussetPlate.T,TonguePlate.T,2*LapPlates.T)
+    Br = 3*phibr*n*t*d*Fu          # S16-14: 13.12.1.2 a)
+    REC(Br,'Bolts in Bearing','n,t,d,Fu')
 ```
 </div>
 
@@ -718,14 +722,13 @@ REC(Br,'Bolts in Bearing','n,t,d,Fu');
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-L,D = TonguePlate['Lw,D']
-Xu,matching = Welds['Xu,matching']
-Aw = 4.*L*D*0.707
-Vr = 0.67*phiw*Aw*Xu           # S16-14: 13.13.2.2
-if matching:
-    REC(Vr,'Fillet Weld (HSS to Plate)','D,L,Aw,Xu')
-else:
-    raise Exception('Non matching electrodes')
+with TonguePlate('L=Lw,D'),Welds('Xu,matching'):
+    Aw = 4.*L*D*0.707
+    Vr = 0.67*phiw*Aw*Xu           # S16-14: 13.13.2.2
+    if matching:
+        REC(Vr,'Fillet Weld (HSS to Plate)','D,L,Aw,Xu')
+    else:
+        raise Exception('Non matching electrodes')
 ```
 </div>
 
@@ -748,28 +751,20 @@ else:
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-dsg,Fyh,Fuh = HSS['size,Fy,Fu']
-tp,wp,Fyp,Fup = CoverPlate['T,W,Fy,Fu']
-tt,Lw = TonguePlate['T,Lw']   # thickness of tongue, length of one weld
+with HSS('D,th=T,A,Fyh=Fy,Fuh=Fu'),CoverPlate('tp=T,wp=W,Fyp=Fy,Fup=Fu'),TonguePlate('tt=T,Lw'):
+    Fy = min(Fyh,Fyp)     # use min properties of plate & HSS (conservative)
+    Fu = min(Fuh,Fup)
 
-D,th,A = SST.section(dsg,'D,T,A')
-D = D*mm    # SST doesn't carry units :-(
-th = th*mm
-A = A*mm*mm
-
-Fy = min(Fyh,Fyp)     # use min properties of plate & HSS (conservative)
-Fu = min(Fuh,Fup)
-
-h = D/2. - th - tt/2.  # height of vertical leg
-xbar = (2.*h*th*h/2. + D*th*(h+th/2.) + wp*tp*(h+th+tp/2.))/(2*h*th + D*th + wp*tp)
-Ag = A + 2*wp*tp       # gross area of HSS + cover plates
-An = Ag - 2.*tt*th     # net area, remove slots cut for tongue
-if xbar/Lw > 0.1:                 # S16-14: 12.3.3.4
-    Ane = (1.1 - xbar/Lw)*An
-else:
-    Ane = An
-Tr = phiu*Ane*Fu                # S16-14: 13.2 a) iii)
-REC(Tr,'HSS Net Section Fracture','xbar,Lw,D,th,A,Ag,An,Ane,Fu');
+    h = D/2. - th - tt/2.  # height of vertical leg
+    xbar = (2.*h*th*h/2. + D*th*(h+th/2.) + wp*tp*(h+th+tp/2.))/(2*h*th + D*th + wp*tp)
+    Ag = A + 2*wp*tp       # gross area of HSS + cover plates
+    An = Ag - 2.*tt*th     # net area, remove slots cut for tongue
+    if xbar/Lw > 0.1:                 # S16-14: 12.3.3.4
+        Ane = (1.1 - xbar/Lw)*An
+    else:
+        Ane = An
+    Tr = phiu*Ane*Fu                # S16-14: 13.2 a) iii)
+    REC(Tr,'HSS Net Section Fracture','xbar,Lw,D,th,A,Ag,An,Ane,Fu');
 ```
 </div>
 
@@ -790,9 +785,10 @@ Of HSS _without_ coverplate.
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-Ag = A
-Tr = phi*Ag*Fy          # S16-14: 13.2 a) i)
-REC(Tr,'HSS Gross Section Yield','Ag,Fy');
+with HSS('A,Fy'):
+    Ag = A
+    Tr = phi*Ag*Fy          # S16-14: 13.2 a) i)
+    REC(Tr,'HSS Gross Section Yield','Ag,Fy');
 ```
 </div>
 
@@ -814,26 +810,23 @@ the slot end (@ minimum x-sect area) and end of HSS.
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-T,W,L,D,Fy,Fu = CoverPlate['T,W,Lw,D,Fy,Fu']
-Xu = Welds.Xu
-Fy,Fu = Plates['Fy,Fu']
+with CoverPlate('T,W,L=Lw,D,Fy,Fu'),Welds('Xu'),CoverPlate('Fy,Fu'):
+    Aw = 0.707*D*L*2.
+    Vr = (0.67*phiw*Aw*Xu*1*1).to(kN)            # S16-14: 13.13.2.2, weld strength, to one side
+    Tr = (phi*(T*W)*Fy).to(kN)                   # S16-14: 13.2 a) i) gross section yield, of cover Plate
 
-Aw = 0.707*D*L*2.
-Vr = (0.67*phiw*Aw*Xu*1*1).to(kN)            # S16-14: 13.13.2.2, weld strength, to one side
-Tr = (phi*(T*W)*Fy).to(kN)                   # S16-14: 13.2 a) i) gross section yield, of cover Plate
+    CHK(Vr>=Tr,'Coverplate weld strength, gross yield','L,D,Aw,Vr,Tr')
 
-CHK(Vr>=Tr,'Coverplate weld strength, gross yield','L,D,Aw,Vr,Tr')
-
-An = W*T                             # S16-14: 12.3.3.3 b)
-if L >= 2*W:                         # Ane of plate
-    An2 = W*T
-elif L >= W:
-    An2 = 0.5*W*T + 0.25*L*T
-else:
-    An2 = 0.75*L*T
-Ane = An2
-Tr = (phiu*An2*Fu).to(kN)         # S16-14: 13.2 a) iii)
-CHK(Vr>=Tr,'Coverplate weld strength, net fracture','L,W,An2,Ane,Vr,Tr');
+    An = W*T                             # S16-14: 12.3.3.3 b)
+    if L >= 2*W:                         # Ane of plate
+        An2 = W*T
+    elif L >= W:
+        An2 = 0.5*W*T + 0.25*L*T
+    else:
+        An2 = 0.75*L*T
+    Ane = An2
+    Tr = (phiu*An2*Fu).to(kN)         # S16-14: 13.2 a) iii)
+    CHK(Vr>=Tr,'Coverplate weld strength, net fracture','L,W,An2,Ane,Vr,Tr');
 ```
 </div>
 
@@ -860,19 +853,18 @@ CHK(Vr>=Tr,'Coverplate weld strength, net fracture','L,W,An2,Ane,Vr,Tr');
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-w,t,l,e = LapPlates['W,T,L,e']
-s,g,nlines,nperline,d = Bolts['s,g,nlines,nperline,d']
+with LapPlates('W,T,L,e'),Bolts('s,g,nlines,nperline,d'):
 
-minedge = 32*mm                # S16-14: 22.3.2 Table 6, 3/4" bolt, sheared edge
-maxedge = min(150*mm,12.*t)    # S16-14: 22.3.3
-minend = 32*mm                 # S16-14: 22.3.4
-minpitch = 2.7*d               # S16-14: 22.3.1
+    minedge = 32*mm                # S16-14: 22.3.2 Table 6, 3/4" bolt, sheared edge
+    maxedge = min(150*mm,12.*T)    # S16-14: 22.3.3
+    minend = 32*mm                 # S16-14: 22.3.4
+    minpitch = 2.7*d               # S16-14: 22.3.1
 
-edge = (w - (nperline-1)*g)/2.
-CHK(edge>=minedge,'Bolt min edge distance, lap plate','edge,minedge',)
-CHK(edge<=maxedge,'Bolt max edge distance, lap plate','edge,maxedge',)
-CHK(e>=minend,'Bolt min end distance, lap plate','e,minend',)
-CHK(s>=minpitch and g>=minpitch,'Bolt spacing, lap plate','s,g,minpitch')
+    edge = (W - (nperline-1)*g)/2.
+    CHK(edge>=minedge,'Bolt min edge distance, lap plate','edge,minedge',)
+    CHK(edge<=maxedge,'Bolt max edge distance, lap plate','edge,maxedge',)
+    CHK(e>=minend,'Bolt min end distance, lap plate','e,minend',)
+    CHK(s>=minpitch and g>=minpitch,'Bolt spacing, lap plate','s,g,minpitch')
 ```
 </div>
 

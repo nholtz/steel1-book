@@ -4,13 +4,13 @@ redirect_from:
 interact_link: content/tension/T10/lap-splice-01.ipynb
 kernel_name: python3
 has_widgets: false
-title: 'T10. Lap Splice'
+title: 'T10: Lap Splice'
 prev_page:
   url: /tension/T01/net-areas-01u
-  title: 'T01 v2. Net Areas (notebook with units)'
+  title: 'T01 v2: Net Areas (notebook with units)'
 next_page:
   url: /tension/T15/bolted-single-angle-01u
-  title: 'T15. Angle, Bolted One Leg'
+  title: 'T15: Angle, Bolted One Leg'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 

@@ -291,7 +291,16 @@ Students will probably not see this in a first course taught to engineers.
 * cannot rename the variables - must use the attribute names defined in the object (this _may_
 actually be a good thing).
 * source of values is not explicit.  For example, where does _t_ come from? From reading just this,
-you cannot tell whether it is ```Steel.t``` or ```AngleB7.t```.
+you cannot tell whether it is ```Steel.t``` or ```AngleB7.t```
+* **BIG!** With var names being implicit, its far too easy to get the wrong values.  I had:
+
+        with LapPlates,Bolts:
+            wn = W - nperline*ha
+            Ane = An = wn*T
+            Tr = phiu*Ane*Fu          # S16-14: 13.2 a) iii)
+            REC(Tr,'Lap Plates, Net Fracture','W,T,ha,wn,phiu,Ane,Fu')
+            
+  and ```Fu``` was taken from ```Bolts```, whereas it should have been taken from ```LapPlates```.  I guess we need to make the variables explicit for each one.
 
 ### Alternative 5
 Have all computations done in a function, where the parameter list names the local values.  Then you can write a little utility that automatically extracts the values from the objects:

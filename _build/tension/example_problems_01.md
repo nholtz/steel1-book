@@ -7,7 +7,7 @@ prev_page:
   title: 'Procedures'
 next_page:
   url: /tension/T01/net-areas-01
-  title: 'T01 v1. Net Areas (traditional)'
+  title: 'T01 v1: Net Areas (traditional)'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 # Tension Members - Example Problems

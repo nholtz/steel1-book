@@ -29,3 +29,7 @@
 * Use S16-09 to S16-14 as a test case.
 
 * Should we use cell metadata for this?  Might be the only way to tag text cells (markdown cells).
+
+## Other Hosting Tools
+
+* https://colab.research.google.com/notebooks/welcome.ipynb  - Google Colaboratory

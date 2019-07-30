@@ -481,6 +481,7 @@ Values of Tr:
 - bolts, shear
 - bolts, bearing
 - weld, reinforcing plates to web
+- thickness of gusset plate. Bolts allow 100-45-45 = 10mm.  too little.
 
 ## Notes
 * Note that gross section yield of the W should govern, but it does not by a small margin.  One thing to try would be slightly larger angles. Perhaps L127x76x13 (which would not require any additional space between flanges).  Or could shave a few more millimeters from flange tips.  Of course, all this has to be compared with factored applied loads.

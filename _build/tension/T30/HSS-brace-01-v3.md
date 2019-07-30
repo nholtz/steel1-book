@@ -9,8 +9,8 @@ prev_page:
   url: /tension/T30/HSS-brace-01-v2
   title: 'T30 v2: HSS Brace'
 next_page:
-  url: 
-  title: ''
+  url: /tension/T30/HSS-brace-01-v4
+  title: 'T30 v4: HSS Brace'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
@@ -844,6 +844,8 @@ with CoverPlate('T,W,L=Lw,D,Fy,Fu'),Welds('Xu'),CoverPlate('Fy,Fu'):
 </div>
 
 ## To Do
+* Alterrnate method for cover plate wld check: Compute Tr with and without cover plate.  Diff is the reqd force
+in the cover plate. Ensure welds can develop that.
 * Check that gusset plate doesn't cause undue flexural problems in the flange of the HSS column member.
 
 ## Bolting Details

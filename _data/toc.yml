@@ -74,3 +74,6 @@
     - title: "T30 v3: HSS Brace"
       url: tension/T30/HSS-brace-01-v3
       not_numbered: True
+    - title: "T30 v4: HSS Brace"
+      url: tension/T30/HSS-brace-01-v4
+      not_numbered: True

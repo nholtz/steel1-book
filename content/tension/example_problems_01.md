@@ -12,10 +12,10 @@ using the Python '[pint](https://pint.readthedocs.io/)' module.
 
 ## Intermediate Analysis
 
-* **[T10: Lap Splice 1](T10/lap-splice-01)**  Uses [units](https://pint.readthedocs.io/).
+* **[T10: Lap Splice 1u](T10/lap-splice-01)**  Uses [units](https://pint.readthedocs.io/).
 * **[T15: Angle, Bolted One Leg](T15/bolted-single-angle-01u)**  1 angle or (2 angles back-to-back) bolted through one leg. Uses [units](https://pint.readthedocs.io/).
 * **[T20: W Bracing System](T20/W-brace-01)**
-* **[T30: HSS Bracing System](T30/HSS-brace-01)**
+* **[T30: HSS Bracing System](T30/HSS-brace-01-v4)**
 
 ## Basic Design
 

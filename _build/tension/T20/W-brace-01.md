@@ -6,14 +6,13 @@ kernel_name: python3
 has_widgets: false
 title: 'T20: W Brace'
 prev_page:
-  url: /tension/T15/bolted-single-angle-01u
+  url: /tension/T15/bolted-single-angle-01u.html
   title: 'T15: Angle, Bolted One Leg'
 next_page:
-  url: /tension/T30/HSS-brace-01-v1
+  url: /tension/T30/HSS-brace-01-v1.html
   title: 'T30 v1: HSS Brace'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
-
 # Example T20: W Brace with Reduced cross-section
 
 This example shows the computation of the factored tension resistance of a W shape used as a tension

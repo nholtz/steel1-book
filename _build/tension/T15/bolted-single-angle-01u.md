@@ -6,14 +6,13 @@ kernel_name: python3
 has_widgets: false
 title: 'T15: Angle, Bolted One Leg'
 prev_page:
-  url: /tension/T10/lap-splice-01
+  url: /tension/T10/lap-splice-01.html
   title: 'T10: Lap Splice'
 next_page:
-  url: /tension/T20/W-brace-01
+  url: /tension/T20/W-brace-01.html
   title: 'T20: W Brace'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
-
 # Example T15: Tension Member -  Angle Bolted Through One Leg
 
 Calculate factored tension resistance, $T_r$, of a single angle bolted through one leg.

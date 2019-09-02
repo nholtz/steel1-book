@@ -6,14 +6,13 @@ kernel_name: python3
 has_widgets: false
 title: 'T10: Lap Splice'
 prev_page:
-  url: /tension/T01/net-areas-01u
+  url: /tension/T01/net-areas-01u.html
   title: 'T01 v2: Net Areas (notebook with units)'
 next_page:
-  url: /tension/T15/bolted-single-angle-01u
+  url: /tension/T15/bolted-single-angle-01u.html
   title: 'T15: Angle, Bolted One Leg'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
-
 # Example T10: Tension Member Lap Splice
 Compute the factored tension resistance, $T_r$, of the following plate tension member, lap splice and fasteners.
 Ignore the connection details at the far ends of the member (not shown).  Bolts are 3/4" A325 in a

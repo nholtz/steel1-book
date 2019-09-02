@@ -6,14 +6,13 @@ kernel_name: python3
 has_widgets: false
 title: 'T01 v2: Net Areas (notebook with units)'
 prev_page:
-  url: /tension/T01/net-areas-01
+  url: /tension/T01/net-areas-01.html
   title: 'T01 v1: Net Areas (traditional)'
 next_page:
-  url: /tension/T10/lap-splice-01
+  url: /tension/T10/lap-splice-01.html
   title: 'T10: Lap Splice'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
-
 # Example T01u: Net Areas of Plates with Staggered Holes
 
 Determine the net areas to be used when finding the factored tension resistance of the following

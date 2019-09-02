@@ -3,10 +3,10 @@ redirect_from:
   - "tension/procedure-01"
 title: 'Procedures'
 prev_page:
-  url: /tension/tension
+  url: /tension/tension.html
   title: 'Tension Members'
 next_page:
-  url: /tension/example_problems_01
+  url: /tension/example_problems_01.html
   title: 'Example Problems'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---

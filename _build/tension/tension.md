@@ -1,10 +1,10 @@
 ---
 title: 'Tension Members'
 prev_page:
-  url: /Programming-Style
+  url: /Programming-Style.html
   title: 'Programming Style'
 next_page:
-  url: /tension/procedure_01
+  url: /tension/procedure_01.html
   title: 'Procedures'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---

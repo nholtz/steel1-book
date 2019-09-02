@@ -6,14 +6,13 @@ kernel_name: python3
 has_widgets: false
 title: 'Programming Style'
 prev_page:
-  url: /steel_1
+  url: /steel_1.html
   title: 'Steel Design'
 next_page:
-  url: /tension/tension
+  url: /tension/tension.html
   title: 'Tension Members'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
-
 ## Programming Style
 
 This book is intended to teach 3rd year Civil Engineering students about the design

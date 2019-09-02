@@ -6,14 +6,13 @@ kernel_name: python3
 has_widgets: false
 title: 'T30 v3: HSS Brace'
 prev_page:
-  url: /tension/T30/HSS-brace-01-v2
+  url: /tension/T30/HSS-brace-01-v2.html
   title: 'T30 v2: HSS Brace'
 next_page:
-  url: /tension/T30/HSS-brace-01-v4
+  url: /tension/T30/HSS-brace-01-v4.html
   title: 'T30 v4: HSS Brace'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
-
 # Example T30 v3: HSS Brace Analysis
 The photo shows the end details of a typical brace in a 4-storey steel structure.  This was photographed in Ottawa, in September, 2015.
 

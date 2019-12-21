@@ -13,6 +13,7 @@ next_page:
   title: 'Tension Members'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 ## Programming Style
 
 This book is intended to teach 3rd year Civil Engineering students about the design

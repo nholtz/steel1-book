@@ -13,6 +13,7 @@ next_page:
   title: 'T20: W Brace'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 # Example T15: Tension Member -  Angle Bolted Through One Leg
 
 Calculate factored tension resistance, $T_r$, of a single angle bolted through one leg.

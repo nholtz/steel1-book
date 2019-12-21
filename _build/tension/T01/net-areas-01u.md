@@ -13,6 +13,7 @@ next_page:
   title: 'T10: Lap Splice'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 # Example T01u: Net Areas of Plates with Staggered Holes
 
 Determine the net areas to be used when finding the factored tension resistance of the following

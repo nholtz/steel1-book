@@ -13,6 +13,7 @@ next_page:
   title: 'T15: Angle, Bolted One Leg'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 # Example T10: Tension Member Lap Splice
 Compute the factored tension resistance, $T_r$, of the following plate tension member, lap splice and fasteners.
 Ignore the connection details at the far ends of the member (not shown).  Bolts are 3/4" A325 in a
@@ -227,11 +228,12 @@ REC(Tr,'Gross area yield, centre plate','Ag,Fy')
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Gross area yield, centre plate: Tr = 2362 kN
        (Ag=7500mm², Fy=350MPa)
 ```
+
 </div>
 </div>
 </div>
@@ -259,11 +261,12 @@ REC(Tr,'Net section fracture, centre plate','wn,An,Ane,Tr,Fu')
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Net section fracture, centre plate: Tr = 1924 kN
        (wn=228mm, An=5700mm², Ane=5700mm², Fu=450MPa)
 ```
+
 </div>
 </div>
 </div>
@@ -311,11 +314,12 @@ REC(Tr,'Block Shear Pattern 1 - centre plate','Ut,An,Agv,Tr');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Block Shear Pattern 1 - centre plate: Tr = 2526 kN
        (Ut=1.0, An=3750mm², Agv=7000mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -337,11 +341,12 @@ REC(Tr,'Block Shear Pattern 2 - centre plate','Ut,An,Agv,Tr');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Block Shear Pattern 2 - centre plate: Tr = 2156 kN
        (Ut=0.6, An=4425mm², Agv=7000mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -361,11 +366,12 @@ REC(Tr,'Block Shear Pattern 3 - centre plate','Ut,An,Agv,Tr');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Block Shear Pattern 3 - centre plate: Tr = 1465 kN
        (Ut=0.6, An=4125mm², Agv=3500mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -384,11 +390,12 @@ REC(Tr,'Block Shear Pattern 4 - centre plate','Ut,An,Agv,Tr');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Block Shear Pattern 4 - centre plate: Tr = 3780 kN
        (Ut=0, An=0mm², Agv=21000mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -413,11 +420,12 @@ REC(Tr,'Gross area yield, two side plates','Ag,Tr');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Gross area yield, two side plates: Tr = 1940 kN
        (Ag=3080mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -437,11 +445,12 @@ REC(Tr,'Net section fracture, two side plates','wn,An,Ane,Tr');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Net section fracture, two side plates: Tr = 1399 kN
        (wn=148mm, An=2072mm², Ane=2072mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -466,11 +475,12 @@ REC(Tr,'Block Shear Pattern 1 - two side plates','Ut,An,Agv,Tr');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Block Shear Pattern 1 - two side plates: Tr = 2476 kN
        (Ut=1.0, An=2100mm², Agv=2940mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -492,11 +502,12 @@ REC(Tr,'Block Shear Pattern 2 - two side plates','Ut,An,Agv,Tr');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Block Shear Pattern 2 - two side plates: Tr = 1608 kN
        (Ut=0.6, An=1358mm², Agv=2940mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -516,11 +527,12 @@ REC(Tr,'Block Shear Pattern 3 - two side plates','Ut,An,Agv,Tr');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Block Shear Pattern 3 - two side plates: Tr = 1238 kN
        (Ut=0.6, An=1750mm², Agv=1470mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -539,11 +551,12 @@ REC(Tr,'Block Shear Pattern 4 - two side plates','Ut,An,Agv,Tr');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Block Shear Pattern 4 - two side plates: Tr = 3175 kN
        (Ut=0, An=0mm², Agv=8820mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -572,11 +585,12 @@ REC(Vr,'Shear resistance of bolts','n,m,Ab');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
-    Shear resistance of bolts: Tr = 948.1 kN
+    Shear resistance of bolts: Tr = 948.1 kN    <<<--- GOVERNS
        (n=6, m=2, Ab=285.0mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -596,11 +610,12 @@ REC(Br,'Bearing resistance at bolt holes','n,D,t,Fu');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Bearing resistance at bolt holes: Tr = 3086 kN
        (n=6, D=19.05mm, t=25mm, Fu=450MPa)
 ```
+
 </div>
 </div>
 </div>
@@ -636,7 +651,7 @@ Values of Tr:
     Block Shear Pattern 2 - two side plates: Tr = 1610 kN
     Block Shear Pattern 3 - two side plates: Tr = 1240 kN
     Block Shear Pattern 4 - two side plates: Tr = 3180 kN
-    Shear resistance of bolts:               Tr = 948 kN  <-- governs
+    Shear resistance of bolts:               Tr = 948 kN    <<<--- GOVERNS
     Bearing resistance at bolt holes:        Tr = 3090 kN
 
     Governing Value:

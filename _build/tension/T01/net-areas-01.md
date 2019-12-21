@@ -13,6 +13,7 @@ next_page:
   title: 'T01 v2: Net Areas (notebook with units)'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 # Example T01: Net Areas of Plates with Staggered Holes
 
 Please note that the following type of hole pattern rarely occurs in practice -- practical patterns are more regular and 'grid-like'.  This example illustrates:

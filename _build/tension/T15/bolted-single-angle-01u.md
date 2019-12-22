@@ -232,18 +232,6 @@ CHK(end_distance >= min_end_distance,
 ```
 </div>
 </div>
-<div class="output_wrapper" markdown="1">
-<div class="output_subarea" markdown="1">
-
-
-{:.output_data_text}
-```
-True
-```
-
-
-</div>
-</div>
 </div>
 
 ## Strength Calculations
@@ -275,11 +263,12 @@ REC(phi*Ag*Fy*n,'Gross area yield','Ag,Fy,n');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Gross area yield: Tr = 1068 kN
        (Ag=3390mm², Fy=350MPa, n=1)
 ```
+
 </div>
 </div>
 </div>
@@ -304,11 +293,12 @@ REC(phiu*Ane*Fu*n,'Net area fracture','Ag,An,Ane,n');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Net area fracture: Tr = 750.7 kN
        (Ag=3390mm², An=2780mm², Ane=2224mm², n=1)
 ```
+
 </div>
 </div>
 </div>
@@ -338,11 +328,12 @@ REC(n*phiu*(Ut*An*Fu + 0.6*Agv*Fv),'Block shear (case 1)','d,g1,Ut,An,Agv,n');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Block shear (case 1): Tr = 792.4 kN
        (d=178.0mm, g1=65mm, Ut=0.6, An=977.9mm², Agv=3302mm², n=1)
 ```
+
 </div>
 </div>
 </div>
@@ -361,11 +352,12 @@ if Nrows > 1:
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Block shear (case 2): Tr = 1333 kN
        (Ut=0.6, An=711.2mm², Agv=6604mm², n=1)
 ```
+
 </div>
 </div>
 </div>
@@ -383,11 +375,12 @@ REC(phiu*(Ut*An*Fu + 0.6*Agv*Fv),'Block shear (tearout)','Ut,An,Agv,n');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Block shear (tearout): Tr = 2377 kN
        (Ut=0, An=0mm², Agv=13210mm², n=1)
 ```
+
 </div>
 </div>
 </div>
@@ -416,11 +409,12 @@ REC(Vr,'Bolt Shear','multiplier,m,nbolts,Ab,Fu')
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
-    Bolt Shear: Tr = 632.1 kN
+    Bolt Shear: Tr = 632.1 kN    <<<--- GOVERNS
        (multiplier=0.7, m=1, nbolts=8, Ab=285.0mm², Fu=825MPa)
 ```
+
 </div>
 </div>
 </div>
@@ -439,11 +433,12 @@ REC(Br,'Bolt Bearing','nbolts,t,db,Fu,nangles');
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Bolt Bearing: Tr = 2090 kN
        (nbolts=8, t=12.7mm, db=19.05mm, Fu=450MPa, nangles=1)
 ```
+
 </div>
 </div>
 </div>
@@ -466,11 +461,12 @@ REC(Tr2+Br,'Bolt bearing + end tearout',nbolts=n,d=db,t=t,Agv=Agv,Tr2=Tr2,Br=Br)
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Bolt bearing + end tearout: Tr = 1888 kN
        (nbolts=6, d=19.05mm, t=12.7mm, Agv=1778mm², Tr2=320.0kN, Br=1568kN)
 ```
+
 </div>
 </div>
 </div>
@@ -497,11 +493,12 @@ if Nrows > 1:
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Bolt bearing + end block shear (case 2): Tr = 1872 kN
        (g2=80mm, ha=24mm, t=12.7mm, An=711.2mm², Ut=0.6, Agv=889.0mm², db=19.05mm, Tr2=304.0kN, Br=1568kN)
 ```
+
 </div>
 </div>
 </div>
@@ -543,7 +540,7 @@ Values of Tr:
     Block shear (case 1):                    Tr = 792 kN
     Block shear (case 2):                    Tr = 1330 kN
     Block shear (tearout):                   Tr = 2380 kN
-    Bolt Shear:                              Tr = 632 kN  <-- governs
+    Bolt Shear:                              Tr = 632 kN    <<<--- GOVERNS
     Bolt Bearing:                            Tr = 2090 kN
     Bolt bearing + end tearout:              Tr = 1890 kN
     Bolt bearing + end block shear (case 2): Tr = 1870 kN

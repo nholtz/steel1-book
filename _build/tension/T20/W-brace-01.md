@@ -13,6 +13,7 @@ next_page:
   title: 'T30 v1: HSS Brace'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 # Example T20: W Brace with Reduced cross-section
 
 This example shows the computation of the factored tension resistance of a W shape used as a tension
@@ -30,7 +31,7 @@ Note that this was given as problem PA2, Jan 22, 2015.
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
 ```python
-from Designer import show, DesignNotes, SST, Part
+from Designer import show, DesignNotes, SST, CMPart as Part
 ```
 </div>
 
@@ -134,17 +135,17 @@ with Angles:
 {:.output_stream}
 ```
 grade = CSA G40.21 350W 
-Fy    = 350             MPa
-Fu    = 450             MPa
-size  = L102x76x13      
-d     = 102             mm
-b     = 76.2            mm
-t     = 12.7            mm
-Ag    = 2100            mm²
-g1    = 65              mm
-g2    = 45              mm
-s     = 80              mm
-ha    = 24              mm
+Fy    = 350        MPa
+Fu    = 450        MPa
+size  = L102x76x13 
+d     = 102        mm
+b     = 76.2       mm
+t     = 12.7       mm
+Ag    = 2100       mm²
+g1    = 65         mm
+g2    = 45         mm
+s     = 80         mm
+ha    = 24         mm
 ```
 </div>
 </div>
@@ -222,11 +223,12 @@ with Angles:
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
-    Net section fracture, 4 angles: Tr = 1837 kN
+    Net section fracture, 4 angles: Tr = 1837 kN    <<<--- GOVERNS
        (An=1701mm², Ane=1361mm², Fu=450MPa)
 ```
+
 </div>
 </div>
 </div>
@@ -245,11 +247,12 @@ with Angles:
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Gross section yield, 4 angles: Tr = 2646 kN
        (Ag=2100mm², Fy=350MPa)
 ```
+
 </div>
 </div>
 </div>
@@ -271,11 +274,12 @@ with Angles:
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Block shear, 4 angles: Tr = 2522 kN
        (Ut=0.3, An=243.8mm², Agv=3366mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -347,11 +351,12 @@ with Angles,WShape:
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Net section fracture, W shape: Tr = 2982 kN
        (Ag=8550mm², ha=24mm, w=8.9mm, tp=8mm, An=10390mm², Ane=8836mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -371,11 +376,12 @@ with WShape:
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Gross section yield, W shape: Tr = 1875 kN
        (Agr=6038mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -398,11 +404,12 @@ with Angles,WShape:
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Block shear, W shape: Tr = 3125 kN
        (T=24.9mm, Ut=1.0, An=2266mm², Agv=13200mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -424,11 +431,12 @@ with WShape:
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Tearout, W shape: Tr = 4721 kN
        (Ut=1.0, An=0mm², Agv=26390mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -457,7 +465,7 @@ Checks:
 
 Values of Tr:
 -------------
-    Net section fracture, 4 angles: Tr = 1840 kN  <-- governs
+    Net section fracture, 4 angles: Tr = 1840 kN    <<<--- GOVERNS
     Gross section yield, 4 angles:  Tr = 2650 kN
     Block shear, 4 angles:          Tr = 2520 kN
     Net section fracture, W shape:  Tr = 2980 kN

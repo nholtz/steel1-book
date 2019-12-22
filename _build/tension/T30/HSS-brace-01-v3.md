@@ -13,6 +13,7 @@ next_page:
   title: 'T30 v4: HSS Brace'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
 # Example T30 v3: HSS Brace Analysis
 The photo shows the end details of a typical brace in a 4-storey steel structure.  This was photographed in Ottawa, in September, 2015.
 
@@ -195,11 +196,12 @@ with GussetPlate('W,W2,theta,D'),Welds('Xu'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Gusset to HSS Weld: Tr = 2008 kN
        (W=280mm, W2=110mm, L1=308.0mm, L=506.0mm, D=8mm, theta=45.0, Aw=5724mm², Mw=1.0, phiw=0.67, Vr=2008000MPa·mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -225,11 +227,12 @@ with Bolts('nlines,nperline,g,s,ha'),GussetPlate('W,e,T,Fy,Fu'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Gusset Block Shear Case 1): Tr = 1516 kN
        (Ut=1.0, An=2040mm², Agv=4600mm², Fy=350MPa, Fu=450MPa, Vr=1516000MPa·mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -251,11 +254,12 @@ with Bolts('nlines,nperline,g,s,ha'),GussetPlate('W,e,T,Fy,Fu'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Gusset Block Shear Case 2): Tr = 1251 kN
        (edge=65.0mm, Ut=0.8, An=3100mm², Agv=2300mm², Vr=1251000MPa·mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -274,11 +278,12 @@ with Bolts('nlines,nperline,s'),GussetPlate('e,T,Fy,Fu'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Gusset tearout: Tr = 2484 kN
        (Agv=13800mm², Vr=2484000MPa·mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -318,11 +323,12 @@ with LapPlates('W,T,Fy'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Lap Plates, Gross Yield: Tr = 1449 kN
        (W=230mm, T=20.0mm, Ag=4600mm², Fy=350MPa, phi=0.9)
 ```
+
 </div>
 </div>
 </div>
@@ -342,11 +348,12 @@ with LapPlates('W,T,Fu'),Bolts('nperline,ha'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Lap Plates, Net Fracture: Tr = 1066 kN
        (W=230mm, T=20.0mm, ha=24mm, wn=158mm, phiu=0.75, Ane=3160mm², Fu=450MPa)
 ```
+
 </div>
 </div>
 </div>
@@ -368,11 +375,12 @@ with LapPlates('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Lap Plates, Block Shear Case 1): Tr = 1516 kN
        (An=2040mm², Agv=4600mm², Ut=1.0, Fy=350MPa, Fu=450MPa, Vr=1516000MPa·mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -394,11 +402,12 @@ with LapPlates('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Lap Plates, Block Shear Case 2): Tr = 1116 kN
        (W=230mm, T=20.0mm, edge=40.0mm, An=2600mm², Agv=2300mm², Ut=0.8, Vr=1116000MPa·mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -419,11 +428,12 @@ with LapPlates('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Lap Plates, Block Shear Case 3): Tr = 1261 kN
        (An=2140mm², Agv=4600mm², Ut=0.6, Vr=1261000MPa·mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -444,11 +454,12 @@ with LapPlates('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Lap Plates, tearout: Tr = 2484 kN
        (Agv=13800mm², Vr=2484000MPa·mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -489,11 +500,12 @@ with TonguePlate('W,T,Fy'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Tongue Plate, Gross Yield: Tr = 1764 kN
        (W=280mm, T=20mm, Ag=5600mm², Fy=350MPa)
 ```
+
 </div>
 </div>
 </div>
@@ -513,11 +525,12 @@ with TonguePlate('W,T,Fu'),Bolts('ha,nperline'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Tongue Plate, Bolted End, Net Section Fracture: Tr = 1404 kN
        (W=280mm, T=20mm, wn=208mm, Ane=4160mm², Fu=450MPa)
 ```
+
 </div>
 </div>
 </div>
@@ -538,11 +551,12 @@ with TonguePlate('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Tongue Plate, Block Shear Case 1): Tr = 1516 kN
        (An=2040mm², Agv=4600mm², Ut=1.0, Fy=350MPa, Fu=450MPa, Vr=1516000MPa·mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -564,11 +578,12 @@ with TonguePlate('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Tongue Plate, Block Shear Case 2): Tr = 1251 kN
        (edge=65.0mm, An=3100mm², Agv=2300mm², Ut=0.8, Vr=1251000MPa·mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -589,11 +604,12 @@ with TonguePlate('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Tongue Plate, Block Shear Case 3): Tr = 1464 kN
        (An=3140mm², Agv=4600mm², Ut=0.6, Vr=1464000MPa·mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -614,11 +630,12 @@ with TonguePlate('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Tongue Plate tearout: Tr = 2484 kN
        (Agv=13800mm², Vr=2484000MPa·mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -651,11 +668,12 @@ with TonguePlate('W,w2=Dh,L=Lw,T,Fu'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Tongue Plate, Welded End, Net Section Fracture: Tr = 1144 kN
        (w2=127.0mm, w3=76.5mm, An2=1500mm², An3=944.8mm², Ane=3390mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -683,11 +701,12 @@ with Bolts('d,Fu,threads_intercepted,s,nlines,nperline'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Bolts in Shear: Tr = 948.1 kN
        (n=6, m=2, d=19.05mm, Ab=285.0mm², Fu=825MPa, Vr=948100MPa·mm²)
 ```
+
 </div>
 </div>
 </div>
@@ -707,11 +726,12 @@ with Bolts('d,nlines,nperline'),TonguePlate('Fu'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     Bolts in Bearing: Tr = 2469 kN
        (n=6, t=20mm, d=19.05mm, Fu=450MPa)
 ```
+
 </div>
 </div>
 </div>
@@ -733,11 +753,12 @@ with TonguePlate('L=Lw,D'),Welds('Xu,matching'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
-    Fillet Weld (HSS to Plate): Tr = 497.6 kN
+    Fillet Weld (HSS to Plate): Tr = 497.6 kN    <<<--- GOVERNS
        (D=8mm, L=100mm, Aw=2262mm², Xu=490MPa)
 ```
+
 </div>
 </div>
 </div>
@@ -769,11 +790,12 @@ with HSS('D,th=T,A,Fyh=Fy,Fuh=Fu'),CoverPlate('tp=T,wp=W,Fyp=Fy,Fup=Fu'),TongueP
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     HSS Net Section Fracture: Tr = 1422 kN
        (xbar=40.71mm, Lw=100mm, D=127.0mm, th=12.7mm, A=5390mm², Ag=6590mm², An=6082mm², Ane=4214mm², Fu=450MPa)
 ```
+
 </div>
 </div>
 </div>
@@ -793,11 +815,12 @@ with HSS('A,Fy'):
 
 <div class="output_wrapper" markdown="1">
 <div class="output_subarea" markdown="1">
-{:.output_stream}
+{:.output_data_text}
 ```
     HSS Gross Section Yield: Tr = 1698 kN
        (Ag=5390mm², Fy=350MPa)
 ```
+
 </div>
 </div>
 </div>
@@ -985,7 +1008,7 @@ Values of Tr:
     Tongue Plate, Welded End, Net Section Fracture: Tr = 1140 kN
     Bolts in Shear:                                 Tr = 948 kN
     Bolts in Bearing:                               Tr = 2470 kN
-    Fillet Weld (HSS to Plate):                     Tr = 498 kN  <-- governs
+    Fillet Weld (HSS to Plate):                     Tr = 498 kN    <<<--- GOVERNS
     HSS Net Section Fracture:                       Tr = 1420 kN
     HSS Gross Section Yield:                        Tr = 1700 kN
 

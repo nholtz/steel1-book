@@ -20,57 +20,73 @@
 
 # Top-level page
 - title: Steel Design
-  url: steel_1
+  url: /steel_1
   not_numbered: true
 
 # Adds a searchbar link
-- title: Search
-  search: true
-
-# Divider for meta-pages and content page
-- divider: true
-
-- title: Programming Style
-  url: Programming-Style
-  not_numbered: True
+#- title: Search
+#  search: true
 
 # Add a header and sample content section
 - header: Steel I Notes
 
 # A chapter w/ a collection of sections beneath it
 - title: Tension Members
-  url: tension/tension
-  expand_sections: false
+  url: /text/tension/tension
+  not_numbered: true
+  expand_sections: true
   sections:
   - title: Procedures
-    url: tension/procedure_01
+    url: /text/tension/procedure_01
   - title: Example Problems
-    url: tension/example_problems_01
+    url: /text/tension/example_problems_01
     subsections:
-    - title: "T01 v1: Net Areas (traditional)"
-      url: tension/T01/net-areas-01
+    - title: "T01 v1: Net Areas"
+      url: /text/tension/T01/net-areas-01
       not_numbered: True
+
+- divider: true
+
+- header: Notebooks (Optional)
+
+- title: Tension Members
+  url: /notebooks/tension/tension
+  not_numbered: true
+  expand_sections: true
+  sections:
+  - title: Example Problems
+    url: /notebooks/tension/example_problems_01
+    subsections:
     - title: "T01 v2: Net Areas (notebook with units)"
-      url: tension/T01/net-areas-01u
+      url: /notebooks/tension/T01/net-areas-01u
       not_numbered: True
     - title: "T10: Lap Splice"
-      url: tension/T10/lap-splice-01
+      url: /notebooks/tension/T10/lap-splice-01
       not_numbered: True
     - title: "T15: Angle, Bolted One Leg"
-      url: tension/T15/bolted-single-angle-01u
+      url: /notebooks/tension/T15/bolted-single-angle-01u
       not_numbered: True
     - title: "T20: W Brace"
-      url: tension/T20/W-brace-01
+      url: /notebooks/tension/T20/W-brace-01
       not_numbered: True
     - title: "T30 v1: HSS Brace"
-      url: tension/T30/HSS-brace-01-v1
+      url: /notebooks/tension/T30/HSS-brace-01-v1
       not_numbered: True
     - title: "T30 v2: HSS Brace"
-      url: tension/T30/HSS-brace-01-v2
+      url: /notebooks/tension/T30/HSS-brace-01-v2
       not_numbered: True
     - title: "T30 v3: HSS Brace"
-      url: tension/T30/HSS-brace-01-v3
+      url: /notebooks/tension/T30/HSS-brace-01-v3
       not_numbered: True
     - title: "T30 v4: HSS Brace"
-      url: tension/T30/HSS-brace-01-v4
+      url: /notebooks/tension/T30/HSS-brace-01-v4
       not_numbered: True
+
+- divider: true
+
+- header: Geek (Really Optional)
+
+- title: Programming Style
+  url: /notebooks/Programming-Style
+  not_numbered: True
+

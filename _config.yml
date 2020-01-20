@@ -22,8 +22,8 @@ email: neal.holtz@carleton.ca
 description: >-
   This is an example book built with Jupyter Books.
 
-baseurl: /               # the subpath of your site, e.g. /blog. If there is no subpath for your site, use an empty string ""
-url: http://www.nealholtz.ca/dontknowyet              # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: /steel1-book/               # the subpath of your site, e.g. /blog. If there is no subpath for your site, use an empty string ""
+url: http://holtz3.cee.carleton.ca              # the base hostname & protocol for your site, e.g. http://example.com
 
 
 #######################################################################################
@@ -35,8 +35,8 @@ use_hide_code_button: true        # If True, a small button appears to the right
 # Sidebar settings
 show_sidebar: true                # Show the sidebar. Only set to false if your only wish to host a single page.
 collapse_inactive_chapters: true  # Whether to collapse the inactive chapters in the sidebar
-textbook_logo: images/logo/logo.png               # A logo to be displayed at the top of your textbook sidebar
-textbook_logo_link: https://jupyter.org/jupyter-book/                    # A link for the logo.
+textbook_logo: images/logo/bolt-feather.jpg               # A logo to be displayed at the top of your textbook sidebar
+textbook_logo_link: https://holtz3.cee.carleton.ca/steel1-book/                    # A link for the logo.
 sidebar_footer_text: Powered by <a href="https://github.com/jupyter/jupyter-book">Jupyter Book</a>
 number_toc_chapters: true         # Whether to add numbers to chapterse in your Table of Contents. If true, you can control this at the Chapter level in _data/toc.yml
 
@@ -72,7 +72,7 @@ codemirror_theme: abcdef                     # Theme for codemirror cells, for o
 use_show_widgets_button: false                # If 'true', display a button to allow in-page running code cells with nbinteract
 
 # Download settings
-use_download_button: true                # If 'true', display a button to download a zip file for the notebook
+use_download_button: false                # If 'true', display a button to download a zip file for the notebook
 download_button_text: Download                # The text that download buttons will contain
 
 #######################################################################################

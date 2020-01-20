@@ -8,6 +8,7 @@ help:
 	@echo "  runall      to run all notebooks in-place, capturing outputs with the notebook"
 	@echo "  serve       to serve the repository locally with Jekyll"
 	@echo "  site        to build the site HTML locally with Jekyll and store in _site/"
+	@echo "  cuserver    to build the site HTML locally in _site and xfer to cu server/"
 
 
 install:
@@ -30,6 +31,9 @@ build:
 	bundle exec jekyll build
 	touch _site/.nojekyll
 
-site:
+site:	book
 	bundle exec jekyll build
 	touch _site/.nojekyll
+
+cuserver: site
+	rsync -av --delete-delay _site holtz3.cee.carleton.ca:/files/www/html/cive3205/steel1-book/

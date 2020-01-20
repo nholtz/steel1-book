@@ -19,7 +19,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 Calculate factored tension resistance, $T_r$, of a single angle bolted through one leg.
 Assume 3/4" ASTM A325 bolts in 22mm punched holes, and CSA G40.21 350W steel.
 
-![Angle bolted through one leg](/images/tension/T15/bolted-single-angle.svg)
+![Angle bolted through one leg](../../../images/tension/T15/bolted-single-angle.svg)
 
 _Note:_ The figure shows 2 rows of 4 bolts through one leg.  The logic below works for
 1 or 2 rows and almost any number of bolts per row.  It also works for 1 or 2 angles, back-to-back.

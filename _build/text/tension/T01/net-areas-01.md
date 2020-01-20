@@ -31,7 +31,7 @@ following attributes:
 In the following example, we will assume M20 bolts in punched holes, and thus the hole
 allowance is $20~\mathrm{mm}+2~\mathrm{mm}+2~\mathrm{mm} = 24~\mathrm{mm}$.
 
-![Lap PLate Connection](/images/tension/T01/lap-plates-1.svg)
+![Lap PLate Connection](../../../images/tension/T01/lap-plates-1.svg)
 
 **Lap Plate Connection**
 
@@ -41,7 +41,7 @@ The  shows the paths appropriate for investigating the strength of the outside (
 For this case, the loaded side of the connection is toward the right side, and so there are
 no complete holes on that side of any path.
 
-![Failure Paths for Net Area Calculations, Outside (10mm) plates](/images/tension/T01/paths-1.svg "Failure Paths for Net Area Calculations, Outside (10mm) plates")
+![Failure Paths for Net Area Calculations, Outside (10mm) plates](../../../images/tension/T01/paths-1.svg "Failure Paths for Net Area Calculations, Outside (10mm) plates")
 
 **Failure Paths for Net Area Calculations, Outside (10mm) plates**
 
@@ -65,7 +65,7 @@ $w_n = 210 - 3\times24 + \frac{55^2}{4\times50} + \frac{50^2}{4\times45} = 167.0
 
 $A_n = 167.0 \times 10 \times 2 = 3340^2~\mathrm{mm}^2\hskip{2in}\leftarrow \mathrm{governs.}$
 
-### Path 1-4:
+### Paths 1-4 and 3-4:
 
 Adding the fourth bolt to each of the above paths will reduce the net width by $24~\mathrm{mm}$
 for the hole, then
@@ -86,7 +86,7 @@ for the pair of 10mm plates.
 The following figure  shows the possible failure paths for calculating the strength of the 20mm plate.
 For this case, the loaded side is toward the left.
 
-![Failure Paths for Net Area Calculations, Inside (20mm) plate](/images/tension/T01/paths-2.svg)
+![Failure Paths for Net Area Calculations, Inside (20mm) plate](../../../images/tension/T01/paths-2.svg)
 
 **Failure Paths for Net Area Calculations, Inside (20mm) plate**
 

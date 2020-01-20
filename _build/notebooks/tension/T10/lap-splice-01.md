@@ -19,7 +19,7 @@ Compute the factored tension resistance, $T_r$, of the following plate tension m
 Ignore the connection details at the far ends of the member (not shown).  Bolts are 3/4" A325 in a
 bearing-type connection, in 22mm punched holes (assume threads intercepted).  The plates are of CSA G40.21 350W steel.
 
-![Lap Splice](/images/tension/T10/lap-splice-01.svg)
+![Lap Splice](../../../images/tension/T10/lap-splice-01.svg)
 
 ## Import and Setup Library Modules
 
@@ -209,7 +209,7 @@ end  = 30 mm
 ## Factored Resistance
 
 ### Main plate
-![Main Plate](/images/tension/T10/lap-splice-01-main.svg)
+![Main Plate](../../../images/tension/T10/lap-splice-01-main.svg)
 
 #### Yield on Gross Area
 
@@ -401,7 +401,7 @@ REC(Tr,'Block Shear Pattern 4 - centre plate','Ut,An,Agv,Tr');
 </div>
 
 ### Lap Plates
-![Lap Plate](/images/tension/T10/lap-splice-01-side.svg)
+![Lap Plate](../../../images/tension/T10/lap-splice-01-side.svg)
 
 The side plates have similar failure modes and so will be computed here without much additional comment.  In all cases we will use the dimensions of a single plate, then will multiply the resistance by 2 to
 account for the two plates.
@@ -457,7 +457,7 @@ REC(Tr,'Net section fracture, two side plates','wn,An,Ane,Tr');
 
 #### Block Shear
 
-![Block Shear Patterns](/images/tension/T10/lap-splice-01-side-blocks.svg)
+![Block Shear Patterns](../../../images/tension/T10/lap-splice-01-side-blocks.svg)
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">

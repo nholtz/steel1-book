@@ -22,7 +22,7 @@ shown.  Note that the upper left brace has the flange tips removed from the W-sh
 ductility under seismic forces).  We will compute the strength of a brace similar to that shown
 in the photo.
 
-![Cross Braces](/images/tension/T20/DSC6443-small.jpg)
+![Cross Braces](../../../images/tension/T20/DSC6443-small.jpg)
 
 Note that this was given as problem PA2, Jan 22, 2015.
 
@@ -67,13 +67,13 @@ CHECK = notes.check
 
 Compute the factored tension resistance, $T_r$, of the following assembly.  Steel is G40.21 350W and bolts are 3/4" ASTM A325 in 22mm punched holes.
 
-![End Details](/images/tension/T20/brace1.svg)
+![End Details](../../../images/tension/T20/brace1.svg)
 
 Note that 40mm is cut from each flange tip of the W250x67.
 
 ## Angles
 
-![Angle Details](/images/tension/T20/angle.svg)
+![Angle Details](../../../images/tension/T20/angle.svg)
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -286,7 +286,7 @@ with Angles:
 
 ## Tr for W Shape
 
-![W Shape](/images/tension/T20//w.svg)
+![W Shape](../../../images/tension/T20//w.svg)
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">

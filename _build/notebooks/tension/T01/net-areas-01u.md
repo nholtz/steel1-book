@@ -19,7 +19,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 Determine the net areas to be used when finding the factored tension resistance of the following
 plate lap joint.  The net areas may be different for the central (20 mm) and side (10 mm) plates, so determine both.
 
-![Lap PLate Connection](/images/tension/T01/lap-plates-1.svg)
+![Lap PLate Connection](../../../images/tension/T01/lap-plates-1.svg)
 
 **Lap Plate Connection**
 
@@ -65,7 +65,7 @@ The  shows the paths appropriate for investigating the strength of the outside (
 For this case, the loaded side of the connection is toward the right side, and so there are
 no complete holes on that side of any path.
 
-![Failure Paths for Net Area Calculations, Outside (10mm) plates](/images/tension/T01/paths-1i.svg "Failure Paths for Net Area Calculations, Outside (10mm) plates")
+![Failure Paths for Net Area Calculations, Outside (10mm) plates](../../../images/tension/T01/paths-1i.svg "Failure Paths for Net Area Calculations, Outside (10mm) plates")
 
 **Failure Paths for Net Area Calculations, Outside (10mm) plates**
 
@@ -265,7 +265,7 @@ An
 The following figure  shows the possible failure paths for calculating the strength of the 20mm plate.
 For this case, the loaded side is toward the left.
 
-![Failure Paths for Net Area Calculations, Inside (20mm) plate](/images/tension/T01/paths-2i.svg)
+![Failure Paths for Net Area Calculations, Inside (20mm) plate](../../../images/tension/T01/paths-2i.svg)
 
 **Failure Paths for Net Area Calculations, Inside (20mm) plate**
 

@@ -19,9 +19,9 @@ The photo shows the end details of a typical brace in a 4-storey steel structure
 
 This notebook shows the computations necessary to compute the factored tension resistance, $T_r$, for a similar brace.  **Note**, all of the dimensions and properties were invented by the author of this notebook; no attempt has been made to have an accurate model of the real structure.
 
-![Brace End Details](/images/tension/T30/brace.jpg)
+![Brace End Details](../../../images/tension/T30/brace.jpg)
 
-![Overall Sketch](/images/tension/T30/brace-sketch.svg)
+![Overall Sketch](../../../images/tension/T30/brace-sketch.svg)
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -175,7 +175,7 @@ s    = 75    mm
 TBD: Here we should check all spacings, edge distances, etc.
 
 ## Gusset Plate
-![Gusset Plate Details](/images/tension/T30/gusset-details.svg)
+![Gusset Plate Details](../../../images/tension/T30/gusset-details.svg)
 
 ### Gusset to HSS Weld
 
@@ -293,7 +293,7 @@ with Bolts('nlines,nperline,s'),GussetPlate('e,T,Fy,Fu'):
 Consider the thickness of both plates together when computing the resistance.
 As the plate is symmetric, we only have to investigate one end.
 
-![Lap Plate Details](/images/tension/T30/lap-plate-details.svg)
+![Lap Plate Details](../../../images/tension/T30/lap-plate-details.svg)
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -466,7 +466,7 @@ with LapPlates('T,e,W,Fy,Fu'),Bolts('ha,nperline,nlines,s,g'):
 
 ## Tongue Plate
 ### Tongue Plate Details
-![Tongue Plate Details](/images/tension/T30/tongue-plate-details.svg)
+![Tongue Plate Details](../../../images/tension/T30/tongue-plate-details.svg)
 
 <div markdown="1" class="cell code_cell">
 <div class="input_area" markdown="1">
@@ -764,7 +764,7 @@ with TonguePlate('L=Lw,D'),Welds('Xu,matching'):
 </div>
 
 ## HSS + Cover Plate
-![HSS Details](/images/tension/T30/hss-details.svg)
+![HSS Details](../../../images/tension/T30/hss-details.svg)
 
 ### Net Section Fracture
 

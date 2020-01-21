@@ -46,6 +46,12 @@
     - title: "T01 v1: Net Areas"
       url: /text/tension/T01/net-areas-01
       not_numbered: True
+    - title: "TPS-1: Net Areas"
+      url: /text/tension/TPS-1
+      not_numbered: true
+    - title: "TPS-2: Tension Strength"
+      url: /text/tension/TPS-2
+      not_numbered: true
 
 - divider: true
 

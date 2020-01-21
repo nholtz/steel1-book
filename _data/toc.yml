@@ -65,8 +65,11 @@
   - title: Example Problems
     url: /notebooks/tension/example_problems_01
     subsections:
-    - title: "T01 v2: Net Areas (notebook with units)"
+    - title: "T01 v2: Net Areas (with units)"
       url: /notebooks/tension/T01/net-areas-01u
+      not_numbered: True
+    - title: "T01 v2: Net Areas TEST (with units)"
+      url: /notebooks/tension/T01/test-net-areas-01u
       not_numbered: True
     - title: "T10: Lap Splice"
       url: /notebooks/tension/T10/lap-splice-01

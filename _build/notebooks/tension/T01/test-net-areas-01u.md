@@ -1,25 +1,63 @@
 ---
 redirect_from:
-  - "/notebooks/tension/t01/net-areas-01u"
-interact_link: content/notebooks/tension/T01/net-areas-01u.ipynb
+  - "/notebooks/tension/t01/test-net-areas-01u"
+interact_link: content/notebooks/tension/T01/test-net-areas-01u.ipynb
 kernel_name: python3
 has_widgets: false
-title: 'T01 v2: Net Areas (with units)'
+title: 'T01 v2: Net Areas TEST (with units)'
 prev_page:
-  url: /notebooks/tension/example_problems_01.html
-  title: 'Example Problems'
+  url: /notebooks/tension/T01/net-areas-01u.html
+  title: 'T01 v2: Net Areas (with units)'
 next_page:
-  url: /notebooks/tension/T01/test-net-areas-01u.html
-  title: 'T01 v2: Net Areas TEST (with units)'
+  url: /notebooks/tension/T10/lap-splice-01.html
+  title: 'T10: Lap Splice'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
+
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+import os.path
+from IPython.display import SVG
+
+def fig(pathname):
+    try:
+        with open("IMAGEPATH","r") as ip:
+            pfx = ip.readline()
+            pathname = os.path.join(pfx.strip(),pathname)
+    except:
+        raise
+    try:
+        with open(pathname,"rb") as inf:
+            svgdata = inf.read()
+            display(SVG(svgdata))
+    except:
+        raise
+```
+</div>
+
+</div>
 
 # Example T01u: Net Areas of Plates with Staggered Holes
 
 Determine the net areas to be used when finding the factored tension resistance of the following
 plate lap joint.  The net areas may be different for the central (20 mm) and side (10 mm) plates, so determine both.
 
-![Lap PLate Connection](../../../text/tension/T01/lap-plates-1.svg)
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+fig("lap-plates-1.svg")
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+![svg](../../../images/notebooks/tension/T01/test-net-areas-01u_2_0.svg)
+
+</div>
+</div>
+</div>
 
 **Lap Plate Connection**
 
@@ -65,7 +103,21 @@ The  shows the paths appropriate for investigating the strength of the outside (
 For this case, the loaded side of the connection is toward the right side, and so there are
 no complete holes on that side of any path.
 
-![Failure Paths for Net Area Calculations, Outside (10mm) plates](../../../text/tension/T01/paths-1i.svg "Failure Paths for Net Area Calculations, Outside (10mm) plates")
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+fig("paths-1i.svg")
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+![svg](../../../images/notebooks/tension/T01/test-net-areas-01u_8_0.svg)
+
+</div>
+</div>
+</div>
 
 **Failure Paths for Net Area Calculations, Outside (10mm) plates**
 
@@ -265,7 +317,21 @@ An
 The following figure  shows the possible failure paths for calculating the strength of the 20mm plate.
 For this case, the loaded side is toward the left.
 
-![Failure Paths for Net Area Calculations, Inside (20mm) plate](../../../text/tension/T01/paths-2i.svg)
+<div markdown="1" class="cell code_cell">
+<div class="input_area" markdown="1">
+```python
+fig("paths-2i.svg")
+```
+</div>
+
+<div class="output_wrapper" markdown="1">
+<div class="output_subarea" markdown="1">
+
+![svg](../../../images/notebooks/tension/T01/test-net-areas-01u_25_0.svg)
+
+</div>
+</div>
+</div>
 
 **Failure Paths for Net Area Calculations, Inside (20mm) plate**
 

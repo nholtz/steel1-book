@@ -7,7 +7,7 @@ prev_page:
   title: 'Tension Members'
 next_page:
   url: /notebooks/tension/T01/net-areas-01u.html
-  title: 'T01 v2: Net Areas (notebook with units)'
+  title: 'T01 v2: Net Areas (with units)'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 # Tension Members - Example Problems

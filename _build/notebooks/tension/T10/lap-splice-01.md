@@ -6,8 +6,8 @@ kernel_name: python3
 has_widgets: false
 title: 'T10: Lap Splice'
 prev_page:
-  url: /notebooks/tension/T01/net-areas-01u.html
-  title: 'T01 v2: Net Areas (notebook with units)'
+  url: /notebooks/tension/T01/test-net-areas-01u.html
+  title: 'T01 v2: Net Areas TEST (with units)'
 next_page:
   url: /notebooks/tension/T15/bolted-single-angle-01u.html
   title: 'T15: Angle, Bolted One Leg'

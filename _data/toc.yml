@@ -38,6 +38,8 @@
   sections:
   - title: Procedures
     url: /text/tension/procedure_01
+  - title: In-Class Problems
+    url: /text/tension/inclass/inclass_problems
   - title: Example Problems
     url: /text/tension/example_problems_01
     subsections:

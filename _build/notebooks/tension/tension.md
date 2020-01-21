@@ -1,8 +1,8 @@
 ---
 title: 'Tension Members'
 prev_page:
-  url: /text/tension/T01/net-areas-01.html
-  title: 'T01 v1: Net Areas'
+  url: /text/tension/TPS-2.html
+  title: 'TPS-2: Tension Strength'
 next_page:
   url: /notebooks/tension/example_problems_01.html
   title: 'Example Problems'

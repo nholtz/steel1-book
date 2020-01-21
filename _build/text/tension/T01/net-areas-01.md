@@ -9,12 +9,21 @@ prev_page:
   url: /text/tension/example_problems_01.html
   title: 'Example Problems'
 next_page:
-  url: /notebooks/tension/tension.html
-  title: 'Tension Members'
+  url: /text/tension/TPS-1.html
+  title: 'TPS-1: Net Areas'
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
 # Example T01: Net Areas of Plates with Staggered Holes
+
+---
+
+**Revisions:**
+
+* 2020-01-21: Notation change $w_n$ to $w_{ne}$ (most places) so as to be more in line with S16 use of $w_n$.
+* 2020-01-21: Corrected $A_n$ for [Path 3-3:](#path-3-3)
+
+---
 
 Please note that the following type of hole pattern rarely occurs in practice -- practical patterns are more regular and 'grid-like'.  This example illustrates:
 * how failure patterns depend on the direction of the load relative to the hole group.
@@ -47,23 +56,23 @@ no complete holes on that side of any path.
 
 ### Path 1-1:
 
-$w_n = 210~\mathrm{mm} - 24~\mathrm{mm} = 186~\mathrm{mm}$
+$w_{ne} = 210~\mathrm{mm} - 24~\mathrm{mm} = 186~\mathrm{mm}$
 
-$A_n = w_n t = 186~\mathrm{mm} \times 10~\mathrm{mm} \times 2 = 3720~\mathrm{mm}^2$
+$A_n = w_{ne} t = 186~\mathrm{mm} \times 10~\mathrm{mm} \times 2 = 3720~\mathrm{mm}^2$
 
 ### Path 2-2:
 
-$w_n = w - \sum d + \sum{s^2\over 4g}$
+$w_{ne} = w - \sum d + \sum{s^2\over 4g}$
 
-$w_n = 210 - 2\times24 + {50^2\over 4\times45} = 175.9~\mathrm{mm}$
+$w_{ne} = 210 - 2\times24 + {50^2\over 4\times45} = 175.9~\mathrm{mm}$
 
 $A_n = 175.9 \times 10 \times 2 = 3520~\mathrm{mm}^2$
 
 ### Path 3-3:
 
-$w_n = 210 - 3\times24 + \frac{55^2}{4\times50} + \frac{50^2}{4\times45} = 167.0~\mathrm{mm}$
+$w_{ne} = 210 - 3\times24 + \frac{55^2}{4\times50} + \frac{50^2}{4\times45} = 167.0~\mathrm{mm}$
 
-$A_n = 167.0 \times 10 \times 2 = 3340^2~\mathrm{mm}^2\hskip{2in}\leftarrow \mathrm{governs.}$
+$A_n = 167.0 \times 10 \times 2 = 3340~\mathrm{mm}^2\hskip{2in}\leftarrow \mathrm{governs.}$
 
 ### Paths 1-4 and 3-4:
 
@@ -92,21 +101,21 @@ For this case, the loaded side is toward the left.
 
 ### Path 1-1:
 
-$w_n = 210~\mathrm{mm} - 24~\mathrm{mm} = 186~\mathrm{mm}$
+$w_{ne} = 210~\mathrm{mm} - 24~\mathrm{mm} = 186~\mathrm{mm}$
 
-$A_n = w_n t = 186~\mathrm{mm} \times 20~\mathrm{mm} = 3720~\mathrm{mm}^2$
+$A_n = w_{ne} t = 186~\mathrm{mm} \times 20~\mathrm{mm} = 3720~\mathrm{mm}^2$
 
 ### Path 2-2:
 
-$w_n = 210 - 2\times24 + {50^2\over4\times50} = 174.5~\mathrm{mm}$
+$w_{ne} = 210 - 2\times24 + {50^2\over4\times50} = 174.5~\mathrm{mm}$
 
-$A_n = w_n t = 174.5~\mathrm{mm} \times 20~\mathrm{mm} = 3490~\mathrm{mm}^2$
+$A_n = w_{ne} t = 174.5~\mathrm{mm} \times 20~\mathrm{mm} = 3490~\mathrm{mm}^2$
 
 ### Path 2-3:
 
-$w_n = 210 - 3\times24 + {50^2\over4\times50} + {50^2\over4\times95}  = 157.1~\mathrm{mm}$
+$w_{ne} = 210 - 3\times24 + {50^2\over4\times50} + {50^2\over4\times95}  = 157.1~\mathrm{mm}$
 
-$A_n = w_n t = 157.1~\mathrm{mm} \times 20~\mathrm{mm} = 3140~\mathrm{mm}^2\hskip{2in}\leftarrow \mathrm{governs.}$
+$A_n = w_{ne} t = 157.1~\mathrm{mm} \times 20~\mathrm{mm} = 3140~\mathrm{mm}^2\hskip{2in}\leftarrow \mathrm{governs.}$
 
 ### Path 1-3:
 

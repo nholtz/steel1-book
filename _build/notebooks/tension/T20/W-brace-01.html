@@ -1,0 +1,879 @@
+---
+redirect_from:
+  - "/notebooks/tension/t20/w-brace-01"
+interact_link: content/notebooks/tension/T20/W-brace-01.ipynb
+kernel_name: python3
+kernel_path: content/notebooks/tension/T20
+has_widgets: false
+title: |-
+  T20: W Brace
+pagenum: 15
+prev_page:
+  url: /notebooks/tension/T15/bolted-single-angle-01u.html
+next_page:
+  url: /notebooks/tension/T30/HSS-brace-01-v1.html
+suffix: .ipynb
+search: w tension section t brace shape note images bolts factored shown flange mm details svg angles check flanges gross yield shear example cross resistance following photo braces tips compute small problem tr angle bolt fit gusset thickness net fracture block between not reduced shows computation used member lateral building such upper left removed ensure ductility under seismic forces strength similar dsc jpg given pa jan load setup library modules statement assembly steel g astm punched holes end cut tip wx done spacings edge distances within need tearout summary detailing bearing weld reinforcing plates web plate allow too little notes should
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">T20: W Brace</div>
+</div>
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Example-T20:-W-Brace-with-Reduced-cross-section">Example T20: W Brace with Reduced cross-section<a class="anchor-link" href="#Example-T20:-W-Brace-with-Reduced-cross-section"> </a></h1><p>This example shows the computation of the factored tension resistance of a W shape used as a tension
+member in a lateral brace in a building such as that shown in the following photo.  There are 4 braces
+shown.  Note that the upper left brace has the flange tips removed from the W-shape (to ensure 
+ductility under seismic forces).  We will compute the strength of a brace similar to that shown
+in the photo.</p>
+<p><img src="../../../images/tension/T20/DSC6443-small.jpg" alt="Cross Braces"></p>
+<p>Note that this was given as problem PA2, Jan 22, 2015.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Load-and-Setup-the-Library-Modules">Load and Setup the Library Modules<a class="anchor-link" href="#Load-and-Setup-the-Library-Modules"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">Designer</span> <span class="k">import</span> <span class="n">show</span><span class="p">,</span> <span class="n">DesignNotes</span><span class="p">,</span> <span class="n">SST</span><span class="p">,</span> <span class="n">CMPart</span> <span class="k">as</span> <span class="n">Part</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pint</span>                  <span class="c1"># setup to use the module for computing with units</span>
+<span class="n">ureg</span> <span class="o">=</span> <span class="n">pint</span><span class="o">.</span><span class="n">UnitRegistry</span><span class="p">()</span>
+<span class="n">mm</span> <span class="o">=</span> <span class="n">ureg</span><span class="p">[</span><span class="s1">&#39;mm&#39;</span><span class="p">]</span>
+<span class="n">inch</span> <span class="o">=</span> <span class="n">ureg</span><span class="p">[</span><span class="s1">&#39;inch&#39;</span><span class="p">]</span>
+<span class="n">kN</span> <span class="o">=</span> <span class="n">ureg</span><span class="p">[</span><span class="s1">&#39;kN&#39;</span><span class="p">]</span>
+<span class="n">MPa</span> <span class="o">=</span> <span class="n">ureg</span><span class="p">[</span><span class="s1">&#39;MPa&#39;</span><span class="p">]</span>
+<span class="n">ureg</span><span class="o">.</span><span class="n">default_format</span> <span class="o">=</span> <span class="s1">&#39;~P&#39;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">notes</span> <span class="o">=</span> <span class="n">DesignNotes</span><span class="p">(</span><span class="s1">&#39;Tr&#39;</span><span class="p">,</span><span class="n">trace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">units</span><span class="o">=</span><span class="n">kN</span><span class="p">)</span>      <span class="c1"># initial the note/record keeping object</span>
+<span class="n">RECORD</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">record</span>     <span class="c1"># useful abbreviations</span>
+<span class="n">CHECK</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">check</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Problem-Statement">Problem Statement<a class="anchor-link" href="#Problem-Statement"> </a></h2><p>Compute the factored tension resistance, $T_r$, of the following assembly.  Steel is G40.21 350W and bolts are 3/4" ASTM A325 in 22mm punched holes.</p>
+<p><img src="../../../images/tension/T20/brace1.svg" alt="End Details"></p>
+<p>Note that 40mm is cut from each flange tip of the W250x67.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Angles">Angles<a class="anchor-link" href="#Angles"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="../../../images/tension/T20/angle.svg" alt="Angle Details"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Bolts</span> <span class="o">=</span> <span class="n">Part</span><span class="p">(</span> <span class="s2">&quot;Bolts&quot;</span><span class="p">,</span>
+            <span class="n">grade</span> <span class="o">=</span> <span class="s1">&#39;ASTM A325&#39;</span><span class="p">,</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="s1">&#39;3/4&quot;&#39;</span><span class="p">,</span>
+            <span class="n">bd</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="o">*</span><span class="n">inch</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">mm</span><span class="p">),</span>
+            <span class="n">Fub</span> <span class="o">=</span> <span class="mi">825</span><span class="o">*</span><span class="n">MPa</span><span class="p">,</span>
+            <span class="p">)</span>
+<span class="n">Bolts</span><span class="o">.</span><span class="n">Ab</span> <span class="o">=</span> <span class="mf">3.14159</span><span class="o">*</span><span class="n">Bolts</span><span class="o">.</span><span class="n">bd</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mf">4.</span>
+
+<span class="k">with</span> <span class="n">Bolts</span><span class="p">:</span>
+    <span class="n">show</span><span class="p">(</span><span class="s1">&#39;grade,size,bd,Fub,Ab&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>grade = ASTM A325 
+size  = 3/4&#34;      
+bd    = 19.05     mm
+Fub   = 825       MPa
+Ab    = 285       mm²
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Fy</span> <span class="o">=</span> <span class="mi">350</span>
+<span class="n">Fu</span> <span class="o">=</span> <span class="mi">450</span>
+<span class="n">d</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">Ag</span><span class="p">,</span><span class="n">Dsg</span> <span class="o">=</span> <span class="n">SST</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s1">&#39;L102x76x13&#39;</span><span class="p">,</span><span class="s1">&#39;D,B,T,A,Dsg&#39;</span><span class="p">)</span>
+<span class="n">Angles</span> <span class="o">=</span> <span class="n">Part</span><span class="p">(</span> <span class="s2">&quot;Angles&quot;</span><span class="p">,</span>
+              <span class="n">grade</span> <span class="o">=</span> <span class="s1">&#39;CSA G40.21 350W&#39;</span><span class="p">,</span>
+              <span class="n">Fy</span> <span class="o">=</span> <span class="mi">350</span><span class="o">*</span><span class="n">MPa</span><span class="p">,</span>
+              <span class="n">Fu</span> <span class="o">=</span> <span class="mi">450</span><span class="o">*</span><span class="n">MPa</span><span class="p">,</span>
+              <span class="n">size</span> <span class="o">=</span> <span class="n">Dsg</span><span class="p">,</span>
+              <span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+              <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+              <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+              <span class="n">Ag</span> <span class="o">=</span> <span class="n">Ag</span><span class="o">*</span><span class="n">mm</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+              <span class="n">ha</span> <span class="o">=</span> <span class="p">(</span><span class="mi">22</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>  <span class="c1"># hole allowance  - punched holes</span>
+              <span class="n">g1</span> <span class="o">=</span> <span class="mi">65</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>      <span class="c1"># gauge, longer leg</span>
+              <span class="n">g2</span> <span class="o">=</span> <span class="mi">45</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>      <span class="c1"># gauge, shorter leg</span>
+              <span class="n">s</span> <span class="o">=</span> <span class="mi">80</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>       <span class="c1"># dist between innermost holes on each end</span>
+             <span class="p">)</span>
+<span class="k">with</span> <span class="n">Angles</span><span class="p">:</span>
+    <span class="n">show</span><span class="p">(</span><span class="s1">&#39;grade,Fy,Fu,size,d,b,t,Ag,g1,g2,s,ha&#39;</span><span class="p">,</span><span class="nb">object</span><span class="o">=</span><span class="n">Angles</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>grade = CSA G40.21 350W 
+Fy    = 350        MPa
+Fu    = 450        MPa
+size  = L102x76x13 
+d     = 102        mm
+b     = 76.2       mm
+t     = 12.7       mm
+Ag    = 2100       mm²
+g1    = 65         mm
+g2    = 45         mm
+s     = 80         mm
+ha    = 24         mm
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Check-Details-(TO-BE-DONE!)">Check Details (TO BE DONE!)<a class="anchor-link" href="#Check-Details-(TO-BE-DONE!)"> </a></h3><ul>
+<li>Bolt spacings, edge distances</li>
+<li>Fit within flanges (need gusset thickness)</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">CHECK</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span><span class="s1">&#39;Bolting and fitting details have not been checked.&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>    Bolting and fitting details have not been checked.?  NG! *****
+      ()
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Net-Section-Fracture:">Net Section Fracture:<a class="anchor-link" href="#Net-Section-Fracture:"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Angles</span><span class="p">:</span>
+    <span class="c1"># gross width = &quot;flattened&quot; width of angle:</span>
+    <span class="n">wg</span> <span class="o">=</span> <span class="n">d</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">t</span>
+
+    <span class="c1"># failure path 1-1: 1 hole</span>
+    <span class="n">wn1</span> <span class="o">=</span> <span class="n">wg</span> <span class="o">-</span> <span class="mi">1</span><span class="o">*</span><span class="n">ha</span>
+
+    <span class="c1"># failure path 2-2: 2 holes</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">g1</span> <span class="o">+</span> <span class="n">g2</span> <span class="o">-</span> <span class="n">t</span>
+    <span class="n">wn2</span> <span class="o">=</span> <span class="n">wg</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">ha</span> <span class="o">+</span> <span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">g</span><span class="p">)</span>
+
+    <span class="n">wn</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">wn1</span><span class="p">,</span><span class="n">wn2</span><span class="p">)</span>
+    <span class="n">show</span><span class="p">(</span><span class="s1">&#39;wg,g,s,wn1,wn2,wn&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>wg  = 165.5 mm
+g   = 97.3  mm
+s   = 80    mm
+wn1 = 141.5 mm
+wn2 = 133.9 mm
+wn  = 133.9 mm
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Angles</span><span class="p">:</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="n">wn</span><span class="o">*</span><span class="n">t</span>
+    <span class="n">Ane</span> <span class="o">=</span> <span class="mf">0.8</span><span class="o">*</span><span class="n">An</span>   <span class="c1"># S16-14: 12.3.3.2 (b) (i) - connected 1 leg 4 lines of bolts</span>
+    <span class="n">phiu</span> <span class="o">=</span> <span class="mf">0.75</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="mf">4.</span> <span class="o">*</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">Fu</span>    <span class="c1"># S16-14: 13.2 a) iii)</span>
+    <span class="n">RECORD</span><span class="p">(</span><span class="n">Tr</span><span class="p">,</span><span class="s1">&#39;Net section fracture, 4 angles&#39;</span><span class="p">,</span><span class="s1">&#39;An,Ane,Tr,Fu&#39;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Net section fracture, 4 angles: Tr = 1837 kN    &lt;&lt;&lt;--- GOVERNS
+       (An=1701mm², Ane=1361mm², Fu=450MPa)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Gross-Section-Yield:">Gross Section Yield:<a class="anchor-link" href="#Gross-Section-Yield:"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Angles</span><span class="p">:</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="mf">0.9</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="mf">4.</span> <span class="o">*</span> <span class="n">phi</span><span class="o">*</span><span class="n">Ag</span><span class="o">*</span><span class="n">Fy</span>    <span class="c1"># S16-14: 13.2 a) i)</span>
+    <span class="n">RECORD</span><span class="p">(</span><span class="n">Tr</span><span class="p">,</span><span class="s1">&#39;Gross section yield, 4 angles&#39;</span><span class="p">,</span><span class="s1">&#39;Ag,Fy,Tr&#39;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Gross section yield, 4 angles: Tr = 2646 kN
+       (Ag=2100mm², Fy=350MPa)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Block-Shear">Block Shear<a class="anchor-link" href="#Block-Shear"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Angles</span><span class="p">:</span>
+    <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">40</span><span class="o">*</span><span class="n">mm</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="mi">75</span><span class="o">*</span><span class="n">mm</span><span class="p">)</span><span class="o">*</span><span class="n">t</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">d</span><span class="o">-</span><span class="n">g1</span><span class="p">,</span><span class="n">b</span><span class="o">-</span><span class="n">g2</span><span class="p">)</span> <span class="o">-</span> <span class="n">ha</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span><span class="o">*</span><span class="n">t</span>
+    <span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">phiu</span> <span class="o">=</span> <span class="mf">0.75</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="mf">4.</span> <span class="o">*</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+    <span class="n">RECORD</span><span class="p">(</span><span class="n">Tr</span><span class="p">,</span><span class="s1">&#39;Block shear, 4 angles&#39;</span><span class="p">,</span><span class="s1">&#39;Ut,An,Agv,Tr&#39;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Block shear, 4 angles: Tr = 2522 kN
+       (Ut=0.3, An=243.8mm², Agv=3366mm²)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Tr-for-W-Shape">Tr for W Shape<a class="anchor-link" href="#Tr-for-W-Shape"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="../../../images/tension/T20//w.svg" alt="W Shape"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Ag</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">Dsg</span> <span class="o">=</span> <span class="n">SST</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s1">&#39;W250x67&#39;</span><span class="p">,</span><span class="n">properties</span><span class="o">=</span><span class="s1">&#39;A,B,D,T,W,Dsg&#39;</span><span class="p">)</span>
+
+<span class="n">WShape</span> <span class="o">=</span> <span class="n">Part</span><span class="p">(</span> <span class="s2">&quot;WShape&quot;</span><span class="p">,</span>
+            <span class="n">grade</span> <span class="o">=</span> <span class="s1">&#39;ASTM A992&#39;</span><span class="p">,</span>
+             <span class="n">Fy</span> <span class="o">=</span> <span class="mi">345</span><span class="o">*</span><span class="n">MPa</span><span class="p">,</span>
+             <span class="n">Fu</span> <span class="o">=</span> <span class="mi">450</span><span class="o">*</span><span class="n">MPa</span><span class="p">,</span>
+             <span class="n">size</span> <span class="o">=</span> <span class="n">Dsg</span><span class="p">,</span>
+             <span class="n">Ag</span> <span class="o">=</span> <span class="n">Ag</span><span class="o">*</span><span class="n">mm</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+             <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+             <span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+             <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+             <span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>
+              <span class="n">wp</span> <span class="o">=</span> <span class="mi">190</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>          <span class="c1"># width of web reinforcing PL</span>
+              <span class="n">tp</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>            <span class="c1"># thickness of web reinforcing PL</span>
+              <span class="n">wc</span> <span class="o">=</span> <span class="mi">40</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span>           <span class="c1"># width cut from flange tips</span>
+             <span class="p">)</span>
+
+<span class="k">with</span> <span class="n">WShape</span><span class="p">:</span>
+    <span class="n">show</span><span class="p">(</span><span class="s1">&#39;grade,size,Fy,Fy,Ag,b,d,t,w,wp,tp,wc&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>grade = ASTM A992 
+size  = W250x67   
+Fy    = 345       MPa
+Fy    = 345       MPa
+Ag    = 8550      mm²
+b     = 204       mm
+d     = 257       mm
+t     = 15.7      mm
+w     = 8.9       mm
+wp    = 190       mm
+tp    = 8         mm
+wc    = 40        mm
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Net-section-fracture">Net section fracture<a class="anchor-link" href="#Net-section-fracture"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Path 1-1: net = gross  +  plates  -  holes</span>
+<span class="k">with</span> <span class="n">Angles</span><span class="p">,</span><span class="n">WShape</span><span class="p">:</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="n">Ag</span>  <span class="o">+</span>  <span class="mi">2</span><span class="o">*</span><span class="n">tp</span><span class="o">*</span><span class="n">wp</span>   <span class="o">-</span>  <span class="mi">2</span><span class="o">*</span><span class="n">ha</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">+</span><span class="n">tp</span><span class="o">+</span><span class="n">tp</span><span class="p">)</span>
+    <span class="n">Ane</span> <span class="o">=</span> <span class="mf">0.85</span><span class="o">*</span><span class="n">An</span>    <span class="c1"># S16-14: 12.3.3.2 (c) (i)</span>
+    <span class="n">phiu</span> <span class="o">=</span> <span class="mf">0.75</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">Fu</span>
+    <span class="n">RECORD</span><span class="p">(</span><span class="n">Tr</span><span class="p">,</span><span class="s1">&#39;Net section fracture, W shape&#39;</span><span class="p">,</span><span class="s1">&#39;Ag,ha,w,tp,An,Ane,Tr&#39;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Net section fracture, W shape: Tr = 2982 kN
+       (Ag=8550mm², ha=24mm, w=8.9mm, tp=8mm, An=10390mm², Ane=8836mm²)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Gross-section-yield">Gross section yield<a class="anchor-link" href="#Gross-section-yield"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">WShape</span><span class="p">:</span>
+    <span class="n">Agr</span> <span class="o">=</span> <span class="n">Ag</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">wc</span><span class="o">*</span><span class="n">t</span>   <span class="c1"># reduced area due to flange cuts</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="mf">0.9</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Fy</span><span class="o">*</span><span class="n">Agr</span>     <span class="c1"># S16-14: 13.2 a) i)</span>
+    <span class="n">RECORD</span><span class="p">(</span><span class="n">Tr</span><span class="p">,</span><span class="s1">&#39;Gross section yield, W shape&#39;</span><span class="p">,</span><span class="s1">&#39;Agr,Tr&#39;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Gross section yield, W shape: Tr = 1875 kN
+       (Agr=6038mm²)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Block-Shear">Block Shear<a class="anchor-link" href="#Block-Shear"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">Angles</span><span class="p">,</span><span class="n">WShape</span><span class="p">:</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">w</span> <span class="o">+</span> <span class="n">tp</span> <span class="o">+</span> <span class="n">tp</span>          <span class="c1"># thickness of web + reinforcing plates</span>
+    <span class="n">Agv</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">40</span><span class="o">*</span><span class="n">mm</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="mi">75</span><span class="o">*</span><span class="n">mm</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="n">g2</span> <span class="o">+</span> <span class="n">g2</span> <span class="o">+</span> <span class="mi">25</span><span class="o">*</span><span class="n">mm</span> <span class="o">-</span> <span class="n">ha</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>   <span class="c1"># estimate 25mm spacing between angles (gusset thickness)</span>
+    <span class="n">Ut</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">phiu</span> <span class="o">=</span> <span class="mf">0.75</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>       <span class="c1"># S16-14: 13.11</span>
+    <span class="n">RECORD</span><span class="p">(</span><span class="n">Tr</span><span class="p">,</span><span class="s1">&#39;Block shear, W shape&#39;</span><span class="p">,</span><span class="s1">&#39;T,Ut,An,Agv,Tr&#39;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Block shear, W shape: Tr = 3125 kN
+       (T=24.9mm, Ut=1.0, An=2266mm², Agv=13200mm²)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Tearout">Tearout<a class="anchor-link" href="#Tearout"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">WShape</span><span class="p">:</span>
+    <span class="n">Agv</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="mi">40</span><span class="o">*</span><span class="n">mm</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="mi">75</span><span class="o">*</span><span class="n">mm</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">mm</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">Ut</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">phiu</span> <span class="o">=</span> <span class="mf">0.75</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>       <span class="c1"># S16-14: 13.11</span>
+    <span class="n">notes</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">Tr</span><span class="p">,</span><span class="s1">&#39;Tearout, W shape&#39;</span><span class="p">,</span><span class="s1">&#39;Ut,An,Agv,Tr&#39;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Tearout, W shape: Tr = 4721 kN
+       (Ut=1.0, An=0mm², Agv=26390mm²)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Summary">Summary<a class="anchor-link" href="#Summary"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">notes</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Summary of DesignNotes for Tr
+=============================
+
+Checks:
+-------
+    Bolting and fitting details have not been checked.?   NG! *****
+      ()
+
+Values of Tr:
+-------------
+    Net section fracture, 4 angles: Tr = 1840 kN    &lt;&lt;&lt;--- GOVERNS
+    Gross section yield, 4 angles:  Tr = 2650 kN
+    Block shear, 4 angles:          Tr = 2520 kN
+    Net section fracture, W shape:  Tr = 2980 kN
+    Gross section yield, W shape:   Tr = 1870 kN
+    Block shear, W shape:           Tr = 3130 kN
+    Tearout, W shape:               Tr = 4720 kN
+
+    Governing Value:
+    ----------------
+       Tr = 1840 kN
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="To-do:">To do:<a class="anchor-link" href="#To-do:"> </a></h2><ul>
+<li>check bolt detailing</li>
+<li>check fit of angles between flanges</li>
+<li>bolts, shear</li>
+<li>bolts, bearing</li>
+<li>weld, reinforcing plates to web</li>
+<li>thickness of gusset plate. Bolts allow 100-45-45 = 10mm.  too little.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Notes">Notes<a class="anchor-link" href="#Notes"> </a></h2><ul>
+<li>Note that gross section yield of the W should govern, but it does not by a small margin.  One thing to try would be slightly larger angles. Perhaps L127x76x13 (which would not require any additional space between flanges).  Or could shave a few more millimeters from flange tips.  Of course, all this has to be compared with factored applied loads.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

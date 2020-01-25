@@ -53,51 +53,51 @@
 - divider: true
 
 # begin local
-- header: Notebooks (Optional)
-
-- title: Tension Members
-  url: /notebooks/tension/tension
-  expand_sections: false
-  sections:
-  - title: Procedures
-    url: /notebooks/tension/procedure_01
-  - title: Example Problems
-    url: /notebooks/tension/example_problems_01
-    subsections:
-    - title: "T01: Net Areas (with units)"
-      url: /notebooks/tension/T01/net-areas-01u
-    - title: "T10: Lap Splice"
-      url: /notebooks/tension/T10/lap-splice-01
-    - title: "T15: Angle, Bolted One Leg"
-      url: /notebooks/tension/T15/bolted-single-angle-01u
-    - title: "T20: W Brace"
-      url: /notebooks/tension/T20/W-brace-01
-    - title: "T30 v1: HSS Brace"
-      url: /notebooks/tension/T30/HSS-brace-01-v1
-    - title: "T30 v2: HSS Brace"
-      url: /notebooks/tension/T30/HSS-brace-01-v2
-    - title: "T30 v3: HSS Brace"
-      url: /notebooks/tension/T30/HSS-brace-01-v3
-    - title: "T30 v4: HSS Brace"
-      url: /notebooks/tension/T30/HSS-brace-01-v4
-
-- divider: true
-
-- header: Geek (Really Optional)
-
-- title: Programming Style
-  url: /notebooks/Programming-Style
-
-- divider: true
-
-- header: Experiments
-
-- title: Experimental Notebooks
-  url: /notebooks/experimental
-  sections:
-  - title: Tension Members
-    url: /notebooks/tension/experimental
-    subsections:
-    - title: "T01: Net Areas TEST (with units)"
-      url: /notebooks/tension/T01/test-net-areas-01u
+#- header: Notebooks (Optional)
+#
+#- title: Tension Members
+#  url: /notebooks/tension/tension
+#  expand_sections: false
+#  sections:
+#  - title: Procedures
+#    url: /notebooks/tension/procedure_01
+#  - title: Example Problems
+#    url: /notebooks/tension/example_problems_01
+#    subsections:
+#    - title: "T01: Net Areas (with units)"
+#      url: /notebooks/tension/T01/net-areas-01u
+#    - title: "T10: Lap Splice"
+#      url: /notebooks/tension/T10/lap-splice-01
+#    - title: "T15: Angle, Bolted One Leg"
+#      url: /notebooks/tension/T15/bolted-single-angle-01u
+#    - title: "T20: W Brace"
+#      url: /notebooks/tension/T20/W-brace-01
+#    - title: "T30 v1: HSS Brace"
+#      url: /notebooks/tension/T30/HSS-brace-01-v1
+#    - title: "T30 v2: HSS Brace"
+#      url: /notebooks/tension/T30/HSS-brace-01-v2
+#    - title: "T30 v3: HSS Brace"
+#      url: /notebooks/tension/T30/HSS-brace-01-v3
+#    - title: "T30 v4: HSS Brace"
+#      url: /notebooks/tension/T30/HSS-brace-01-v4
+#
+#- divider: true
+#
+#- header: Geek (Really Optional)
+#
+#- title: Programming Style
+#  url: /notebooks/Programming-Style
+#
+#- divider: true
+#
+#- header: Experiments
+#
+#- title: Experimental Notebooks
+#  url: /notebooks/experimental
+#  sections:
+#  - title: Tension Members
+#    url: /notebooks/tension/experimental
+#    subsections:
+#    - title: "T01: Net Areas TEST (with units)"
+#      url: /notebooks/tension/T01/test-net-areas-01u
 # end local

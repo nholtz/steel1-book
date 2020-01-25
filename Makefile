@@ -34,5 +34,12 @@ site:
 	bundle exec jekyll build
 	touch _site/.nojekyll
 
-cuserver: site
+cuserver: clean
+	python scripts/remove_local.py _data/toc.yml _data/cutoc.yml
+	cp -av _data/toc.yml _data/saved-toc.yml
+	cp -av _data/cutoc.yml _data/toc.yml
+	jupyter-book build ./
+	bundle exec jekyll build
+	touch _site/.nojekyll
+	mv -v _data/saved-toc.yml _data/toc.yml
 	rsync -av --delete-delay _site holtz3.cee.carleton.ca:/files/www/html/cive3205/steel1-book/

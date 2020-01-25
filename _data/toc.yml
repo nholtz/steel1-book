@@ -21,7 +21,6 @@
 # Top-level page
 - title: Steel Design
   url: /steel_1
-  not_numbered: true
 
 # Adds a searchbar link
 #- title: Search
@@ -33,7 +32,6 @@
 # A chapter w/ a collection of sections beneath it
 - title: Tension Members
   url: /text/tension/tension
-  not_numbered: true
   expand_sections: false
   sections:
   - title: Procedures
@@ -43,15 +41,14 @@
   - title: Example Problems
     url: /text/tension/example_problems_01
     subsections:
-    - title: "T01 v1: Net Areas"
+    - title: "T01: Net Areas"
       url: /text/tension/T01/net-areas-01
-      not_numbered: True
     - title: "TPS-1: Net Areas"
       url: /text/tension/TPS-1
-      not_numbered: true
     - title: "TPS-2: Tension Strength"
       url: /text/tension/TPS-2
-      not_numbered: true
+
+- divider: true
 
 - divider: true
 
@@ -59,7 +56,6 @@
 
 - title: Tension Members
   url: /notebooks/tension/tension
-  not_numbered: true
   expand_sections: false
   sections:
   - title: Procedures
@@ -67,33 +63,22 @@
   - title: Example Problems
     url: /notebooks/tension/example_problems_01
     subsections:
-    - title: "T01 v2: Net Areas (with units)"
+    - title: "T01: Net Areas (with units)"
       url: /notebooks/tension/T01/net-areas-01u
-      not_numbered: True
-    - title: "T01 v2: Net Areas TEST (with units)"
-      url: /notebooks/tension/T01/test-net-areas-01u
-      not_numbered: True
     - title: "T10: Lap Splice"
       url: /notebooks/tension/T10/lap-splice-01
-      not_numbered: True
     - title: "T15: Angle, Bolted One Leg"
       url: /notebooks/tension/T15/bolted-single-angle-01u
-      not_numbered: True
     - title: "T20: W Brace"
       url: /notebooks/tension/T20/W-brace-01
-      not_numbered: True
     - title: "T30 v1: HSS Brace"
       url: /notebooks/tension/T30/HSS-brace-01-v1
-      not_numbered: True
     - title: "T30 v2: HSS Brace"
       url: /notebooks/tension/T30/HSS-brace-01-v2
-      not_numbered: True
     - title: "T30 v3: HSS Brace"
       url: /notebooks/tension/T30/HSS-brace-01-v3
-      not_numbered: True
     - title: "T30 v4: HSS Brace"
       url: /notebooks/tension/T30/HSS-brace-01-v4
-      not_numbered: True
 
 - divider: true
 
@@ -101,5 +86,16 @@
 
 - title: Programming Style
   url: /notebooks/Programming-Style
-  not_numbered: True
 
+- divider: true
+
+- header: Experiments
+
+- title: Experimental Notebooks
+  url: /notebooks/experimental
+  sections:
+  - title: Tension Members
+    url: /notebooks/tension/experimental
+    subsections:
+    - title: "T01: Net Areas TEST (with units)"
+      url: /notebooks/tension/T01/test-net-areas-01u

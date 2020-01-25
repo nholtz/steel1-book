@@ -1,0 +1,9 @@
+From reverse engineering the build process, Jan 25, 2020, NMH.
+
+make book   - builds HTML files in _build, changing only those it thinks must be changed.
+make build  - does the some, overwrites everything
+
+make serve  - copies _build over to _site, changing some files, adding new ones, deleteing ~ files, start server
+make site   - does the same except doesn't start server
+              dir trees seem identical except for timestamps in files and
+	      _site/feed.xml and _feed/.nojekyll in the 'make site' tree

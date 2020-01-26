@@ -32,7 +32,6 @@
 # A chapter w/ a collection of sections beneath it
 - title: Tension Members
   url: /text/tension/tension
-  expand_sections: false
   sections:
   - title: Procedures
     url: /text/tension/procedure_01
@@ -55,9 +54,10 @@
 # begin local
 #- header: Notebooks (Optional)
 #
+#- title: Introduction
+#  url: /notebooks/introduction
 #- title: Tension Members
 #  url: /notebooks/tension/tension
-#  expand_sections: false
 #  sections:
 #  - title: Procedures
 #    url: /notebooks/tension/procedure_01
@@ -85,6 +85,8 @@
 #
 #- header: Geek (Really Optional)
 #
+#- title: Introduction
+#  url: /notebooks/programming
 #- title: Programming Style
 #  url: /notebooks/Programming-Style
 #

@@ -1,0 +1,11 @@
+In [1]: import pint
+In [2]: ureg = pint.UnitRegistry()
+In [3]: mm = ureg['mm']
+In [4]: MPa = ureg['MPa']
+In [6]: kN = ureg['kN']
+In [10]: ureg.default_format = '~P'
+In [11]: 300*mm**2 * 450*MPa
+Out[11]: 135000 MPa·mm²
+In [12]: _.to(kN)
+Out[12]: 135.0 kN
+

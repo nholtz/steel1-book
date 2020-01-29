@@ -37,15 +37,17 @@
     url: /text/tension/procedure_01
   - title: In-Class Problems
     url: /text/tension/inclass/inclass_problems
-  - title: Example Problems
+  - title: Examples and Solved Problems
     url: /text/tension/example_problems_01
     subsections:
-    - title: "T01: Net Areas"
+    - title: "T01: Net Areas in Plates"
       url: /text/tension/T01/net-areas-01
+    - title: "T09: Block Shear in Tees"
+      url: /text/tension/T09/tee-block-shear
     - title: "TPS-1: Net Areas"
-      url: /text/tension/TPS-1
-    - title: "TPS-2: Tension Strength"
-      url: /text/tension/TPS-2
+      url: /text/tension/TPS-1/TPS-1
+    - title: "TPS-2: Tension Resistance"
+      url: /text/tension/TPS-2/TPS-2
 
 - divider: true
 

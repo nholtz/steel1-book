@@ -1,0 +1,235 @@
+---
+redirect_from:
+  - "/text/tension/t09/tee-block-shear"
+interact_link: content/text/tension/T09/tee-block-shear.ipynb
+kernel_name: python3
+kernel_path: content/text/tension/T09
+has_widgets: false
+title: |-
+  T09: Block Shear in Tees
+pagenum: 8
+prev_page:
+  url: /text/tension/TPS-2.html
+next_page:
+  url: /notebooks/introduction.html
+suffix: .ipynb
+search: shear t failure case b align tee d flange tension block through es li target blank href area stem htmlbcase areas begin hd gv ut end bolt g w extending frac fillet figure holes patterns bolts surfaces cases root k connected following shows cross fail svg show models coloured ul below effect between hole tip opposite left right surface sections only structural via shaded volume portion section remain place held while remainder tears away under action force parallel direction load those perpendicular html pages above download interact displayed image views possible blue yellow orange light brown mkvbcase animated computing dimensions
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">T09: Block Shear in Tees</div>
+</div>
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="T09:-Block-Shear-Patterns-in-Flange-Connected-Tee-sections.">T09: Block Shear Patterns in Flange-Connected Tee sections.<a class="anchor-link" href="#T09:-Block-Shear-Patterns-in-Flange-Connected-Tee-sections."> </a></h1>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following figure shows block-shear failure patterns when only the flange
+of a structural tee is connected via bolts.  In each case in this figure, the shaded volume shows
+the portion of the cross-section that will remain in place, held by the bolts, while
+the remainder of the tee tears away under action of the tension force.  Surfaces that are parallel to the direction of the load fail in shear, those that are perpendicular fail in tension.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="tee-block-shear.svg" alt="Failure Cases"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following HTML pages show 3-D models for each of the above cases.  You may download these, then interact with
+the displayed image to see other views of the tee and the possible failure patterns.  In the 3-D models, shear failure
+surfaces are coloured blue and tension failure surfaces are coloured yellow/orange/light brown.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<UL>
+<li> <a target="_blank" href="3D/tee-block-shear-case-1.html"><b>Case 1</b></a>
+<li> <a target="_blank" href="3D/tee-block-shear-case-2.html"><b>Case 2</b></a>
+<li> <a target="_blank" href="3D/tee-block-shear-case-3.html"><b>Case 3</b></a>
+<li> <a target="_blank" href="3D/tee-block-shear-case-4.html"><b>Case 4</b></a>
+<li> <a target="_blank" href="3D/tee-block-shear-case-5.html"><b>Case 5</b></a>
+<li> <a target="_blank" href="3D/0068-0360.mkv"><b>Case 5 Animated</b></a>
+<li> <a target="_blank" href="3D/tee-block-shear-case-6.html"><b>Case 6</b></a>
+<li> <a target="_blank" href="3D/tee-block-shear-case-7.html"><b>Case 7</b></a>    
+</UL>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Computing-Areas">Computing Areas<a class="anchor-link" href="#Computing-Areas"> </a></h2><p>The figure below show the dimensions and nomenclature that will be used in the
+determination of the tension and shear areas for each of the cases.</p>
+<p><img src="tee-dimens.svg" alt="Figure"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Case-1">Case 1<a class="anchor-link" href="#Case-1"> </a></h3><p>Two shear failure areas through the flange, and two tension failures
+extending from the outside of the bolt holes to the flange tips.</p>
+$$
+\begin{align}
+A_n &amp;= t (b - (g + 2\frac{h_d}{2})) = t (b - g - h_d)\\
+A_{gv} &amp;= 2 (e+s) t\\
+U_t &amp;= 0.9\\
+\end{align}
+$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Case-2">Case 2<a class="anchor-link" href="#Case-2"> </a></h3><p>A shear failure area at the root of the web fillet and a tension failure area
+extending the width of the flange through two bolt holes.</p>
+$$
+\begin{align}
+A_n &amp;= A - (d-k) w - 2 h_d t\\
+A_{gv} &amp;= (e+s) w\\
+U_t &amp;= 1.0\\
+\end{align}
+$$<p>The tension area is calculated by deducting the stem area below the fillet from the total cross-sectional area (then subtracting the effect of the holes).  That way we 
+can properly included the effect of the stem-to-flange fillet.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Case-3">Case 3<a class="anchor-link" href="#Case-3"> </a></h3><p>Shear failure areas at the root of the flange-to-stem fillet, and through the flanges,  and a tension failure
+area between the bolt holes.</p>
+$$
+\begin{align}
+A_n &amp;= A - (d-k)w - (b-g)t - h_d t\\
+A_{gv} &amp;= (e+s)w + 2(e+s)t\\
+U_t &amp;= 1.0\\
+\end{align}
+$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Case-4">Case 4<a class="anchor-link" href="#Case-4"> </a></h3><p>Two shear failure areas through the flange, and a tension failure are between the bolts and extending downwards through the stem.</p>
+$$
+\begin{align}
+A_n &amp;= A - (b-g) t - h_d t\\
+A_{gv} &amp;= 2(e+s)t\\
+U_t &amp;= 0.6\\
+\end{align}
+$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Case-5">Case 5<a class="anchor-link" href="#Case-5"> </a></h3><p>One shear failure through flange, one through the stem at the root of the fillet, and
+a tension failure area extending from one bolt hole to the flange tip on the opposite side of the stem.</p>
+$$
+\begin{align}
+A_n &amp;= A - (d-k)w - \left(\frac{b}{2}-\frac{g}{2}\right) t - 1.5 h_d t\\
+A_{gv} &amp;= (e+s)w + (e+s)t\\
+U_t &amp;= 0.6\\
+\end{align}
+$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Case-6">Case 6<a class="anchor-link" href="#Case-6"> </a></h3><p>One shear failure through flange, and
+a tension failure area extending from one bolt hole to the flange tip on the opposite side of the stem and through the depth of the stem.</p>
+$$
+\begin{align}
+A_n &amp;= A - \left(\frac{b}{2}-\frac{g}{2}\right)t - 1.5 h_d t\\
+A_{gv} &amp;= (e+s)t\\
+U_t &amp;= 0.6\\
+\end{align}
+$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Case-7">Case 7<a class="anchor-link" href="#Case-7"> </a></h3><p>Commonly called 'tearout'.  Four shear surface areas, at the sides of each bolt line.  No tension surface areas.</p>
+$$
+\begin{align}
+A_n &amp;= 0\\
+A_{gv} &amp;= 4(e+s)t\\
+U_t &amp;=  n.a.\\
+\end{align}
+$$
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

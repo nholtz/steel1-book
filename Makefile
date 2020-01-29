@@ -22,7 +22,7 @@ runall:
 	jupyter-book run ./content
 
 clean:
-	python scripts/clean.py
+	python3 scripts/clean.py
 
 serve:
 	bundle exec guard
@@ -35,7 +35,7 @@ site:
 	touch _site/.nojekyll
 
 cuserver: 
-	python scripts/remove_local.py _data/toc.yml _data/cutoc.yml
+	python3 scripts/remove_local.py _data/toc.yml _data/cutoc.yml
 	cp -av _data/toc.yml _data/saved-toc.yml
 	cp -av _data/cutoc.yml _data/toc.yml
 	/bin/rm -rf _build.save _site.save

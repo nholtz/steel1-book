@@ -1,4 +1,61 @@
 /* Put your custom CSS here */
 .left {
     margin-left: 0px;
+    margin-right: 5px;
+    float: left;
+}
+
+/* ---- admonition start ---- */
+div.admonition {
+    border: 1pt solid #E5E5E5;
+    background-color: #F9F9FF;
+    color: black;
+    
+    margin: 10pt 30pt 10pt 30pt;
+    margin-top: 10px; /*to align text with bg graphic*/
+    background-repeat: no-repeat;
+    background-position: 8px 8px;
+    min-height: 64px; /*64=48+8+8 but doesn't work with IE*/
+padding-left: 64px;
+}
+
+div.tip::before {
+    font-weight: bold;
+content: "Tip:\a";
+white-space: pre;
+}
+
+div.note::before {
+    font-weight: bold;
+content: "Note:\a";
+white-space: pre;
+}
+
+div.important::before {
+    font-weight: bold;
+content: "Important!\a";
+white-space: pre;
+}
+
+div.caution::before {
+    font-weight: bold;
+content: "Caution!!\a";
+white-space: pre;
+}
+
+div.warning::before {
+    font-weight: bold;
+content: "Warning!!\a";
+white-space: pre;
+}
+
+div.tip { background-image: url("../images/admon-tip.png"); }
+div.note { background-image: url("../images/admon-note.png"); }
+div.important { background-image: url("../images/admon-important.png"); }
+div.caution { background-image: url("../images/admon-caution.png"); }
+div.warning { background-image: url("../images/admon-warning.png"); }
+/* ---- admonition end ---- */
+
+p img {
+    max-width: 900px;
 }

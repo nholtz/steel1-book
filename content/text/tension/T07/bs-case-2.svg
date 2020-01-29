@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.1"
+   id="svg2"
+   height="104.9165"
+   width="166.37093">
+  <script
+     xlink:href=""
+     id="script3033" />
+  <defs
+     id="defs4">
+    <marker
+       style="overflow:visible"
+       id="Arrow1Mend"
+       refX="0"
+       refY="0"
+       orient="auto">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;marker-start:none"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path3947" />
+    </marker>
+    <!-- markers by NMH <nholtz@cee.carleton.ca> -->
+    <marker
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="DimensionTick"
+       style="overflow:visible">
+      <path
+         d="M 0,0 8,8"
+         style="stroke:#4d4d4d;stroke-width:1px;marker-start:none"
+         transform="translate(-4,-4)"
+         id="path6" />
+    </marker>
+    <marker
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="TrussNodeS"
+       markerUnits="userSpaceOnUse"
+       style="overflow:visible">
+      <circle
+         cx="0"
+         cy="0"
+         r="3"
+         style="fill:#ffffff;stroke:#000000;stroke-width:1"
+         id="circle9" />
+    </marker>
+    <marker
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="TrussNodeM"
+       markerUnits="userSpaceOnUse"
+       style="overflow:visible">
+      <circle
+         cx="0"
+         cy="0"
+         r="4"
+         style="fill:#ffffff;stroke:#000000;stroke-width:1"
+         id="circle12" />
+    </marker>
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-nc/3.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-nc/3.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:prohibits
+           rdf:resource="http://creativecommons.org/ns#CommercialUse" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-388.5426,-406.58472)"
+     id="layer3">
+    <g
+       id="2channel-2"
+       transform="translate(0,-62.362)">
+      <g
+         id="g6116"
+         transform="translate(0,-89.613532)">
+        <rect
+           style="fill:#999999;fill-opacity:1;stroke:#ff0000;stroke-width:0.54000002;stroke-miterlimit:4;stroke-dasharray:1.62000001, 1.62000001;stroke-dashoffset:0"
+           id="rect6086"
+           width="45.058304"
+           height="23.567968"
+           x="404.77548"
+           y="576.81281"
+           ry="0"
+           rx="0" />
+        <rect
+           rx="0"
+           ry="0"
+           y="621.04572"
+           x="405.12552"
+           height="24.555311"
+           width="45.058304"
+           id="rect6042"
+           style="fill:#999999;fill-opacity:1;stroke:#ff0000;stroke-width:0.54000002;stroke-miterlimit:4;stroke-dasharray:1.62000001, 1.62000001;stroke-dashoffset:0" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.99000001;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 405,645.86695 H 540"
+           id="path6044" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.99000001;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 405,576.85703 H 540"
+           id="path6046" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.99000001;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 405,582.61943 H 536"
+           id="path6048" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.99000001;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="M 405,640.08471 H 542.49505"
+           id="path6050" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:0.99000001;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           d="m 405,576.85703 v 69.00992"
+           id="path6052" />
+        <path
+           style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           d="m 540,576.85703 c -11.2363,8.61303 0.87037,38.02691 3.31683,47.8515 3.20092,12.85439 -1.41403,15.22802 -3.31683,21.15842"
+           id="path6054" />
+        <circle
+           r="4.5"
+           cy="274.5"
+           cx="364.5"
+           style="fill:#000000;stroke:none"
+           id="path6056"
+           transform="translate(58.449311,321.21753)" />
+        <circle
+           r="4.5"
+           cy="274.5"
+           cx="364.5"
+           transform="translate(85.49947,321.21753)"
+           id="path6058"
+           style="fill:#000000;stroke:none" />
+        <circle
+           r="4.5"
+           cy="274.5"
+           cx="364.5"
+           transform="translate(58.449311,350.86748)"
+           id="path6060"
+           style="fill:#000000;stroke:none" />
+        <circle
+           r="4.5"
+           cy="274.5"
+           cx="364.5"
+           style="fill:#000000;stroke:none"
+           id="path6062"
+           transform="translate(85.49947,350.86748)" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Verdana;-inkscape-font-specification:Verdana;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+         x="398.18512"
+         y="505.22937"
+         id="text6152"><tspan
+           style="font-size:9px;line-height:1.25"
+           id="tspan6154"
+           x="398.18512"
+           y="505.22937">2</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Verdana;-inkscape-font-specification:Verdana;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+         x="447.36755"
+         y="485.6264"
+         id="text6156"><tspan
+           style="font-size:9px;line-height:1.25"
+           id="tspan6158"
+           x="447.36755"
+           y="485.6264">2</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Verdana;-inkscape-font-specification:Verdana;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+         x="397.83508"
+         y="543.21014"
+         id="text6160"><tspan
+           style="font-size:9px;line-height:1.25"
+           id="tspan6162"
+           x="397.83508"
+           y="543.21014">2</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Verdana;-inkscape-font-specification:Verdana;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+         x="447.01752"
+         y="563.86322"
+         id="text6164"><tspan
+           style="font-size:9px;line-height:1.25"
+           id="tspan6166"
+           x="447.01752"
+           y="563.86322">2</tspan></text>
+    </g>
+  </g>
+</svg>

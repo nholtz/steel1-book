@@ -42,8 +42,22 @@
     subsections:
     - title: "T01: Net Areas in Plates"
       url: /text/tension/T01/net-areas-01
+    - title: "T03: Shear Lag in Welded Angle"
+      url: /text/tension/T03/T03
+    - title: "T04: Shear Lag in Welded Plate"
+      url: /text/tension/T04/T04
+    - title: "T05: Shear Lag in Welded HSS"
+      url: /text/tension/T05/T05
+    - title: "T07: Tension Resistance, Web-bolted channel"
+      url: /text/tension/T07/double-channel
+    - title: "T08: Block Shear in Plates"
+      url: /text/tension/T08/block-shear-flat-plate
     - title: "T09: Block Shear in Tees"
       url: /text/tension/T09/tee-block-shear
+    - title: "T10: Weld Balancing"
+      url: /text/tension/T10/T10
+    - title: "T11: Pinned Tension Member"
+      url: /text/tension/T11/T11
     - title: "TPS-1: Net Areas"
       url: /text/tension/TPS-1/TPS-1
     - title: "TPS-2: Tension Resistance"

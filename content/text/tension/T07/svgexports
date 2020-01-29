@@ -1,0 +1,7 @@
+# process with 'svgexport svg'
+# svg-file      layer-labels            target
+2channel-bs.svg		 Layer 1	     2channel
+2channel-bs.svg		 Case 1		     bs-case-1
+2channel-bs.svg		 Case 2		     bs-case-2
+2channel-bs.svg		 Case 3		     bs-case-3
+2channel-bs.svg		 Case 4		     bs-case-4

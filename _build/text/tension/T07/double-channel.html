@@ -1,0 +1,236 @@
+---
+redirect_from:
+  - "/text/tension/t07/double-channel"
+interact_link: content/text/tension/T07/double-channel.ipynb
+kernel_name: python3
+kernel_path: content/text/tension/T07
+has_widgets: false
+title: |-
+  T07: Tension Resistance, Web-bolted channel
+pagenum: 9
+prev_page:
+  url: /text/tension/T05/T05.html
+next_page:
+  url: /text/tension/T08/block-shear-flat-plate.html
+suffix: .ipynb
+search: mathrm mm times align kn tr begin end area figure ut case channel tension svg mpa iii left gv right path bs holes fu gross section ii net calculated above capacity double member w fy fracture ne phiu shear fyfu subtracting tabulated cross sectional leftarrow mathbf example t compute factored resistance shown assume csa g steel m bolts punched calculate following data yielding phi ag s text c block between including width dont worry fillets tapered flanges etc comparable handbook however stress distribution face similar table gives remaining adjusted hole widths governs think too conservative not reasonable strength failure much
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">T07: Tension Resistance, Web-bolted channel</div>
+</div>
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example-T-7:-Capacity-of-Double-Channel-Tension-Member">Example T-7: Capacity of Double Channel Tension Member<a class="anchor-link" href="#Example-T-7:-Capacity-of-Double-Channel-Tension-Member"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Compute the factored tension resistance, $T_r$, of the double channel tension member shown in the figure.<br>
+Assume CSA G40.21 300W steel and M20 bolts in punched holes.</p>
+<p><img src="2channel.svg" alt="Figure"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Calculate the capacity of one channel.  We have the following data:</p>
+$$
+\begin{align}
+   F_y &amp;= 300~\mathrm{MPa}\\
+   F_u &amp;= 450~\mathrm{MPa}\\
+   A &amp;= 2840~\mathrm{mm}^2\\
+   w &amp;= 7.2~\mathrm{mm}\\
+\end{align}
+$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="I)-Gross-Section-Yielding:">I) Gross Section Yielding:<a class="anchor-link" href="#I)-Gross-Section-Yielding:"> </a></h3>$$
+\begin{align}
+   T_r &amp;= \phi A_g F_y \\
+       &amp;= 0.9 \times 2840~\mathrm{mm}^2 \times 0.300~\mathrm{kN/mm}^2 \\
+       &amp;= 767~\mathrm{kN}\\
+\end{align}
+$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="II)-Net-Section-Fracture:">II) Net Section Fracture:<a class="anchor-link" href="#II)-Net-Section-Fracture:"> </a></h3>$$
+\begin{align}
+   A_n &amp;= 2840~\mathrm{mm}^2 - 2\times 24~\mathrm{mm}\times 7.2~\mathrm{mm} \\
+       &amp;= 2494~\mathrm{mm}^2\\
+   A_{ne} &amp;= 0.75 A_n ~~~~~~~~~~~~~~~~~~~~~~~\S \text{12.3.3.2 c) ii)}\\
+   &amp;= 0.75 \times 2494~\mathrm{mm}^2 \\
+        &amp;= 1871~\mathrm{mm}^2\\
+   T_r &amp;= \phi_u A_{ne} F_u \\
+   &amp;= 0.75 \times 1871~\mathrm{mm}^2 \times 0.450~\mathrm{kN/mm}^2 \\
+   &amp;= 631~\mathrm{kN}\\
+\end{align}
+$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="III)-Block-Shear:">III) Block Shear:<a class="anchor-link" href="#III)-Block-Shear:"> </a></h3>$$
+\begin{align}
+   T_r &amp;= \phi_u \left[ U_t A_n F_u + 0.6 A_{gv} {(F_y+F_u)\over 2} \right]\\
+   {(F_y+F_u)\over 2} &amp;= {(300~\mathrm{MPa} + 450~\mathrm{MPa})\over 2} \\
+                      &amp;= 375~\mathrm{MPa}\\
+\end{align}
+$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="III-1)-Path-1-1:">III-1) Path 1-1:<a class="anchor-link" href="#III-1)-Path-1-1:"> </a></h4><p><img src="bs-case-1.svg" alt="Figure"></p>
+$$
+\begin{align}
+   A_n &amp;= (100~\mathrm{mm} - 24~\mathrm{mm})\times7.2~\mathrm{mm} \\
+       &amp;= 547.2~\mathrm{mm}^2\\
+   A_{gv} &amp;= 2\times(60~\mathrm{mm}+90~\mathrm{mm})\times 7.2~\mathrm{mm} \\
+          &amp;= 2160~\mathrm{mm}^2\\
+   U_t &amp;= 1.0\\
+   T_r &amp;= 0.75\times\left[1.0\times547.2~\mathrm{mm}^2\times0.450~\mathrm{KN/mm}^2 \\
+            + 0.6\times2160~\mathrm{mm}^2\times0.375~\mathrm{KN/mm}^2\right] \\
+       &amp;= 549~\mathrm{kN}\\
+\end{align}
+$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="III-2)-Path-2-2:">III-2) Path 2-2:<a class="anchor-link" href="#III-2)-Path-2-2:"> </a></h4><p><img src="bs-case-2.svg" alt="Figure"></p>
+<blockquote><p>$A_n$ is calculated by subtracting the area between the holes,
+  including the width of the holes, from the tabulated gross
+  cross-sectional area of the channel.  That way we don't have to
+  worry about the area of fillets, tapered flanges, etc.</p>
+</blockquote>
+$$
+\begin{align}
+   A_n &amp;= 2840~\mathrm{mm}^2 - (100~\mathrm{mm} + 24~\mathrm{mm})\times7.2~\mathrm{mm} \\
+       &amp;= 1947~\mathrm{mm}^2\\
+   A_{gv} &amp;= 2\times(60~\mathrm{mm}+90~\mathrm{mm})\times 7.2~\mathrm{mm} \\
+          &amp;= 2160~\mathrm{mm}^2\\
+   U_t &amp;= 0.9\\
+   T_r &amp;= 0.75\times\left[0.9\times1947~\mathrm{mm}^2\times0.450~\mathrm{KN/mm}^2 \\
+        + 0.6\times2160~\mathrm{mm}^2\times0.375~\mathrm{KN/mm}^2\right] \\
+       &amp;= 1147~\mathrm{kN}\\
+\end{align}
+$$<p>We use $U_t=0.9$ above as there is no comparable in Figure 2-26 in the handbook. However the stress distribution on the tension face will be similar to that of case 6a in that table.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="III-3)-Path-3-3:">III-3) Path 3-3:<a class="anchor-link" href="#III-3)-Path-3-3:"> </a></h4><p><img src="bs-case-3.svg" alt="Figure"></p>
+<blockquote><p>$A_n$ is calculated by subtracting 1/2 of the net area calculated
+  above from the tabulated gross cross-sectional area of the channel.
+  That gives the area remaining, which is then adjusted for the hole
+  widths.</p>
+</blockquote>
+$$
+\begin{align}
+   A_n &amp;= 2840~\mathrm{mm}^2 - 1947~\mathrm{mm}^2/2 - 2\times24~\mathrm{mm}\times7.2~\mathrm{mm} \\
+       &amp;= 1521~\mathrm{mm}^2\\
+   A_{gv} &amp;= 1\times(60~\mathrm{mm}+90~\mathrm{mm})\times 7.2~\mathrm{mm} \\
+          &amp;= 1080~\mathrm{mm}^2\\
+   U_t &amp;= 0.6\\
+   T_r &amp;= 0.75\times\left[0.6\times1521~\mathrm{mm}^2\times0.450~\mathrm{KN/mm}^2 \\
+          + 0.6\times1080~\mathrm{mm}^2\times0.375~\mathrm{KN/mm}^2\right] \\
+       &amp;= 490~\mathrm{kN}~~~~~~~~~~~~~~~~~~~~~~\leftarrow\mathbf{governs}\\
+\end{align}
+$$<p>I think $U_t = 0.6$ is too conservative.  It is not reasonable that the strength of this failure path is so much less than net section fracture (case II above).  Compared to that, this case loses $1947/2 = 974mm^2$ in tension area but gains $1080mm^2$ in shear area.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="III-4)-Path-4-4:">III-4) Path 4-4:<a class="anchor-link" href="#III-4)-Path-4-4:"> </a></h4><p><img src="bs-case-4.svg" alt="Figure"></p>
+$$
+\begin{align}
+   A_n &amp;= 0\\
+   A_{gv} &amp;= 4\times(60~\mathrm{mm}+90~\mathrm{mm})\times 7.2~\mathrm{mm} \\
+          &amp;= 4320~\mathrm{mm}^2\\
+   U_t &amp;= n.a.\\
+   T_r &amp;= 0.75\times\left[ 0.6\times4320~\mathrm{mm}^2\times0.375~\mathrm{KN/mm}^2\right] \\
+       &amp;= 729~\mathrm{kN}\\
+\end{align}
+$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Summary">Summary<a class="anchor-link" href="#Summary"> </a></h3><p>For 2 channels:</p>
+$$
+\begin{align}
+   T_r &amp;= 2 \times 490~\mathrm{kN} = 980~\mathrm{kN}~~~~~~~~~~\leftarrow\mathbf{Ans.}\\
+\end{align}
+$$
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

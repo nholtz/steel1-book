@@ -1,4 +1,4 @@
-# Tension Members - Example and Solved Problems
+# Tension Members - Examples and Solved Problems
 
 Here are some solved example problems for tension members
 and their connections.

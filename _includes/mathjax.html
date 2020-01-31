@@ -11,9 +11,11 @@ MathJax.Hub.Config({
     },
     // Center justify equations in code and markdown cells. Elsewhere
     // we use CSS to left justify single line equations in code cells.
-    displayAlign: 'center',
+    // changed to left align by NMH
+    displayAlign: 'left',
+    displayIndent: '1em',
     "HTML-CSS": {
-        styles: {'.MathJax_Display': {"margin": 0}},
+        styles: {'.MathJax_Display': {"margin": 0, "margin-left":"1em"}},
         linebreaks: { automatic: true },
     },
     {% if site.number_equations %}

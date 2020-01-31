@@ -13,7 +13,7 @@ prev_page:
 next_page:
   url: /text/tension/T08/block-shear-flat-plate.html
 suffix: .ipynb
-search: mathrm mm times align kn tr begin end area figure ut case channel tension svg mpa iii left gv right path bs holes fu gross section ii net calculated above capacity double member w fy fracture ne phiu shear fyfu subtracting tabulated cross sectional leftarrow mathbf example t compute factored resistance shown assume csa g steel m bolts punched calculate following data yielding phi ag s text c block between including width dont worry fillets tapered flanges etc comparable handbook however stress distribution face similar table gives remaining adjusted hole widths governs think too conservative not reasonable strength failure much
+search: mathrm mm times align kn tr begin end left right area figure ut case channel tension svg mpa iii gv path bs holes fu gross section ii net qquad calculated above capacity double member w fy fracture ne phiu shear fyfu subtracting tabulated cross sectional leftarrow mathbf example t compute factored resistance shown assume csa g steel m bolts punched calculate following data yielding phi ag s text c block between including width dont worry fillets tapered flanges etc comparable handbook however stress distribution face similar table gives remaining adjusted hole widths governs think too conservative not reasonable strength failure
 
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
@@ -128,8 +128,8 @@ $$
    A_{gv} &amp;= 2\times(60~\mathrm{mm}+90~\mathrm{mm})\times 7.2~\mathrm{mm} \\
           &amp;= 2160~\mathrm{mm}^2\\
    U_t &amp;= 1.0\\
-   T_r &amp;= 0.75\times\left[1.0\times547.2~\mathrm{mm}^2\times0.450~\mathrm{KN/mm}^2 \\
-            + 0.6\times2160~\mathrm{mm}^2\times0.375~\mathrm{KN/mm}^2\right] \\
+   T_r &amp;= 0.75\left[1.0\times547.2~\mathrm{mm}^2\times0.450~\mathrm{KN/mm}^2 \right.\\
+       &amp;\qquad\left.   {}  + 0.6\times2160~\mathrm{mm}^2\times0.375~\mathrm{KN/mm}^2\right] \\
        &amp;= 549~\mathrm{kN}\\
 \end{align}
 $$
@@ -155,8 +155,8 @@ $$
    A_{gv} &amp;= 2\times(60~\mathrm{mm}+90~\mathrm{mm})\times 7.2~\mathrm{mm} \\
           &amp;= 2160~\mathrm{mm}^2\\
    U_t &amp;= 0.9\\
-   T_r &amp;= 0.75\times\left[0.9\times1947~\mathrm{mm}^2\times0.450~\mathrm{KN/mm}^2 \\
-        + 0.6\times2160~\mathrm{mm}^2\times0.375~\mathrm{KN/mm}^2\right] \\
+   T_r &amp;= 0.75 \left[0.9\times1947~\mathrm{mm}^2\times0.450~\mathrm{KN/mm}^2 \right.\\
+        &amp;\qquad\left. {} + 0.6\times2160~\mathrm{mm}^2\times0.375~\mathrm{KN/mm}^2\right] \\
        &amp;= 1147~\mathrm{kN}\\
 \end{align}
 $$<p>We use $U_t=0.9$ above as there is no comparable in Figure 2-26 in the handbook. However the stress distribution on the tension face will be similar to that of case 6a in that table.</p>
@@ -183,8 +183,8 @@ $$
    A_{gv} &amp;= 1\times(60~\mathrm{mm}+90~\mathrm{mm})\times 7.2~\mathrm{mm} \\
           &amp;= 1080~\mathrm{mm}^2\\
    U_t &amp;= 0.6\\
-   T_r &amp;= 0.75\times\left[0.6\times1521~\mathrm{mm}^2\times0.450~\mathrm{KN/mm}^2 \\
-          + 0.6\times1080~\mathrm{mm}^2\times0.375~\mathrm{KN/mm}^2\right] \\
+   T_r &amp;= 0.75 \left[0.6\times1521~\mathrm{mm}^2\times0.450~\mathrm{KN/mm}^2 \right.\\
+          &amp;\qquad\left. {} + 0.6\times1080~\mathrm{mm}^2\times0.375~\mathrm{KN/mm}^2\right] \\
        &amp;= 490~\mathrm{kN}~~~~~~~~~~~~~~~~~~~~~~\leftarrow\mathbf{governs}\\
 \end{align}
 $$<p>I think $U_t = 0.6$ is too conservative.  It is not reasonable that the strength of this failure path is so much less than net section fracture (case II above).  Compared to that, this case loses $1947/2 = 974mm^2$ in tension area but gains $1080mm^2$ in shear area.</p>
@@ -205,7 +205,7 @@ $$
    A_{gv} &amp;= 4\times(60~\mathrm{mm}+90~\mathrm{mm})\times 7.2~\mathrm{mm} \\
           &amp;= 4320~\mathrm{mm}^2\\
    U_t &amp;= n.a.\\
-   T_r &amp;= 0.75\times\left[ 0.6\times4320~\mathrm{mm}^2\times0.375~\mathrm{KN/mm}^2\right] \\
+   T_r &amp;= 0.75 \left[ 0.6\times4320~\mathrm{mm}^2\times0.375~\mathrm{KN/mm}^2\right] \\
        &amp;= 729~\mathrm{kN}\\
 \end{align}
 $$

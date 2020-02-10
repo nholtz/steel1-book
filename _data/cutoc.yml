@@ -62,6 +62,11 @@
       url: /text/tension/TPS-1/TPS-1
     - title: "TPS-2: Tension Resistance"
       url: /text/tension/TPS-2/TPS-2
+  - title: Design Examples
+    url: /text/tension/design-examples
+    subsections:
+    - title: "TD10: Design of Slotted HSS"
+      url: /notebooks/tension/TD10/Tension-Member-Design-10
 
 - divider: true
 

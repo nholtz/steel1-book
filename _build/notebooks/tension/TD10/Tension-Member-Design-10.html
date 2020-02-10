@@ -1,0 +1,1972 @@
+---
+redirect_from:
+  - "/notebooks/tension/td10/tension-member-design-10"
+interact_link: content/notebooks/tension/TD10/Tension-Member-Design-10.ipynb
+kernel_name: python3
+kernel_path: content/notebooks/tension/TD10
+has_widgets: false
+title: |-
+  TD10: Design of Slotted HSS
+pagenum: 17
+prev_page:
+  url: /text/tension/design-examples.html
+next_page:
+  url: /notebooks/introduction.html
+suffix: .ipynb
+search: plate mm hss gusset insert thickness x ok therefore try svg path w net section tf area block shear design end fracture phiu fu ge t tension plates required times because minimum bolt edge paths weld member bolted bolts into ag cross frac dimensions xx should layout same bearing failure above size summary connections slotted following governing sectional handbook not want considerations configuration welded arrangement gauge lines distances determine wide tearout resistance gross yield wider le fillet lap examples considers accept data given property value kn angles holes punched electrodes exx brace frame often case reasonable estimates n ane estimate
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">TD10: Design of Slotted HSS</div>
+</div>
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Design-of-a-Tension-Member-and-End-Connections">Design of a Tension Member and End Connections<a class="anchor-link" href="#Design-of-a-Tension-Member-and-End-Connections"> </a></h1><p>This design examples considers an HSS tension member, slotted to accept bolted plate connections.</p>
+<p>The following data are given:</p>
+<table>
+<thead><tr>
+<th>Property</th>
+<th style="text-align:center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$T_f$</td>
+<td style="text-align:center">800 kN</td>
+</tr>
+<tr>
+<td>Angles</td>
+<td style="text-align:center">300W</td>
+</tr>
+<tr>
+<td>Plates</td>
+<td style="text-align:center">300W</td>
+</tr>
+<tr>
+<td>HSS</td>
+<td style="text-align:center">350W</td>
+</tr>
+<tr>
+<td>W</td>
+<td style="text-align:center">A992</td>
+</tr>
+<tr>
+<td>Bolts</td>
+<td style="text-align:center">A325 3/4"</td>
+</tr>
+<tr>
+<td>Holes</td>
+<td style="text-align:center">22 mm punched</td>
+</tr>
+<tr>
+<td>Electrodes</td>
+<td style="text-align:center">E49xx</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># set the default precion for display of floating point numbers</span>
+<span class="o">%</span><span class="k">precision</span> 3
+
+<span class="c1"># impo</span>
+<span class="kn">from</span> <span class="nn">sst</span> <span class="k">import</span> <span class="n">SST</span>
+<span class="n">sst</span> <span class="o">=</span> <span class="n">SST</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="k">import</span> <span class="n">show</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">phi</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">phiu</span> <span class="o">=</span> <span class="mf">0.75</span>
+<span class="n">phib</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">phibr</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">phiw</span> <span class="o">=</span> <span class="mf">0.67</span>
+
+<span class="n">aFy</span> <span class="o">=</span> <span class="mi">300</span>   <span class="c1"># angles</span>
+<span class="n">aFu</span> <span class="o">=</span> <span class="mi">440</span>
+<span class="n">pFy</span> <span class="o">=</span> <span class="mi">300</span>   <span class="c1"># plates</span>
+<span class="n">pFu</span> <span class="o">=</span> <span class="mi">440</span>
+<span class="n">hFy</span> <span class="o">=</span> <span class="mi">350</span>   <span class="c1"># HSS</span>
+<span class="n">hFu</span> <span class="o">=</span> <span class="mi">450</span>
+<span class="n">wFy</span> <span class="o">=</span> <span class="mi">345</span>   <span class="c1"># W shapes</span>
+<span class="n">wFu</span> <span class="o">=</span> <span class="mi">450</span>
+<span class="n">bFu</span> <span class="o">=</span> <span class="mi">825</span>   <span class="c1"># bolt</span>
+<span class="n">Xu</span> <span class="o">=</span> <span class="mi">490</span>    <span class="c1"># weld</span>
+<span class="n">bd</span> <span class="o">=</span> <span class="mf">25.4</span> <span class="o">*</span> <span class="mf">0.75</span>   <span class="c1"># 3/4&quot; bolt</span>
+<span class="n">hd</span> <span class="o">=</span> <span class="mi">22</span> <span class="o">+</span> <span class="mi">2</span>       <span class="c1"># in 22mm punched holes</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Tf</span> <span class="o">=</span> <span class="mi">800</span>     <span class="c1"># Factored applied load</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1:-HSS-Tension-Member">1: HSS Tension Member<a class="anchor-link" href="#1:-HSS-Tension-Member"> </a></h2><p>Tension brace will be bolted into frame.  Net area fracture is often the governing case.  Reasonable
+estimates are $A_{n} = 0.9 A_g$ and $A_ne = 0.85 A_n$.  Therefore, a first estimate of cross-sectional
+area required is, without differentiating material strengths, is:</p>
+$$
+\phi_u \times 0.85 \times 0.9 A_g \times Fu \ge T_f
+$$$$
+A_g \ge \frac{T_f}{\phi_u 0.85 \times 0.9 Fu}
+$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Tf</span><span class="o">/</span><span class="p">(</span><span class="n">phi</span><span class="o">*</span><span class="mf">0.85</span><span class="o">*</span><span class="mf">0.9</span><span class="o">*</span><span class="mi">450</span><span class="o">*</span><span class="mf">1E-3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2582.103</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Therefore, look for a square HSS of at least this cross-sectional area:</p>
+<blockquote><p><em>Gentle Reader:</em> If you find the following 'python-pandas magic' hard to understand,
+  don't worry about it.  Its just a digital equivalent of searching through
+  the properties and dimensions tables in Part 6 of the CISC handbook of Steel Construction.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># load a table of all HSS sections, sorted by increasing mass</span>
+<span class="n">hss</span> <span class="o">=</span> <span class="n">sst</span><span class="o">.</span><span class="n">section_tables</span><span class="p">([</span><span class="s1">&#39;HS&#39;</span><span class="p">],</span><span class="s1">&#39;Mass&#39;</span><span class="p">)</span>
+
+<span class="c1"># search for those shapes whose area meets the limit and whose B and D dimensions are equal (square)</span>
+<span class="c1"># Then extract the first 10 rows (shapes) of the search result and choose only three columns for display.</span>
+<span class="n">hss</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;A&gt;2500 &amp; B==D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)[[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;T&#39;</span><span class="p">,</span><span class="s1">&#39;Mass&#39;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>A</th>
+      <th>T</th>
+      <th>Mass</th>
+    </tr>
+    <tr>
+      <th>Dsg</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>HS114x114x6.4</th>
+      <td>2640.0</td>
+      <td>6.35</td>
+      <td>20.7</td>
+    </tr>
+    <tr>
+      <th>HS152x152x4.8</th>
+      <td>2760.0</td>
+      <td>4.78</td>
+      <td>21.7</td>
+    </tr>
+    <tr>
+      <th>HS89x89x9.5</th>
+      <td>2790.0</td>
+      <td>9.53</td>
+      <td>21.9</td>
+    </tr>
+    <tr>
+      <th>HS102x102x8.0</th>
+      <td>2820.0</td>
+      <td>7.95</td>
+      <td>22.1</td>
+    </tr>
+    <tr>
+      <th>HS127x127x6.4</th>
+      <td>2960.0</td>
+      <td>6.35</td>
+      <td>23.2</td>
+    </tr>
+    <tr>
+      <th>HS114x114x8.0</th>
+      <td>3220.0</td>
+      <td>7.95</td>
+      <td>25.3</td>
+    </tr>
+    <tr>
+      <th>HS178x178x4.8</th>
+      <td>3250.0</td>
+      <td>4.78</td>
+      <td>25.5</td>
+    </tr>
+    <tr>
+      <th>HS102x102x9.5</th>
+      <td>3280.0</td>
+      <td>9.53</td>
+      <td>25.7</td>
+    </tr>
+    <tr>
+      <th>HS152x152x6.4</th>
+      <td>3610.0</td>
+      <td>6.35</td>
+      <td>28.3</td>
+    </tr>
+    <tr>
+      <th>HS127x127x8.0</th>
+      <td>3620.0</td>
+      <td>7.95</td>
+      <td>28.4</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Probably do not want the thinnest section (because of welding considerations). 
+Also, a larger dimension may be easier to connect.
+And leave a bit of allowance 
+over the minimum.  Therefore:</p>
+<h3 id="1.1:-Try:-HSS-127x127x6.4">1.1: Try: HSS 127x127x6.4<a class="anchor-link" href="#1.1:-Try:-HSS-127x127x6.4"> </a></h3><p>In a configuration similar to this:</p>
+<p><img src="170-DSCN0768.JPG" alt="Photo"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">##angle=sst.section_tables([&#39;L&#39;],&#39;Mass&#39;)</span>
+<span class="c1">##angle.query(&quot;Avl!=&#39;*&#39;&amp;A&gt;2500/4&quot;)[[&#39;A&#39;,&#39;T&#39;,&#39;Mass&#39;]].head(10)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">##angle=sst.section_tables([&#39;W&#39;],&#39;Mass&#39;)</span>
+<span class="c1">##angle.query(&quot;Avl!=&#39;*&#39;&amp;A&gt;2500&quot;)[[&#39;Dsg&#39;,&#39;A&#39;,&#39;T&#39;,&#39;Mass&#39;]].head(10)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2:-Bolting-Requirements">2: Bolting Requirements<a class="anchor-link" href="#2:-Bolting-Requirements"> </a></h2><p>Again, because net area considerations usually govern we should start by selecting a bolt configuration (number of bolts and layout).  That will allow us to decide gusset plate thickness, which is important because the insert
+plate welded into the HSS must be the same thickness, and that affects the strength of the HSS.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Ab</span> <span class="o">=</span> <span class="mf">3.14159</span><span class="o">*</span><span class="n">bd</span><span class="o">*</span><span class="n">bd</span><span class="o">/</span><span class="mi">4</span>   <span class="c1"># bolt shear area</span>
+<span class="n">vr1</span> <span class="o">=</span> <span class="mf">0.60</span><span class="o">*</span><span class="n">phib</span><span class="o">*</span><span class="mi">1</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">Ab</span><span class="o">*</span><span class="n">bFu</span> <span class="o">*</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="mf">1E-3</span>   <span class="c1"># factored shear strength of 1 bolt, double shear, threads intercepted</span>
+<span class="n">Tf</span><span class="o">/</span><span class="n">vr1</span>                 <span class="c1"># number of bolts required</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>5.063</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Therefore, use 6 bolts.  But should they be in a 2x3 or a 3x2 arrangement?</p>
+<p><img src="bolt-layout.svg" alt="Layout"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2.1:-Try-2x3-bolt-pattern">2.1: Try 2x3 bolt pattern<a class="anchor-link" href="#2.1:-Try-2x3-bolt-pattern"> </a></h3><p>2 gauge lines, 3 transverse lines.  Use Gauge = 75mm, spacing = 75mm (minimum = 2.7d = 52mm).</p>
+<p>From Table 6, minimum edge/end distance = 32mm (assuming sheared edges). Use edge and end distances of 35mm.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3:-Gusset-plate-design">3: Gusset plate design<a class="anchor-link" href="#3:-Gusset-plate-design"> </a></h2><p>Mostly we want the thickness so that we can determine the thickness of the insert plate in the HSS.</p>
+<p>As the gusset plate can be made as wide as necessary, design will likely be governed by block shear and/or bearing.</p>
+<p>Calculate resistances of a 1mm thickness of plate, then determine the thickness required.</p>
+<p><img src="gusset-plate.svg" alt="Gusset Plate"></p>
+<p><img src="gusset-failure-paths.svg" alt="Gusset Failure Paths"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.1:-Path-1-2-(Block-Shear)-(1mm-plate)">3.1: Path 1-2 (Block Shear) (1mm plate)<a class="anchor-link" href="#3.1:-Path-1-2-(Block-Shear)-(1mm-plate)"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="mi">75</span> <span class="o">-</span> <span class="p">(</span><span class="n">hd</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span>
+<span class="n">Ut</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">An</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>51.000</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">75</span><span class="o">+</span><span class="mi">35</span><span class="p">))</span><span class="o">*</span><span class="mi">1</span>
+<span class="n">Agv</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>370</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vr1</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">pFu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">pFy</span><span class="o">+</span><span class="n">pFu</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">vr1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>78.435</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.2:-Path-1-3-(Block-Shear)--(1mm-plate)">3.2: Path 1-3 (Block Shear)  (1mm plate)<a class="anchor-link" href="#3.2:-Path-1-3-(Block-Shear)--(1mm-plate)"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="mi">75</span><span class="o">+</span><span class="mi">35</span><span class="o">-</span><span class="p">(</span><span class="n">hd</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span>
+<span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">An</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>74.000</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">75</span><span class="o">+</span><span class="mi">35</span><span class="p">))</span><span class="o">*</span><span class="mi">1</span>
+<span class="n">Agv</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>185</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vr2</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">pFu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">pFy</span><span class="o">+</span><span class="n">pFu</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">vr2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>45.455</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.3:-Path-4-4-(Tearout)--(1mm-plate)">3.3: Path 4-4 (Tearout)  (1mm plate)<a class="anchor-link" href="#3.3:-Path-4-4-(Tearout)--(1mm-plate)"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">An</span> <span class="o">=</span> <span class="mf">0.</span>
+<span class="n">Ut</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">75</span><span class="o">+</span><span class="mi">35</span><span class="p">))</span><span class="o">*</span><span class="mi">1</span>
+<span class="n">Agv</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>740</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vr3</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">pFu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">pFy</span><span class="o">+</span><span class="n">pFu</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">vr3</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>123.210</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.4:-Path-5-3-(Net-Section-Fracture)--(1mm-plate)">3.4: Path 5-3 (Net Section Fracture)  (1mm plate)<a class="anchor-link" href="#3.4:-Path-5-3-(Net-Section-Fracture)--(1mm-plate)"> </a></h3><p><img src="gusset-net-section.svg" alt="Failure Path"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># length 7-3:</span>
+<span class="n">l73</span> <span class="o">=</span> <span class="mi">75</span> <span class="o">+</span> <span class="mi">35</span>
+<span class="c1"># length 6-7: (all lines at 45 degrees)</span>
+<span class="n">l67</span> <span class="o">=</span> <span class="p">(</span><span class="mi">75</span><span class="o">+</span><span class="mi">75</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="c1"># length 5-6:</span>
+<span class="n">l56</span> <span class="o">=</span> <span class="mi">35</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="c1"># gauge and pitch for line 5-7 (they are equal):</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">l56</span><span class="o">+</span><span class="n">l67</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="c1"># net area:</span>
+<span class="n">Ane</span> <span class="o">=</span> <span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="n">l56</span><span class="o">+</span><span class="n">l67</span><span class="o">+</span><span class="n">l73</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">hd</span><span class="o">*</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">s</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">g</span><span class="p">))</span><span class="o">*</span><span class="mi">1</span>       <span class="c1"># 12.3.1</span>
+
+<span class="n">tr1</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">pFu</span> <span class="o">*</span> <span class="mf">1E-3</span>      <span class="c1"># 13.2 iii)</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;l56,l67,l73,s, Ane,tr1&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>l56 = 49.5  
+l67 = 106.1 
+l73 = 110   
+s   = 110   
+Ane = 245.1 
+tr1 = 80.87 
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.5:-Bearing-resistance--(1mm-plate)">3.5: Bearing resistance  (1mm plate)<a class="anchor-link" href="#3.5:-Bearing-resistance--(1mm-plate)"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">br1</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">phibr</span><span class="o">*</span><span class="mi">6</span><span class="o">*</span><span class="mi">1</span><span class="o">*</span><span class="n">bd</span><span class="o">*</span><span class="n">pFu</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">br1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>120.701</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># governing resistance is (the minimum of the above)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">vr1</span><span class="p">,</span><span class="n">vr2</span><span class="p">,</span><span class="n">vr3</span><span class="p">,</span><span class="n">tr1</span><span class="p">,</span><span class="n">br1</span><span class="p">)</span>
+<span class="n">r</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>45.455</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.6:-Required-Thickness">3.6: Required Thickness<a class="anchor-link" href="#3.6:-Required-Thickness"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># thickness required, mm</span>
+<span class="n">Tf</span><span class="o">/</span><span class="n">r</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>17.600</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The governing resistance is block shear (Path 1-3).  The required thickness is thus 17.6mm, so try a 20mm gusset plate.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.7:-Try-20mm-Gusset-Plate">3.7: Try 20mm Gusset Plate<a class="anchor-link" href="#3.7:-Try-20mm-Gusset-Plate"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4:-20mm-Insert-Plate-(Slotted-into-HSS)">4: 20mm Insert Plate (Slotted into HSS)<a class="anchor-link" href="#4:-20mm-Insert-Plate-(Slotted-into-HSS)"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Dsg</span> <span class="o">=</span> <span class="s1">&#39;HS127x127x6.4&#39;</span>
+<span class="n">hss</span> <span class="o">=</span> <span class="n">sst</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="n">Dsg</span><span class="p">)</span>
+<span class="n">hssT</span><span class="p">,</span><span class="n">hssAg</span> <span class="o">=</span> <span class="n">hss</span><span class="o">.</span><span class="n">props</span><span class="p">(</span><span class="s1">&#39;T,A&#39;</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;hssT,hssAg&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>hssT  = 6.35 
+hssAg = 2960 
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pW</span> <span class="o">=</span> <span class="mi">35</span> <span class="o">+</span> <span class="mi">75</span> <span class="o">+</span> <span class="mi">35</span>   <span class="c1"># width of plate based on bolt spacing and edge distance</span>
+<span class="n">pT</span> <span class="o">=</span> <span class="mi">20</span>             <span class="c1"># thickness of plate based on gusset thickness</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="4.1:-Gross-Area-Yield">4.1: Gross Area Yield<a class="anchor-link" href="#4.1:-Gross-Area-Yield"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Ag</span> <span class="o">=</span> <span class="n">hssAg</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Ag</span><span class="o">*</span><span class="n">pFy</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;Tr, Tr &gt;= Tf&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Tr       = 799.2 
+Tr &gt;= Tf = False 
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Thats close enough.  OK</p>
+<h3 id="4.2:-Net-Section-Fracture">4.2: Net Section Fracture<a class="anchor-link" href="#4.2:-Net-Section-Fracture"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Ane</span> <span class="o">=</span> <span class="n">pW</span><span class="o">*</span><span class="n">pT</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">hd</span><span class="o">*</span><span class="n">pT</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">pFu</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;Tr, Tr &gt;= Tf&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Tr       = 640.2 
+Tr &gt;= Tf = False 
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>No good - make the plate wider from:</p>
+$$
+\phi_u(w t - 2\times24t)F_u \ge T_f
+$$$$
+w t \ge \frac{T_f}{\phi_u F_u} + 48 t
+$$$$
+w \ge \frac{T_f}{\phi_u t F_u} + 48
+$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Tf</span><span class="o">/</span><span class="p">(</span><span class="n">phiu</span> <span class="o">*</span> <span class="n">pT</span> <span class="o">*</span> <span class="n">pFu</span><span class="o">*</span><span class="mf">1E-3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">48</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>169.212</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This leads to $(170-75)/2 \approx 50$mm edge distances.  As the plate has to be so wide anyway (I'm relunctant to
+make it thicker because of the extra cross-section removed from the HSS), perhaps we should try the 3x2 bolt arrangement and a slightly wider plate.</p>
+<h3 id="4.3:-Try-20mm-x-220mm-Insert-Plate">4.3: Try 20mm x 220mm Insert Plate<a class="anchor-link" href="#4.3:-Try-20mm-x-220mm-Insert-Plate"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="insert-3x2-dimensions.svg" alt="Dimensions"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pW</span> <span class="o">=</span> <span class="mi">220</span>
+<span class="n">pT</span> <span class="o">=</span> <span class="mi">20</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="insert-3x2-paths.svg" alt="Paths"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="5:-Insert-Plate---Bolted-End">5: Insert Plate - Bolted End<a class="anchor-link" href="#5:-Insert-Plate---Bolted-End"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Gross-Area-Yield:--OK,-from-above--(220-&gt;-145)">Gross Area Yield:  OK, from above  (220 &gt; 145)<a class="anchor-link" href="#Gross-Area-Yield:--OK,-from-above--(220-&gt;-145)"> </a></h5>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="Net-Section-Fracture:-OK,-from-above-(220-&gt;-168.2)">Net Section Fracture: OK, from above (220 &gt; 168.2)<a class="anchor-link" href="#Net-Section-Fracture:-OK,-from-above-(220-&gt;-168.2)"> </a></h5>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="5.1:-Block-Shear:-Path-3-2">5.1: Block Shear: Path 3-2<a class="anchor-link" href="#5.1:-Block-Shear:-Path-3-2"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="mi">75</span><span class="o">+</span><span class="mi">75</span><span class="o">+</span><span class="mi">35</span> <span class="o">-</span> <span class="mi">24</span><span class="o">*</span><span class="mf">2.5</span><span class="p">)</span><span class="o">*</span><span class="n">pT</span>
+<span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">35</span><span class="o">+</span><span class="mi">75</span><span class="p">)</span><span class="o">*</span><span class="n">pT</span>
+
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">pFu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">pFy</span><span class="o">+</span><span class="n">pFu</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;An, Ut, Agv, Tr, Tr &gt;= Tf&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>An       = 2500  
+Ut       = 0.6   
+Agv      = 2200  
+Tr       = 861.3 
+Tr &gt;= Tf = True  
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="5.2:-Block-Shear:-Path-3-4">5.2: Block Shear: Path 3-4<a class="anchor-link" href="#5.2:-Block-Shear:-Path-3-4"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="mi">75</span><span class="o">+</span><span class="mi">75</span> <span class="o">-</span> <span class="mi">24</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">pT</span>
+<span class="n">Ut</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">Agv</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">35</span><span class="o">+</span><span class="mi">75</span><span class="p">)</span><span class="o">*</span><span class="n">pT</span>
+
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">pFu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">pFy</span><span class="o">+</span><span class="n">pFu</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;An, Ut, Agv, Tr, Tr &gt;= Tf&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>An       = 2040 
+Ut       = 1    
+Agv      = 4400 
+Tr       = 1406 
+Tr &gt;= Tf = True 
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="5.3:-Tearout">5.3: Tearout<a class="anchor-link" href="#5.3:-Tearout"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">An</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">Ut</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">Agv</span> <span class="o">=</span> <span class="mi">6</span><span class="o">*</span><span class="p">(</span><span class="mi">35</span><span class="o">+</span><span class="mi">75</span><span class="p">)</span><span class="o">*</span><span class="n">pT</span>
+
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">pFu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">pFy</span><span class="o">+</span><span class="n">pFu</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;An, Ut, Agv, Tr, Tr &gt;= Tf&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>An       = 0     
+Ut       = 1     
+Agv      = 13200 
+Tr       = 2198  
+Tr &gt;= Tf = True  
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="5.4:-Bearing">5.4: Bearing<a class="anchor-link" href="#5.4:-Bearing"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>OK, from above. (see 3.5)</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="6:-Insert---Welded-End">6: Insert - Welded End<a class="anchor-link" href="#6:-Insert---Welded-End"> </a></h2><h3 id="6.1:-Size-and-Length-of-Weld">6.1: Size and Length of Weld<a class="anchor-link" href="#6.1:-Size-and-Length-of-Weld"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Handbook, page 6-186, shows that for $12 \le t \le 20$, minimum fillet size is 6mm.</p>
+<p>As the weld of the Insert to the HSS is not near an edge, there is no essnetial maximum size.</p>
+<h3 id="6.2:-Try-6mm-fillet-weld">6.2: Try 6mm fillet weld<a class="anchor-link" href="#6.2:-Try-6mm-fillet-weld"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Required length is: (all weld parallel to axis of load)</span>
+<span class="n">Tf</span><span class="o">/</span><span class="p">(</span><span class="mf">0.67</span><span class="o">*</span><span class="n">phiw</span><span class="o">*</span><span class="p">(</span><span class="mf">0.707</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span><span class="o">*</span><span class="n">Xu</span><span class="o">*</span><span class="mf">1E-3</span><span class="p">)</span>  <span class="c1"># S16 13.13.2.2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>857.381</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">857</span><span class="o">/</span><span class="mi">4</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>214.250</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Try 220mm of weld in 4 locations, insert plate to HSS.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="6.3:-Net-Section-Fracture">6.3: Net Section Fracture<a class="anchor-link" href="#6.3:-Net-Section-Fracture"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># central portion is An2</span>
+<span class="n">w</span> <span class="o">=</span> <span class="mf">127.</span>
+<span class="n">L</span> <span class="o">=</span> <span class="mf">220.</span>
+<span class="n">pT</span> <span class="o">=</span> <span class="mf">20.</span>
+<span class="mi">2</span><span class="o">*</span><span class="n">w</span> <span class="o">&gt;=</span> <span class="n">L</span> <span class="o">&gt;=</span> <span class="n">w</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">An2</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="n">pT</span> <span class="o">+</span> <span class="o">.</span><span class="mi">25</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="n">pT</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;w,L,An2&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>w   = 127  
+L   = 220  
+An2 = 2370 
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># edge portions are An3&#39;s:</span>
+<span class="n">w</span> <span class="o">=</span> <span class="p">(</span><span class="mi">220</span><span class="o">-</span><span class="mi">127</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span>
+<span class="n">xbar</span> <span class="o">=</span> <span class="n">w</span><span class="o">/</span><span class="mf">2.</span>
+<span class="n">L</span> <span class="o">&gt;=</span> <span class="n">w</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">An3</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">xbar</span><span class="o">/</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="n">pT</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;w,xbar,An3&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>w    = 46.5  
+xbar = 23.25 
+An3  = 831.7 
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Ane</span> <span class="o">=</span> <span class="n">An3</span> <span class="o">+</span> <span class="n">An2</span> <span class="o">+</span> <span class="n">An3</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span> <span class="o">*</span> <span class="n">Ane</span> <span class="o">*</span> <span class="n">pFu</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;Ane,Ane/(pW*pT),Tr,Tr&gt;=Tf&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Ane         = 4033   
+Ane/(pW*pT) = 0.9167 
+Tr          = 1331   
+Tr&gt;=Tf      = True   
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Therefore, 20mm x 220mm Insert Plate OK</strong></p>
+<hr>
+<hr>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="7:-HSS-127x127x6.4">7: HSS 127x127x6.4<a class="anchor-link" href="#7:-HSS-127x127x6.4"> </a></h2><p><img src="hss-xsect.svg" alt="x-sect"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># See page 7-88 CISC HB</span>
+<span class="n">d</span> <span class="o">=</span> <span class="mi">127</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="mi">127</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mi">20</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">t</span> <span class="o">=</span> <span class="mf">6.35</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">d</span><span class="o">*</span><span class="n">w</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="n">t</span>
+<span class="n">xbar</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">A</span><span class="p">))</span><span class="o">*</span><span class="p">((</span><span class="n">d</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">w</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">Lw</span> <span class="o">=</span> <span class="mi">220</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;d,b,t,A,xbar,Lw, xbar/Lw &gt;= 0.1&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>d              = 127   
+b              = 53.5  
+t              = 6.35  
+A              = 1405  
+xbar           = 38.93 
+Lw             = 220   
+xbar/Lw &gt;= 0.1 = True  
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">An</span> <span class="o">=</span> <span class="mi">2960</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="mi">20</span><span class="o">*</span><span class="mf">6.35</span>      <span class="c1"># 20mm slot cut from both sides of HSS</span>
+<span class="n">Ane</span> <span class="o">=</span> <span class="nb">max</span><span class="p">((</span><span class="mf">1.1</span> <span class="o">-</span> <span class="n">xbar</span><span class="o">/</span><span class="n">Lw</span><span class="p">)</span><span class="o">*</span><span class="n">An</span><span class="p">,</span> <span class="mf">0.8</span><span class="o">*</span><span class="n">An</span><span class="p">)</span>
+<span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">hFu</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;An,Ane,Ane/An,Tr,Tr&gt;=Tf&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>An     = 2706   
+Ane    = 2498   
+Ane/An = 0.9231 
+Tr     = 843    
+Tr&gt;=Tf = True   
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Therefore, HSS 127x127x6.4 OK</strong></p>
+<hr>
+<hr>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="8:-Lap-Plates---2-@-10mm-x-220mm">8: Lap Plates - 2 @ 10mm x 220mm<a class="anchor-link" href="#8:-Lap-Plates---2-@-10mm-x-220mm"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>OK, as thickness of 2 plates = thickness of insert plate, and widths are the same.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Therefore, 2-10mmx220mm Lap Plates OK</strong></p>
+<hr>
+<hr>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="9:-Gusset-Plate">9: Gusset Plate<a class="anchor-link" href="#9:-Gusset-Plate"> </a></h2><p>Gusset plate OK as thickness and width same as insert plate.</p>
+<p><strong>Therefore, 20mm gusset plate OK</strong></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="10:-Summary">10: Summary<a class="anchor-link" href="#10:-Summary"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="design-summary.svg" alt="Summary"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

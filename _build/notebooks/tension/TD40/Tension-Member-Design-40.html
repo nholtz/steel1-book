@@ -1,25 +1,25 @@
 ---
 redirect_from:
-  - "/notebooks/tension/td10/tension-member-design-10"
-interact_link: content/notebooks/tension/TD10/Tension-Member-Design-10.ipynb
+  - "/notebooks/tension/td40/tension-member-design-40"
+interact_link: content/notebooks/tension/TD40/Tension-Member-Design-40.ipynb
 kernel_name: python3
-kernel_path: content/notebooks/tension/TD10
+kernel_path: content/notebooks/tension/TD40
 has_widgets: false
 title: |-
-  TD10: Design of Slotted HSS
+  TD40: Design of Slotted HSS
 pagenum: 17
 prev_page:
   url: /text/tension/design-examples.html
 next_page:
   url: /notebooks/introduction.html
 suffix: .ipynb
-search: plate mm hss gusset insert thickness x ok therefore try svg path w net section tf area block shear design end fracture phiu fu ge t tension plates required times because minimum bolt edge paths weld member bolted bolts into ag cross frac dimensions xx should layout same bearing failure above size summary connections slotted following governing sectional handbook not want considerations configuration welded arrangement gauge lines distances determine wide tearout resistance gross yield wider le fillet lap examples considers accept data given property value kn angles holes punched electrodes exx brace frame often case reasonable estimates n ane estimate
+search: plate mm hss gusset insert thickness x ok w therefore try svg path net section tf area block shear design end fracture phiu fu ge t tension plates required times because minimum bolt edge paths weld member bolted following bolts into ag cross frac dimensions xx should layout same bearing failure above size summary connections slotted angles governing sectional handbook not want considerations configuration welded arrangement gauge lines distances determine wide tearout resistance gross yield wider le fillet lap examples considers accept data given property value kn holes punched electrodes exx brace frame often case reasonable estimates n ane estimate
 
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
 
     <main class="jupyter-page">
-    <div id="page-info"><div id="page-title">TD10: Design of Slotted HSS</div>
+    <div id="page-info"><div id="page-title">TD40: Design of Slotted HSS</div>
 </div>
     
 <div class="jb_cell">
@@ -85,7 +85,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># set the default precion for display of floating point numbers</span>
 <span class="o">%</span><span class="k">precision</span> 3
 
-<span class="c1"># impo</span>
+<span class="c1"># import useful utilities</span>
 <span class="kn">from</span> <span class="nn">sst</span> <span class="k">import</span> <span class="n">SST</span>
 <span class="n">sst</span> <span class="o">=</span> <span class="n">SST</span><span class="p">()</span>
 <span class="kn">from</span> <span class="nn">utils</span> <span class="k">import</span> <span class="n">show</span>
@@ -358,42 +358,6 @@ over the minimum.  Therefore:</p>
 
 </div>
 </div>
-</div>
-</div>
-
-<div class="jb_cell">
-
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">##angle=sst.section_tables([&#39;L&#39;],&#39;Mass&#39;)</span>
-<span class="c1">##angle.query(&quot;Avl!=&#39;*&#39;&amp;A&gt;2500/4&quot;)[[&#39;A&#39;,&#39;T&#39;,&#39;Mass&#39;]].head(10)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-</div>
-
-<div class="jb_cell">
-
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">##angle=sst.section_tables([&#39;W&#39;],&#39;Mass&#39;)</span>
-<span class="c1">##angle.query(&quot;Avl!=&#39;*&#39;&amp;A&gt;2500&quot;)[[&#39;Dsg&#39;,&#39;A&#39;,&#39;T&#39;,&#39;Mass&#39;]].head(10)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -1962,6 +1926,53 @@ Tr&gt;=Tf = True
 
 </div>
 </div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><em>The following can be used to search for angles or W shapes to replace the HSS</em></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">##angle=sst.section_tables([&#39;L&#39;],&#39;Mass&#39;)</span>
+<span class="c1">##angle.query(&quot;Avl!=&#39;*&#39;&amp;A&gt;2500/4&quot;).head(10)[[&#39;A&#39;,&#39;T&#39;,&#39;Mass&#39;]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">##angle=sst.section_tables([&#39;W&#39;],&#39;Mass&#39;)</span>
+<span class="c1">##angle.query(&quot;Avl!=&#39;*&#39;&amp;A&gt;2500&quot;).head(10)[[&#39;Dsg&#39;,&#39;A&#39;,&#39;T&#39;,&#39;Mass&#39;]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 </div>
 

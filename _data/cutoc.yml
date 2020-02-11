@@ -65,8 +65,8 @@
   - title: Design Examples
     url: /text/tension/design-examples
     subsections:
-    - title: "TD10: Design of Slotted HSS"
-      url: /notebooks/tension/TD10/Tension-Member-Design-10
+    - title: "TD40: Design of Slotted HSS"
+      url: /notebooks/tension/TD40/Tension-Member-Design-40
 
 - divider: true
 

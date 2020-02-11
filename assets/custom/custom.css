@@ -59,3 +59,8 @@ div.warning { background-image: url("../images/admon-warning.png"); }
 p img {
     max-width: 900px;
 }
+
+div.text_cell_render > p > img,
+div.text_cell_render > p > a > img {
+  max-width: 900px;
+}

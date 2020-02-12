@@ -56,6 +56,8 @@ div.caution { background-image: url("../images/admon-caution.png"); }
 div.warning { background-image: url("../images/admon-warning.png"); }
 /* ---- admonition end ---- */
 
+/* ***** mods to built-in style paramters ***** */
+
 p img {
     max-width: 900px;
 }
@@ -63,4 +65,8 @@ p img {
 div.text_cell_render > p > img,
 div.text_cell_render > p > a > img {
   max-width: 900px;
+}
+
+div.jb_cell {
+    width: 90%;
 }

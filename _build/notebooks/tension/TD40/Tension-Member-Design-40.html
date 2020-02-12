@@ -13,7 +13,7 @@ prev_page:
 next_page:
   url: /notebooks/introduction.html
 suffix: .ipynb
-search: plate mm hss gusset insert thickness x ok w therefore try svg path net section tf area block shear design end fracture phiu fu ge t tension plates required times because minimum bolt edge paths weld member bolted following bolts into ag cross frac dimensions xx should layout same bearing failure above size summary connections slotted angles governing sectional handbook not want considerations configuration welded arrangement gauge lines distances determine wide tearout resistance gross yield wider le fillet lap examples considers accept data given property value kn holes punched electrodes exx brace frame often case reasonable estimates n ane estimate
+search: plate mm hss gusset insert thickness x ok w therefore try svg path net section tf area block shear design end fracture phiu fu ge t tension plates required times because minimum bolt edge paths weld member bolted following bolts into ag cross frac dimensions xx should layout same bearing failure above size summary connections slotted angles governing sectional handbook not want considerations configuration welded arrangement gauge lines distances determine wide tearout resistance gross yield wider le fillet lap examples considers accept data given property value kn holes punched electrodes exx brace frame often case reasonable estimates n ne estimate
 
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
@@ -121,8 +121,8 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <span class="n">wFu</span> <span class="o">=</span> <span class="mi">450</span>
 <span class="n">bFu</span> <span class="o">=</span> <span class="mi">825</span>   <span class="c1"># bolt</span>
 <span class="n">Xu</span> <span class="o">=</span> <span class="mi">490</span>    <span class="c1"># weld</span>
-<span class="n">bd</span> <span class="o">=</span> <span class="mf">25.4</span> <span class="o">*</span> <span class="mf">0.75</span>   <span class="c1"># 3/4&quot; bolt</span>
-<span class="n">hd</span> <span class="o">=</span> <span class="mi">22</span> <span class="o">+</span> <span class="mi">2</span>       <span class="c1"># in 22mm punched holes</span>
+<span class="n">bd</span> <span class="o">=</span> <span class="mf">25.4</span> <span class="o">*</span> <span class="mf">0.75</span>   <span class="c1"># 3/4&quot; bolt diameter</span>
+<span class="n">hd</span> <span class="o">=</span> <span class="mi">22</span> <span class="o">+</span> <span class="mi">2</span>       <span class="c1"># hole diameter: 22mm punched holes</span>
 </pre></div>
 
     </div>
@@ -154,7 +154,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="1:-HSS-Tension-Member">1: HSS Tension Member<a class="anchor-link" href="#1:-HSS-Tension-Member"> </a></h2><p>Tension brace will be bolted into frame.  Net area fracture is often the governing case.  Reasonable
-estimates are $A_{n} = 0.9 A_g$ and $A_ne = 0.85 A_n$.  Therefore, a first estimate of cross-sectional
+estimates are $A_{n} = 0.9 A_g$ and $A_{ne} = 0.85 A_n$.  Therefore, a first estimate of cross-sectional
 area required is, without differentiating material strengths, is:</p>
 $$
 \phi_u \times 0.85 \times 0.9 A_g \times Fu \ge T_f
@@ -396,7 +396,7 @@ plate welded into the HSS must be the same thickness, and that affects the stren
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Tf/vr1                 # number of bolts required = 5.063 
+<pre>Tf/vr1 = 5.063 
 </pre>
 </div>
 </div>

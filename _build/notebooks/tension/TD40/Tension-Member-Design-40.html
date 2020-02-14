@@ -13,7 +13,7 @@ prev_page:
 next_page:
   url: /notebooks/introduction.html
 suffix: .ipynb
-search: plate mm hss gusset insert thickness x ok w therefore try svg path net section tf area block shear design end fracture phiu fu ge t tension plates required times because minimum bolt edge paths weld member bolted following bolts into ag cross frac dimensions xx should layout same bearing failure above size summary connections slotted angles governing sectional handbook not want considerations configuration welded arrangement gauge lines distances determine wide tearout resistance gross yield wider le fillet lap examples considers accept data given property value kn holes punched electrodes exx brace frame often case reasonable estimates n ne estimate
+search: plate mm hss insert gusset thickness x ok design w therefore try svg path tf net section end plates area block shear fracture phiu fu ge bolt t weld tension following required times because minimum edge paths size member connections bolted bolts into ag cross frac dimensions xx shapes possible should layout welded same bearing failure above summary step example slotted also pdf angles governing sectional dont its handbook not want considerations configuration photo start arrangement pattern gauge lines distances determine wide tearout resistance gross yield wider length le fillet lap increase considers accept included available form traditional hand written
 
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
@@ -26,7 +26,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Design-of-a-Tension-Member-and-End-Connections">Design of a Tension Member and End Connections<a class="anchor-link" href="#Design-of-a-Tension-Member-and-End-Connections"> </a></h1><p>This design examples considers an HSS tension member, slotted to accept bolted plate connections.</p>
+<h1 id="Design-of-a-Tension-Member-and-End-Connections">Design of a Tension Member and End Connections<a class="anchor-link" href="#Design-of-a-Tension-Member-and-End-Connections"> </a></h1><p>This example considers the design of an HSS tension member, slotted to accept bolted plate connections.  The end connections are
+included in the design.</p>
+<p>This example is also available in the form of <a href="TD40-work.pdf">traditional hand-written design notes</a>.</p>
 <p>The following data are given:</p>
 <table>
 <thead><tr>
@@ -173,7 +175,8 @@ $$
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Tf</span><span class="o">/</span><span class="p">(</span><span class="n">phi</span><span class="o">*</span><span class="mf">0.85</span><span class="o">*</span><span class="mf">0.9</span><span class="o">*</span><span class="mi">450</span><span class="o">*</span><span class="mf">1E-3</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Ag_reqd</span> <span class="o">=</span> <span class="n">Tf</span><span class="o">/</span><span class="p">(</span><span class="n">phi</span><span class="o">*</span><span class="mf">0.85</span><span class="o">*</span><span class="mf">0.9</span><span class="o">*</span><span class="mi">450</span><span class="o">*</span><span class="mf">1E-3</span><span class="p">)</span>
+<span class="o">%</span><span class="k">show</span> Ag_reqd
 </pre></div>
 
     </div>
@@ -186,12 +189,10 @@ $$
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>2582.103</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Ag_reqd = 2582 
+</pre>
 </div>
-
 </div>
 </div>
 </div>
@@ -365,6 +366,17 @@ over the minimum.  Therefore:</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="select-shapes.pdf">Other shapes</a> are possible.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="2:-Bolting-Requirements">2: Bolting Requirements<a class="anchor-link" href="#2:-Bolting-Requirements"> </a></h2><p>Again, because net area considerations usually govern we should start by selecting a bolt configuration (number of bolts and layout).  That will allow us to decide gusset plate thickness, which is important because the insert
 plate welded into the HSS must be the same thickness, and that affects the strength of the HSS.</p>
 
@@ -382,7 +394,7 @@ plate welded into the HSS must be the same thickness, and that affects the stren
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">Ab</span> <span class="o">=</span> <span class="mf">3.14159</span><span class="o">*</span><span class="n">bd</span><span class="o">*</span><span class="n">bd</span><span class="o">/</span><span class="mi">4</span>   <span class="c1"># bolt shear area</span>
 <span class="n">vr1</span> <span class="o">=</span> <span class="mf">0.60</span><span class="o">*</span><span class="n">phib</span><span class="o">*</span><span class="mi">1</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">Ab</span><span class="o">*</span><span class="n">bFu</span> <span class="o">*</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="mf">1E-3</span>   <span class="c1"># factored shear strength of 1 bolt, double shear, threads intercepted</span>
-<span class="o">%</span><span class="k">show</span> Tf/vr1                 # number of bolts required
+<span class="o">%</span><span class="k">show</span> Nbolts=Tf/vr1                 # number of bolts required
 </pre></div>
 
     </div>
@@ -396,7 +408,7 @@ plate welded into the HSS must be the same thickness, and that affects the stren
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Tf/vr1 = 5.063 
+<pre>Nbolts = 5.063 
 </pre>
 </div>
 </div>
@@ -465,7 +477,9 @@ plate welded into the HSS must be the same thickness, and that affects the stren
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="mi">75</span> <span class="o">-</span> <span class="p">(</span><span class="n">hd</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span>
 <span class="n">Ut</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="o">%</span><span class="k">show</span> An, Ut
+<span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">75</span><span class="o">+</span><span class="mi">35</span><span class="p">))</span><span class="o">*</span><span class="mi">1</span>
+<span class="n">vr1</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">pFu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">pFy</span><span class="o">+</span><span class="n">pFu</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="o">%</span><span class="k">show</span> An,Ut,Agv,vr1
 </pre></div>
 
     </div>
@@ -479,74 +493,10 @@ plate welded into the HSS must be the same thickness, and that affects the stren
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>An = 51 
-Ut = 1  
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-
-<div class="jb_cell">
-
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">75</span><span class="o">+</span><span class="mi">35</span><span class="p">))</span><span class="o">*</span><span class="mi">1</span>
-<span class="o">%</span><span class="k">show</span> Agv
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="jb_output_wrapper }}">
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Agv = 370 
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-
-<div class="jb_cell">
-
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vr1</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">pFu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">pFy</span><span class="o">+</span><span class="n">pFu</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
-<span class="o">%</span><span class="k">show</span> vr1
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="jb_output_wrapper }}">
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>vr1 = 78.44 
+<pre>An  = 51    
+Ut  = 1     
+Agv = 370   
+vr1 = 78.44 
 </pre>
 </div>
 </div>
@@ -576,7 +526,9 @@ Ut = 1
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="mi">75</span><span class="o">+</span><span class="mi">35</span><span class="o">-</span><span class="p">(</span><span class="n">hd</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span>
 <span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.6</span>
-<span class="o">%</span><span class="k">show</span> An, Ut
+<span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">75</span><span class="o">+</span><span class="mi">35</span><span class="p">))</span><span class="o">*</span><span class="mi">1</span>
+<span class="n">vr2</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">pFu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">pFy</span><span class="o">+</span><span class="n">pFu</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="o">%</span><span class="k">show</span> An, Ut, Agv, vr2
 </pre></div>
 
     </div>
@@ -590,74 +542,10 @@ Ut = 1
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>An = 74  
-Ut = 0.6 
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-
-<div class="jb_cell">
-
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">75</span><span class="o">+</span><span class="mi">35</span><span class="p">))</span><span class="o">*</span><span class="mi">1</span>
-<span class="o">%</span><span class="k">show</span> Agv
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="jb_output_wrapper }}">
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Agv = 185 
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-
-<div class="jb_cell">
-
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vr2</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">pFu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">pFy</span><span class="o">+</span><span class="n">pFu</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
-<span class="o">%</span><span class="k">show</span> vr2
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="jb_output_wrapper }}">
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>vr2 = 45.45 
+<pre>An  = 74    
+Ut  = 0.6   
+Agv = 185   
+vr2 = 45.45 
 </pre>
 </div>
 </div>
@@ -687,24 +575,9 @@ Ut = 0.6
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">An</span> <span class="o">=</span> <span class="mf">0.</span>
 <span class="n">Ut</span> <span class="o">=</span> <span class="mi">1</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-</div>
-
-<div class="jb_cell">
-
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">75</span><span class="o">+</span><span class="mi">35</span><span class="p">))</span><span class="o">*</span><span class="mi">1</span>
-<span class="o">%</span><span class="k">show</span> Agv
+<span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">75</span><span class="o">+</span><span class="mi">35</span><span class="p">))</span><span class="o">*</span><span class="mi">1</span>
+<span class="n">vr3</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">pFu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">pFy</span><span class="o">+</span><span class="n">pFu</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="o">%</span><span class="k">show</span> Agv, vr3
 </pre></div>
 
     </div>
@@ -718,40 +591,8 @@ Ut = 0.6
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Agv = 740 
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-
-<div class="jb_cell">
-
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vr3</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">pFu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">pFy</span><span class="o">+</span><span class="n">pFu</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
-<span class="o">%</span><span class="k">show</span> vr3
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="jb_output_wrapper }}">
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>vr3 = 123.2 
+<pre>Agv = 740   
+vr3 = 123.2 
 </pre>
 </div>
 </div>
@@ -917,7 +758,7 @@ tr1 = 80.87
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># thickness required, mm</span>
-<span class="o">%</span><span class="k">show</span> Tf/r
+<span class="o">%</span><span class="k">show</span> Reqd T=Tf/r
 </pre></div>
 
     </div>
@@ -931,7 +772,7 @@ tr1 = 80.87
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Tf/r = 17.6 
+<pre>Reqd T = 17.6 
 </pre>
 </div>
 </div>
@@ -1076,7 +917,7 @@ Tr &gt;= Tf = False
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Thats close enough.  OK</p>
+<p>But its close enough.  OK</p>
 <h3 id="4.2:-Net-Section-Fracture">4.2: Net Section Fracture<a class="anchor-link" href="#4.2:-Net-Section-Fracture"> </a></h3>
 </div>
 </div>
@@ -1142,7 +983,7 @@ $$
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Tf</span><span class="o">/</span><span class="p">(</span><span class="n">phiu</span> <span class="o">*</span> <span class="n">pT</span> <span class="o">*</span> <span class="n">pFu</span><span class="o">*</span><span class="mf">1E-3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">48</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">show</span> w reqd.=Tf/(phiu * pT * pFu*1E-3) + 48
 </pre></div>
 
     </div>
@@ -1155,12 +996,10 @@ $$
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>169.212</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>w reqd. = 169.2 
+</pre>
 </div>
-
 </div>
 </div>
 </div>
@@ -1440,7 +1279,7 @@ Tr &gt;= Tf = True
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Handbook, page 6-186, shows that for $12 \le t \le 20$, minimum fillet size is 6mm.</p>
-<p>As the weld of the Insert to the HSS is not near an edge, there is no essnetial maximum size.</p>
+<p>As the weld of the Insert to the HSS is not near an edge, there is no essential maximum size.</p>
 <h3 id="6.2:-Try-6mm-fillet-weld">6.2: Try 6mm fillet weld<a class="anchor-link" href="#6.2:-Try-6mm-fillet-weld"> </a></h3>
 </div>
 </div>
@@ -1454,8 +1293,8 @@ Tr &gt;= Tf = True
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Required length is: (all weld parallel to axis of load)</span>
-<span class="n">Tf</span><span class="o">/</span><span class="p">(</span><span class="mf">0.67</span><span class="o">*</span><span class="n">phiw</span><span class="o">*</span><span class="p">(</span><span class="mf">0.707</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span><span class="o">*</span><span class="n">Xu</span><span class="o">*</span><span class="mf">1E-3</span><span class="p">)</span>  <span class="c1"># S16 13.13.2.2</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Total Required length is: (all weld parallel to axis of load)</span>
+<span class="o">%</span><span class="k">show</span> 4L reqd.=Tf/(0.67*phiw*(0.707*6)*Xu*1E-3)  # S16 13.13.2.2
 </pre></div>
 
     </div>
@@ -1468,12 +1307,10 @@ Tr &gt;= Tf = True
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>857.381</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4L reqd. = 857.4 
+</pre>
 </div>
-
 </div>
 </div>
 </div>
@@ -1489,7 +1326,7 @@ Tr &gt;= Tf = True
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">857</span><span class="o">/</span><span class="mi">4</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">show</span> L reqd.=857/4
 </pre></div>
 
     </div>
@@ -1502,12 +1339,10 @@ Tr &gt;= Tf = True
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>214.250</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>L reqd. = 214.2 
+</pre>
 </div>
-
 </div>
 </div>
 </div>
@@ -1583,7 +1418,7 @@ Tr &gt;= Tf = True
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">An2</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="n">pT</span> <span class="o">+</span> <span class="o">.</span><span class="mi">25</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="n">pT</span>
-<span class="o">%</span><span class="k">show</span> w,L,An2
+<span class="o">%</span><span class="k">show</span> w,T=pT,L,An2
 </pre></div>
 
     </div>
@@ -1598,6 +1433,7 @@ Tr &gt;= Tf = True
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>w   = 127  
+T   = 20   
 L   = 220  
 An2 = 2370 
 </pre>
@@ -1655,7 +1491,7 @@ An2 = 2370
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">An3</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">xbar</span><span class="o">/</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="n">pT</span>
-<span class="o">%</span><span class="k">show</span> w,xbar,An3
+<span class="o">%</span><span class="k">show</span> w,T=pT,xbar,An3
 </pre></div>
 
     </div>
@@ -1670,6 +1506,7 @@ An2 = 2370
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>w    = 46.5  
+T    = 20    
 xbar = 23.25 
 An3  = 831.7 
 </pre>
@@ -1796,7 +1633,7 @@ xbar/Lw &gt;= 0.1 = True
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">An</span> <span class="o">=</span> <span class="mi">2960</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="mi">20</span><span class="o">*</span><span class="mf">6.35</span>      <span class="c1"># 20mm slot cut from both sides of HSS</span>
-<span class="n">Ane</span> <span class="o">=</span> <span class="nb">max</span><span class="p">((</span><span class="mf">1.1</span> <span class="o">-</span> <span class="n">xbar</span><span class="o">/</span><span class="n">Lw</span><span class="p">)</span><span class="o">*</span><span class="n">An</span><span class="p">,</span> <span class="mf">0.8</span><span class="o">*</span><span class="n">An</span><span class="p">)</span>
+<span class="n">Ane</span> <span class="o">=</span> <span class="nb">max</span><span class="p">((</span><span class="mf">1.1</span> <span class="o">-</span> <span class="n">xbar</span><span class="o">/</span><span class="n">Lw</span><span class="p">)</span><span class="o">*</span><span class="n">An</span><span class="p">,</span> <span class="mf">0.8</span><span class="o">*</span><span class="n">An</span><span class="p">)</span>   <span class="c1"># S16 12.3.3.4</span>
 <span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">hFu</span> <span class="o">*</span> <span class="mf">1E-3</span>
 <span class="o">%</span><span class="k">show</span> An,Ane,Ane/An,Tr,Tr&gt;=Tf
 </pre></div>
@@ -1951,6 +1788,28 @@ Tr&gt;=Tf = True
 </div>
 </div>
 
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="11.-Comments-and-Observations">11. Comments and Observations<a class="anchor-link" href="#11.-Comments-and-Observations"> </a></h2><ul>
+<li><p>It may have been better to start with the design of the Insert Plate in step 3, rather than the gusset plate.  Would have more quickly determined a workable bolt pattern that way.</p>
+</li>
+<li><p>In Step 7, it is quite possibl;e that we would have found the HSS inadequate ($T_r \lt T_f$).  Had that happened, we would have the following possible remedies:</p>
+<ul>
+<li>decrease the thickness of the insert/gusset plates.</li>
+<li>increase the length of the HSS to insert plate weld.  Neither of these would help very much.</li>
+<li>increase the size of the HSS (don't always have that freedom).</li>
+<li>add two cover plates welded to the HSS.  See the photo in step 1.</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
 </div>
 </div>
 

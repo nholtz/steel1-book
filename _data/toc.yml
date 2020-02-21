@@ -30,6 +30,8 @@
 - header: Steel I Notes
 
 # A chapter w/ a collection of sections beneath it
+- title: Recent Revisions
+  url: /text/revisions
 - title: Tension Members
   url: /text/tension/tension
   sections:

@@ -69,6 +69,48 @@
     subsections:
     - title: "TD40: Design of Slotted HSS"
       url: /notebooks/tension/TD40/Tension-Member-Design-40
+- title: Connections
+  url: /text/connection/index
+  sections:
+  - title: Examples
+    url: /text/connection/index
+    subsections:
+    - title: "C10: Bolted Lap Splice"
+      url: /text/connection/C10/index
+    - title: "C20: Bolted Angle Connection"
+      url: /text/connection/C20/index
+    - title: "C30: Beam-Girder Connection"
+      url: /text/connection/C30/index
+    - title: "C45: Cover Plate Weld Design"
+      url: /text/connection/C45/index
+    - title: "C50: Combined Shear and Tension in Bolts"
+      url: /text/connection/C50/index
+    - title: "C60: Eccentrically Loaded Bolted Connections"
+      url: /text/connection/C60/index
+  - title: "CPS: Suggested Problems"
+    url: /text/connection/CPS/index
+- title: Axial Compression
+  url: /text/compression/index
+  sections:
+  - title: Examples
+    url: /text/compression/index
+    subsections:
+    - title: "AC10: Axially Loaded Columns"
+      url: /text/compression/AC10/index
+    - title: "AC15: HSS Column Strength"
+      url: /text/compression/AC15/index
+    - title: "AC20: Elastic Local Buckling"
+      url: /text/compression/AC20/index
+    - title: "AC30: Built-up Sections"
+      url: /text/compression/AC30/index
+    - title: "AC40: Built-up Sections (Double Angle Strut)"
+      url: /text/compression/AC40/index
+    - title: "AC42: Built-up Sections with Elastic Local Buckling"
+      url: /text/compression/AC42/index
+    - title: "AC50: Effective Length Factors"
+      url: /text/compression/AC50/index
+  - title: "ACPS: Suggested Problems"
+    url: /text/compression/ACPS/index
 
 - divider: true
 
@@ -95,12 +137,12 @@
 #      url: /notebooks/tension/T15/bolted-single-angle-01u
 #    - title: "T20: W Brace"
 #      url: /notebooks/tension/T20/W-brace-01
-#    - title: "T30 v1: HSS Brace"
-#      url: /notebooks/tension/T30/HSS-brace-01-v1
-#    - title: "T30 v2: HSS Brace"
-#      url: /notebooks/tension/T30/HSS-brace-01-v2
-#    - title: "T30 v3: HSS Brace"
-#      url: /notebooks/tension/T30/HSS-brace-01-v3
+##    - title: "T30 v1: HSS Brace"
+##      url: /notebooks/tension/T30/HSS-brace-01-v1
+##    - title: "T30 v2: HSS Brace"
+##      url: /notebooks/tension/T30/HSS-brace-01-v2
+##    - title: "T30 v3: HSS Brace"
+##      url: /notebooks/tension/T30/HSS-brace-01-v3
 #    - title: "T30 v4: HSS Brace"
 #      url: /notebooks/tension/T30/HSS-brace-01-v4
 #
@@ -122,7 +164,7 @@
 #  sections:
 #  - title: Tension Members
 #    url: /notebooks/tension/experimental
-#    subsections:
-#    - title: "T01: Net Areas TEST (with units)"
-#      url: /notebooks/tension/T01/test-net-areas-01u
+##    subsections:
+##    - title: "T01: Net Areas TEST (with units)"
+##      url: /notebooks/tension/T01/test-net-areas-01u
 # end local

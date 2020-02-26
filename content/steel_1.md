@@ -3,8 +3,8 @@
 ## Traditional Presentations
 
 * **[Tension Members](text/tension/tension)**
-* Connections
-* Axially Loaded Compression
+* **[Connections](text/connection/index)**
+* **[Axially Loaded Compression Members](text/compression/index)**
 * Bending
 * Beam Columns
 

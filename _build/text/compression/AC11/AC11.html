@@ -1,0 +1,130 @@
+---
+redirect_from:
+  - "/text/compression/ac11/ac11"
+interact_link: content/text/compression/AC11/AC11.ipynb
+kernel_name: python3
+kernel_path: content/text/compression/AC11
+has_widgets: false
+title: |-
+  AC11: Use of Resistance Tables
+pagenum: 32
+prev_page:
+  url: /text/compression/AC10/index.html
+next_page:
+  url: /text/compression/AC15/index.html
+suffix: .ipynb
+search: cr ry rx l frac tables axis ly text page length mm strong lx example wx compressive also computed using kl respect bending convention necessary investigate buckling direction slenderness ratio same values tabulated therefore interpolating kn factored axial resistance cisc handbook bottom examples weak structural shapes y properties dimensions part sometimes strength particularly unbraced lengths different often due additional bracing still used realizing resistances r specifically compute gives us x after shape evaluate steel where pages determine another cross section calculation must redone ratios vary column
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">AC11: Use of Resistance Tables</div>
+</div>
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Use-of-Factored-Axial-Compressive-Resistance-tables">Use of Factored Axial Compressive Resistance tables<a class="anchor-link" href="#Use-of-Factored-Axial-Compressive-Resistance-tables"> </a></h2><p>See also the CISC Handbook: bottom of page 4-15 and examples on page 4-16.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The tables are computed using the length ($KL$) with respect to weak-axis bending.  For most structural
+shapes, by convention, we call this the $y-$axis, and the properties and dimensions tables in Part 6
+use this convention.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Sometimes it is necessary to also investigate buckling strength with respect to strong axis bending, particularly when the unbraced lengths are different (often due to additional bracing in one direction).</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The tables can still be used by realizing that the compressive resistances, $C_r$, are computed using the
+slenderness ratio, $L/r$ (specifically $L_y/r_y$).  All we have to do, then is to compute a length that gives us the same slenderness ratio as the strong or $x-$axis.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>After all, if</p>
+$$ \frac{L_y}{r_y} = \frac{L_x}{r_x} $$<p>then $C_r$ will be the same for each direction.  As the $L_y$ values are tabulated in the tables, we use</p>
+$$ L_y = \frac{L_x}{r_x} r_y$$<p>or</p>
+$$ L_y = \frac{L_x}{r_x/r_y} $$<p>$r_x/r_y$ values are tabulated for each shape.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Example">Example<a class="anchor-link" href="#Example"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For example, evaluate a W310x67 of A992 steel for strong axis buckling where $KL = 4400~\text{mm}$.
+ See pages 4-24, 4-25.</p>
+<p>$r_x/r_y = 2.65$  (page 4-24)</p>
+<p>$4400/2.65 = 1660~\text{mm}$.  Therefore use 1660 mm as the length to determine $C_r$.</p>
+<p>At $L = 1500$, $C_r = 2470$.  At $L = 2000$, $C_r = 2310$.  Interpolating:</p>
+$$ C_r = 2470 - \frac{1660-1500}{2000-1500}(2470-2310) = 2417~\text{kN}$$
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If it is necessary to investigate another cross-section, the length calculation must be redone
+as the $r_x/r_y$ ratios vary.  For example, for a W250x67:</p>
+<p>$r_x/r_y = 2.16$ (page 4-25).</p>
+<p>$4400/2.16 = 2037~\text{mm}$.  Therefore use $L = 2037$ for the W250x67 column.</p>
+<p>At $L = 2000$, $C_r = 2360$.  At $L = 2500$, $C_r = 2170$.  Interpolating:</p>
+$$C_r = 2360 - \frac{2037-2000}{2500-2000}(2360-2170) = 2346~\text{kN}$$
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

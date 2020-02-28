@@ -32,6 +32,11 @@
 # A chapter w/ a collection of sections beneath it
 - title: Recent Revisions
   url: /text/revisions
+- title: Study Guide
+  url: /text/Study-Guide
+
+- divider: true
+
 - title: Tension Members
   url: /text/tension/tension
   sections:
@@ -70,7 +75,7 @@
     - title: "TD40: Design of Slotted HSS"
       url: /notebooks/tension/TD40/Tension-Member-Design-40
 - title: Connections
-  url: /text/connection/index
+  url: /text/connection/connection
   sections:
   - title: Examples
     url: /text/connection/index
@@ -90,13 +95,15 @@
   - title: "CPS: Suggested Problems"
     url: /text/connection/CPS/index
 - title: Axial Compression
-  url: /text/compression/index
+  url: /text/compression/compression
   sections:
   - title: Examples
     url: /text/compression/index
     subsections:
     - title: "AC10: Axially Loaded Columns"
       url: /text/compression/AC10/index
+    - title: "AC11: Use of Resistance Tables"
+      url: /text/compression/AC11/AC11
     - title: "AC15: HSS Column Strength"
       url: /text/compression/AC15/index
     - title: "AC20: Elastic Local Buckling"

@@ -1,4 +1,5 @@
 # CIVE 3205
+
 ## Design of Structural Steel Components
 
 This is a [Jupyter Book](https://jupyterbook.org/) to support the teaching of

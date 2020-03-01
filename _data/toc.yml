@@ -159,8 +159,10 @@
 
 - title: Introduction
   url: /notebooks/programming
-- title: Programming Style
-  url: /notebooks/Programming-Style
+- title: Programming Style 1
+  url: /notebooks/Programming-Style-1
+- title: Programming Style 2
+  url: /notebooks/Programming-Style-2
 
 - divider: true
 

@@ -139,9 +139,9 @@
 #    - title: "T01: Net Areas (with units)"
 #      url: /notebooks/tension/T01/net-areas-01u
 #    - title: "T10: Lap Splice"
-#      url: /notebooks/tension/T10/lap-splice-01
+#      url: /notebooks/tension/T10/T10-lap-splice-v2
 #    - title: "T15: Angle, Bolted One Leg"
-#      url: /notebooks/tension/T15/bolted-single-angle-01u
+#      url: /notebooks/tension/T15/T15-bolted-single-angle-v2
 #    - title: "T20: W Brace"
 #      url: /notebooks/tension/T20/W-brace-01
 ##    - title: "T30 v1: HSS Brace"
@@ -150,8 +150,8 @@
 ##      url: /notebooks/tension/T30/HSS-brace-01-v2
 ##    - title: "T30 v3: HSS Brace"
 ##      url: /notebooks/tension/T30/HSS-brace-01-v3
-#    - title: "T30 v4: HSS Brace"
-#      url: /notebooks/tension/T30/HSS-brace-01-v4
+#    - title: "T30 v5: HSS Brace"
+#      url: /notebooks/tension/T30/T30-HSS-brace-v5
 #
 #- divider: true
 #
@@ -159,8 +159,10 @@
 #
 #- title: Introduction
 #  url: /notebooks/programming
-#- title: Programming Style
-#  url: /notebooks/Programming-Style
+#- title: Programming Style 1
+#  url: /notebooks/Programming-Style-1
+#- title: Programming Style 2
+#  url: /notebooks/Programming-Style-2
 #
 #- divider: true
 #

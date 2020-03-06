@@ -1,0 +1,2134 @@
+---
+redirect_from:
+  - "/notebooks/tension/t30/t30-hss-brace-v6"
+interact_link: content/notebooks/tension/T30/T30-HSS-brace-v6.ipynb
+kernel_name: python3
+kernel_path: content/notebooks/tension/T30
+has_widgets: false
+title: |-
+  T30 v6: HSS Brace
+pagenum: 48
+prev_page:
+  url: /notebooks/tension/T20/T20-W-brace-01.html
+next_page:
+  url: /notebooks/programming.html
+suffix: .ipynb
+search: plate hss tongue details shear block section gusset weld cover case lap end plates net svg fracture length mm brace here strength resistance tr welding should check same tearout gross yield increase increasing shows structure notebook necessary compute factored overall sketch below design parameters defined bolting because thickness width not pattern welded area bolts welds without ensure develop minimum example t v analysis photo typical storey steel photographed ottawa september computations tension similar note dimensions properties invented author attempt made accurate model real setup units system various phi values used above figure few augmented where detailed figures available tbd spacings
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">T30 v6: HSS Brace</div>
+</div>
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Example-T30-v6:-HSS-Brace-Analysis">Example T30 v6: HSS Brace Analysis<a class="anchor-link" href="#Example-T30-v6:-HSS-Brace-Analysis"> </a></h1><p>The photo shows the end details of a typical brace in a 4-storey steel structure.  This was photographed in Ottawa, in September, 2015.</p>
+<p>This notebook shows the computations necessary to compute the factored tension resistance, $T_r$, for a similar brace.  <strong>Note</strong>, all of the dimensions and properties were invented by the author of this notebook; no attempt has been made to have an accurate model of the real structure.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">Designer</span> <span class="k">import</span> <span class="n">Part</span><span class="p">,</span> <span class="n">DesignNotes</span><span class="p">,</span> <span class="n">SST</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="n">sind</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">deg</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">deg</span><span class="p">))</span>  <span class="c1"># return sin of angle expressed in degrees</span>
+<span class="n">cosd</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">deg</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">deg</span><span class="p">))</span>  <span class="c1"># return cos of angle expressed in degrees</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">figure</span> &quot;brace.jpg&quot;
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_jpeg output_subarea ">
+<img src="../../../images/notebooks/tension/T30/T30-HSS-brace-v6_2_0.jpeg"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="brace-sketch.svg" alt="Overall Sketch"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Setup the units system</strong></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pint</span>                  <span class="c1"># setup to use the module for computing with units</span>
+<span class="n">ureg</span> <span class="o">=</span> <span class="n">pint</span><span class="o">.</span><span class="n">UnitRegistry</span><span class="p">()</span>
+<span class="n">mm</span> <span class="o">=</span> <span class="n">ureg</span><span class="p">[</span><span class="s1">&#39;mm&#39;</span><span class="p">]</span>              <span class="c1"># define symbols for the units used below</span>
+<span class="n">inch</span> <span class="o">=</span> <span class="n">ureg</span><span class="p">[</span><span class="s1">&#39;inch&#39;</span><span class="p">]</span>
+<span class="n">kN</span> <span class="o">=</span> <span class="n">ureg</span><span class="p">[</span><span class="s1">&#39;kN&#39;</span><span class="p">]</span>
+<span class="n">MPa</span> <span class="o">=</span> <span class="n">ureg</span><span class="p">[</span><span class="s1">&#39;MPa&#39;</span><span class="p">]</span>
+<span class="n">ureg</span><span class="o">.</span><span class="n">default_format</span> <span class="o">=</span> <span class="s1">&#39;~P&#39;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The various $\phi$ values used below:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">phiw</span> <span class="o">=</span> <span class="mf">0.67</span>    <span class="c1"># S16-14 13.1</span>
+<span class="n">phiu</span> <span class="o">=</span> <span class="mf">0.75</span>
+<span class="n">phib</span> <span class="o">=</span> <span class="mf">0.80</span>
+<span class="n">phibr</span> <span class="o">=</span> <span class="mf">0.80</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="mf">0.90</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">notes</span> <span class="o">=</span> <span class="n">DesignNotes</span><span class="p">(</span><span class="s1">&#39;Tr&#39;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Typical HSS Cross Brace&#39;</span><span class="p">,</span><span class="n">units</span><span class="o">=</span><span class="n">kN</span><span class="p">,</span><span class="n">trace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># useful abbreviations:</span>
+<span class="n">REQUIRE</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">require</span>       <span class="c1"># a requirement</span>
+<span class="n">CHECK</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">check</span>           <span class="c1"># a check</span>
+<span class="n">RECORD</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">record</span>         <span class="c1"># record calculation details</span>
+<span class="n">SETVARS</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">setvars</span>       <span class="c1"># extract attribute values as variables</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Design-Parameters">Design Parameters<a class="anchor-link" href="#Design-Parameters"> </a></h2><p>Most of the design parameters from the above figure are defined here.  A few are augmented or defined below where there are more detailed figures available.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Bolts</span><span class="p">(</span><span class="n">Part</span><span class="p">):</span>
+    <span class="s1">&#39;Bolts&#39;</span>   <span class="c1"># bolt group is the same on the tongue plate and on the gusset plate.</span>
+    <span class="n">grade</span> <span class="o">=</span> <span class="s1">&#39;ASTM A325&#39;</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="s1">&#39;3/4&quot;&#39;</span>
+    <span class="n">Fu</span> <span class="o">=</span> <span class="mi">825</span><span class="o">*</span><span class="n">MPa</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="o">*</span><span class="n">inch</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">mm</span><span class="p">)</span>
+    <span class="n">hole_type</span> <span class="o">=</span> <span class="s1">&#39;punched&#39;</span>
+    <span class="n">hd</span> <span class="o">=</span> <span class="mi">22</span><span class="o">*</span><span class="n">mm</span>            <span class="c1"># hole diameter</span>
+    <span class="n">ha</span> <span class="o">=</span> <span class="n">hd</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">mm</span>        <span class="c1"># hole allowance</span>
+    <span class="n">threads_intercepted</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">nlines</span> <span class="o">=</span> <span class="mi">2</span>            <span class="c1"># a line is perpendicular to load</span>
+    <span class="n">nperline</span> <span class="o">=</span> <span class="mi">3</span>          <span class="c1"># number of bolts in each line</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="mi">75</span><span class="o">*</span><span class="n">mm</span>             <span class="c1"># gauge (perpendicular to load)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="mi">75</span><span class="o">*</span><span class="n">mm</span>             <span class="c1"># spacing (parallel to load)</span>
+
+<span class="k">class</span> <span class="nc">Welds</span><span class="p">(</span><span class="n">Part</span><span class="p">):</span>
+    <span class="s1">&#39;Welds&#39;</span>
+    <span class="n">grade</span> <span class="o">=</span> <span class="s1">&#39;E49xx&#39;</span>
+    <span class="n">Xu</span> <span class="o">=</span> <span class="mi">490</span><span class="o">*</span><span class="n">MPa</span>
+    <span class="n">matching</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="k">class</span> <span class="nc">Plates</span><span class="p">(</span><span class="n">Part</span><span class="p">):</span>
+    <span class="s1">&#39;Plates&#39;</span>
+    <span class="n">grade</span> <span class="o">=</span> <span class="s1">&#39;CSA G40.21 350W&#39;</span>
+    <span class="n">Fy</span> <span class="o">=</span> <span class="mi">350</span><span class="o">*</span><span class="n">MPa</span>
+    <span class="n">Fu</span> <span class="o">=</span> <span class="mi">450</span><span class="o">*</span><span class="n">MPa</span>
+
+<span class="k">class</span> <span class="nc">HSS</span><span class="p">(</span><span class="n">Part</span><span class="p">):</span>
+    <span class="s1">&#39;HSS Column&#39;</span>
+    <span class="n">grade</span> <span class="o">=</span> <span class="s1">&#39;CSA G40.21 350W&#39;</span>
+    <span class="n">Fy</span> <span class="o">=</span> <span class="mi">350</span><span class="o">*</span><span class="n">MPa</span>
+    <span class="n">Fu</span> <span class="o">=</span> <span class="mi">450</span><span class="o">*</span><span class="n">MPa</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="s1">&#39;HS127x127x13&#39;</span>
+    <span class="n">D</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">A</span> <span class="o">=</span> <span class="n">SST</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="n">size</span><span class="p">,</span><span class="s1">&#39;D,T,A&#39;</span><span class="p">)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">D</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">T</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="o">*</span><span class="n">mm</span><span class="o">*</span><span class="n">mm</span>    
+
+<span class="k">class</span> <span class="nc">CoverPlate</span><span class="p">(</span><span class="n">Plates</span><span class="p">):</span>
+    <span class="s1">&#39;Cover Plate&#39;</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="mi">60</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">Lw</span> <span class="o">=</span> <span class="mi">90</span><span class="o">*</span><span class="n">mm</span>      <span class="c1"># length of weld from net section to end of HSS</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="mi">6</span><span class="o">*</span><span class="n">mm</span>        <span class="c1"># size of weld from on HSS.</span>
+   
+<span class="k">class</span> <span class="nc">TonguePlate</span><span class="p">(</span><span class="n">Plates</span><span class="p">):</span>
+    <span class="s1">&#39;Tongue Plate&#39;</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="mi">20</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="mi">280</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="mi">260</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="mi">40</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">mm</span>       <span class="c1"># weld size</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mi">45</span><span class="o">*</span><span class="n">mm</span>      <span class="c1"># dist end of weld to 1st bolt line  </span>
+    <span class="n">Lw</span> <span class="o">=</span> <span class="n">L</span> <span class="o">-</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="p">(</span><span class="n">Bolts</span><span class="o">.</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Bolts</span><span class="o">.</span><span class="n">s</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span>
+    <span class="n">Dh</span> <span class="o">=</span> <span class="n">SST</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="n">HSS</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">*</span><span class="n">mm</span>
+
+<span class="k">class</span> <span class="nc">GussetPlate</span><span class="p">(</span><span class="n">TonguePlate</span><span class="p">[</span><span class="s1">&#39;T,W&#39;</span><span class="p">],</span><span class="n">Plates</span><span class="p">):</span> 
+    <span class="s1">&#39;Gusset Plate&#39;</span>
+    <span class="n">W2</span> <span class="o">=</span> <span class="mi">110</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="mi">40</span><span class="o">*</span><span class="n">mm</span>    <span class="c1"># end distance</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">mm</span>     <span class="c1"># plate to column weld size</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="mf">45.</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Bolting-and-Welding-Details">Bolting and Welding Details<a class="anchor-link" href="#Bolting-and-Welding-Details"> </a></h2><p>TBD: Here we should check all spacings, edge distances, etc.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Gusset-Plate">Gusset Plate<a class="anchor-link" href="#Gusset-Plate"> </a></h2><p><img src="gusset-details.svg" alt="Gusset Plate Details"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Gusset-to-HSS-Weld">Gusset to HSS Weld<a class="anchor-link" href="#Gusset-to-HSS-Weld"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">GussetPlate</span><span class="p">[</span><span class="s1">&#39;W,W2,theta,D&#39;</span><span class="p">],</span><span class="n">Welds</span><span class="p">[</span><span class="s1">&#39;Xu&#39;</span><span class="p">],</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gusset to HSS Weld&#39;</span><span class="p">,</span><span class="n">result_var</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;L,L1,Mw,Aw&#39;</span><span class="p">):</span>
+    <span class="n">L1</span> <span class="o">=</span> <span class="n">W2</span><span class="o">+</span><span class="n">W</span><span class="o">*</span><span class="n">cosd</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="p">(</span><span class="n">L1</span><span class="o">/</span><span class="n">sind</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span><span class="o">*</span><span class="n">cosd</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">W</span><span class="o">*</span><span class="n">sind</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+
+    <span class="n">Mw</span> <span class="o">=</span> <span class="mf">1.0</span>                  
+    <span class="n">Aw</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">L</span><span class="o">*.</span><span class="mi">707</span><span class="o">*</span><span class="n">D</span>
+    <span class="n">Vr</span> <span class="o">=</span> <span class="mf">0.67</span><span class="o">*</span><span class="n">phiw</span><span class="o">*</span><span class="n">Aw</span><span class="o">*</span><span class="n">Xu</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">sind</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">**</span><span class="mf">1.5</span><span class="p">)</span><span class="o">*</span><span class="n">Mw</span>     <span class="c1"># S16-14: 13.13.2.2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Aw = 5724mm²
+    D = 8mm
+    L = 506.0mm
+    L1 = 308.0mm
+    Mw = 1.0
+    theta = 45.0
+    Tr = 2008kN
+    Vr = 2008000MPa·mm²
+    W = 280mm
+    W2 = 110mm
+    Xu = 490MPa
+
+    Gusset to HSS Weld: Tr = 2008 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Gusset-Block-Shear">Gusset Block Shear<a class="anchor-link" href="#Gusset-Block-Shear"> </a></h3><p>Because the gusset must be the same thickness as the tongue, and as the edges align so they are the
+same width (mostly), the block shear strengths determined here should be the same.  So this section is not
+really necessary.  The tongue does have one more pattern (Pattern 3)) that is judged not applicable
+here because of the increased width of the gusset.</p>
+<h4 id="Block-Shear-Case-1)">Block Shear Case 1)<a class="anchor-link" href="#Block-Shear-Case-1)"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;nlines,nperline,g,s,ha&#39;</span><span class="p">],</span><span class="n">GussetPlate</span><span class="p">[</span><span class="s1">&#39;W,e,T,Fy,Fu&#39;</span><span class="p">],</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gusset Block Shear Case 1)&#39;</span><span class="p">,</span><span class="n">result_var</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="n">local</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut&#39;</span><span class="p">):</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="n">T</span><span class="o">*</span><span class="p">((</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span> <span class="o">-</span> <span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">ha</span><span class="p">)</span>
+    <span class="n">Agv</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="p">((</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span>
+    <span class="n">Ut</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">Vr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>     <span class="c1"># S16-14: 13.2 a) ii) &amp; 13.11</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Agv = 4600mm²
+    An = 2040mm²
+    e = 40mm
+    Fu = 450MPa
+    Fy = 350MPa
+    g = 75mm
+    ha = 24mm
+    nlines = 2
+    nperline = 3
+    s = 75mm
+    T = 20mm
+    Tr = 1516kN
+    Ut = 1.0
+    Vr = 1516000MPa·mm²
+    W = 280mm
+
+    Gusset Block Shear Case 1): Tr = 1516 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Block-Shear-Case-2)">Block Shear Case 2)<a class="anchor-link" href="#Block-Shear-Case-2)"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;nlines,nperline,g,s,ha&#39;</span><span class="p">],</span><span class="n">GussetPlate</span><span class="p">[</span><span class="s1">&#39;W,e,T,Fy,Fu&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;edge,Ut,An,Agv,Vr&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gusset Block Shear Case 2)&#39;</span><span class="p">):</span>
+    <span class="n">edge</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="p">(((</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="o">+</span><span class="n">edge</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">ha</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Agv</span> <span class="o">=</span> <span class="n">T</span><span class="o">*</span><span class="p">((</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span>
+    <span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">Vr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>    <span class="c1"># S16-14: 13.2 a) ii) &amp; 13.11</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Agv = 2300mm²
+    An = 3100mm²
+    e = 40mm
+    edge = 65.0mm
+    Fu = 450MPa
+    Fy = 350MPa
+    g = 75mm
+    ha = 24mm
+    nlines = 2
+    nperline = 3
+    s = 75mm
+    T = 20mm
+    Tr = 1251kN
+    Ut = 0.8
+    Vr = 1251000MPa·mm²
+    W = 280mm
+
+    Gusset Block Shear Case 2): Tr = 1251 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Tearout">Tearout<a class="anchor-link" href="#Tearout"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;nlines,nperline,s&#39;</span><span class="p">],</span><span class="n">GussetPlate</span><span class="p">[</span><span class="s1">&#39;e,T,Fy,Fu&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agv,Vr&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gusset tearout&#39;</span><span class="p">):</span>    
+    <span class="n">Agv</span> <span class="o">=</span> <span class="n">T</span><span class="o">*</span><span class="p">((</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span> <span class="o">*</span> <span class="n">nperline</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">Vr</span> <span class="o">=</span> <span class="n">phiu</span> <span class="o">*</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span>               <span class="c1"># S16-14: 13.2 a) ii) &amp; 13.11</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Agv = 13800mm²
+    e = 40mm
+    Fu = 450MPa
+    Fy = 350MPa
+    nlines = 2
+    nperline = 3
+    s = 75mm
+    T = 20mm
+    Tr = 2484kN
+    Vr = 2484000MPa·mm²
+
+    Gusset tearout: Tr = 2484 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Lap-Plates-(2)">Lap Plates (2)<a class="anchor-link" href="#Lap-Plates-(2)"> </a></h2><h3 id="Lap-Plate-Details">Lap Plate Details<a class="anchor-link" href="#Lap-Plate-Details"> </a></h3><p>Consider the thickness of both plates together when computing the resistance.
+As the plate is symmetric, we only have to investigate one end.</p>
+<p><img src="lap-plate-details.svg" alt="Lap Plate Details"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">LapPlates</span><span class="p">(</span><span class="n">Plates</span><span class="p">):</span>
+    <span class="s1">&#39;Lap Plates&#39;</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="mi">230</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="mi">315</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">mm</span><span class="o">*</span><span class="mf">2.</span>      <span class="c1"># thickness, include 2 plates</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="mi">40</span><span class="o">*</span><span class="n">mm</span>         <span class="c1"># could be different than gusset</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Lap-Plates:-Gross-Section-Yield">Lap Plates: Gross Section Yield<a class="anchor-link" href="#Lap-Plates:-Gross-Section-Yield"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">LapPlates</span><span class="p">[</span><span class="s1">&#39;W,T,Fy&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Ag&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lap Plates, Gross Yield&#39;</span><span class="p">):</span>
+    <span class="n">Ag</span> <span class="o">=</span> <span class="n">W</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Ag</span><span class="o">*</span><span class="n">Fy</span>          <span class="c1"># S16-14: 13.2 a) i)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Ag = 4600mm²
+    Fy = 350MPa
+    T = 20.0mm
+    Tr = 1449kN
+    W = 230mm
+
+    Lap Plates, Gross Yield: Tr = 1449 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Lap-Plates:-Net-Section-Fracture">Lap Plates: Net Section Fracture<a class="anchor-link" href="#Lap-Plates:-Net-Section-Fracture"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">LapPlates</span><span class="p">[</span><span class="s1">&#39;W,T,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;nperline,ha&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;wn,Ane&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lap Plates, Net Fracture&#39;</span><span class="p">):</span>
+    <span class="n">wn</span> <span class="o">=</span> <span class="n">W</span> <span class="o">-</span> <span class="n">nperline</span><span class="o">*</span><span class="n">ha</span>
+    <span class="n">Ane</span> <span class="o">=</span> <span class="n">An</span> <span class="o">=</span> <span class="n">wn</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">Fu</span>          <span class="c1"># S16-14: 13.2 a) iii)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Ane = 3160mm²
+    Fu = 450MPa
+    ha = 24mm
+    nperline = 3
+    T = 20.0mm
+    Tr = 1066kN
+    W = 230mm
+    wn = 158mm
+
+    Lap Plates, Net Fracture: Tr = 1066 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Lap-Plates:-Block-Shear">Lap Plates: Block Shear<a class="anchor-link" href="#Lap-Plates:-Block-Shear"> </a></h3><h4 id="Block-Shear-Case-1)">Block Shear Case 1)<a class="anchor-link" href="#Block-Shear-Case-1)"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">LapPlates</span><span class="p">[</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut,Vr&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lap Plates, Block Shear Case 1)&#39;</span><span class="p">):</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="p">((</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span> <span class="o">-</span> <span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">ha</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="mi">2</span>
+    <span class="n">Ut</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">Vr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>        <span class="c1"># S16-14: 13.2 a) ii) &amp; 13.11</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Agv = 4600mm²
+    An = 2040mm²
+    e = 40mm
+    Fu = 450MPa
+    Fy = 350MPa
+    g = 75mm
+    ha = 24mm
+    nlines = 2
+    nperline = 3
+    s = 75mm
+    T = 20.0mm
+    Tr = 1516kN
+    Ut = 1.0
+    Vr = 1516000MPa·mm²
+    W = 230mm
+
+    Lap Plates, Block Shear Case 1): Tr = 1516 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Case-2)">Case 2)<a class="anchor-link" href="#Case-2)"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">LapPlates</span><span class="p">[</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;edge,An,Agv,Ut,Vr&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lap Plates, Block Shear Case 2)&#39;</span><span class="p">):</span>
+    <span class="n">edge</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="p">(</span><span class="n">edge</span><span class="o">-</span><span class="n">ha</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">nperline</span><span class="o">*</span><span class="n">ha</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">Vr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>       <span class="c1"># S16-14: 13.2 a) ii) &amp; 13.11</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Agv = 2300mm²
+    An = 2600mm²
+    e = 40mm
+    edge = 40.0mm
+    Fu = 450MPa
+    Fy = 350MPa
+    g = 75mm
+    ha = 24mm
+    nlines = 2
+    nperline = 3
+    s = 75mm
+    T = 20.0mm
+    Tr = 1116kN
+    Ut = 0.8
+    Vr = 1116000MPa·mm²
+    W = 230mm
+
+    Lap Plates, Block Shear Case 2): Tr = 1116 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Case-3)">Case 3)<a class="anchor-link" href="#Case-3)"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">LapPlates</span><span class="p">[</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut,Vr&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lap Plates, Block Shear Case 3)&#39;</span><span class="p">):</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="n">nperline</span><span class="o">*</span><span class="n">ha</span> <span class="o">-</span> <span class="p">(</span><span class="n">g</span><span class="o">-</span><span class="n">ha</span><span class="p">))</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span> <span class="o">*</span> <span class="mf">2.</span>
+    <span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.6</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">Vr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>        <span class="c1"># S16-14: 13.2 a) ii) &amp; 13.11</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Agv = 4600mm²
+    An = 2140mm²
+    e = 40mm
+    Fu = 450MPa
+    Fy = 350MPa
+    g = 75mm
+    ha = 24mm
+    nlines = 2
+    nperline = 3
+    s = 75mm
+    T = 20.0mm
+    Tr = 1261kN
+    Ut = 0.6
+    Vr = 1261000MPa·mm²
+    W = 230mm
+
+    Lap Plates, Block Shear Case 3): Tr = 1261 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Tearout">Tearout<a class="anchor-link" href="#Tearout"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">LapPlates</span><span class="p">[</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agv,Vr,An,Ut&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lap Plates, tearout&#39;</span><span class="p">):</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">mm</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">nperline</span>
+    <span class="n">Ut</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">Vr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>        <span class="c1"># S16-14: 13.2 a) ii) &amp; 13.11</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Agv = 13800mm²
+    An = 0mm²
+    e = 40mm
+    Fu = 450MPa
+    Fy = 350MPa
+    g = 75mm
+    ha = 24mm
+    nlines = 2
+    nperline = 3
+    s = 75mm
+    T = 20.0mm
+    Tr = 2484kN
+    Ut = 1
+    Vr = 2484000MPa·mm²
+    W = 230mm
+
+    Lap Plates, tearout: Tr = 2484 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Tongue-Plate">Tongue Plate<a class="anchor-link" href="#Tongue-Plate"> </a></h2><h3 id="Tongue-Plate-Details">Tongue Plate Details<a class="anchor-link" href="#Tongue-Plate-Details"> </a></h3><p><img src="tongue-plate-details.svg" alt="Tongue Plate Details"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TonguePlate</span><span class="p">(</span><span class="n">TonguePlate</span><span class="p">):</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">mm</span>       <span class="c1"># weld size</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mi">45</span><span class="o">*</span><span class="n">mm</span>      <span class="c1"># dist end of weld to 1st bolt line  </span>
+    <span class="n">Lw</span> <span class="o">=</span> <span class="n">TonguePlate</span><span class="o">.</span><span class="n">L</span> <span class="o">-</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="p">(</span><span class="n">Bolts</span><span class="o">.</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Bolts</span><span class="o">.</span><span class="n">s</span> <span class="o">+</span> <span class="n">TonguePlate</span><span class="o">.</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">Dh</span> <span class="o">=</span> <span class="n">SST</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="n">HSS</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="o">*</span><span class="n">mm</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Tongue-Plate:-Bolted-End">Tongue Plate: Bolted End<a class="anchor-link" href="#Tongue-Plate:-Bolted-End"> </a></h3><h4 id="Gross-Section-Yield">Gross Section Yield<a class="anchor-link" href="#Gross-Section-Yield"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">TonguePlate</span><span class="p">[</span><span class="s1">&#39;W,T,Fy&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Ag&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate, Gross Yield&#39;</span><span class="p">):</span>
+    <span class="n">Ag</span> <span class="o">=</span> <span class="n">W</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Ag</span><span class="o">*</span><span class="n">Fy</span>                <span class="c1"># S16-14: 13.2 a) i)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Ag = 5600mm²
+    Fy = 350MPa
+    T = 20mm
+    Tr = 1764kN
+    W = 280mm
+
+    Tongue Plate, Gross Yield: Tr = 1764 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Net-Section-Fracture">Net Section Fracture<a class="anchor-link" href="#Net-Section-Fracture"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">TonguePlate</span><span class="p">[</span><span class="s1">&#39;W,T,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;ha,nperline&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;wn,Ane&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate, Bolted End, Net Section Fracture&#39;</span><span class="p">):</span>
+    <span class="n">wn</span> <span class="o">=</span> <span class="n">W</span> <span class="o">-</span> <span class="n">nperline</span><span class="o">*</span><span class="n">ha</span>
+    <span class="n">Ane</span> <span class="o">=</span> <span class="n">An</span> <span class="o">=</span> <span class="n">wn</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">Fu</span>              <span class="c1"># S16-14: 13.2 a) iii)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Ane = 4160mm²
+    Fu = 450MPa
+    ha = 24mm
+    nperline = 3
+    T = 20mm
+    Tr = 1404kN
+    W = 280mm
+    wn = 208mm
+
+    Tongue Plate, Bolted End, Net Section Fracture: Tr = 1404 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Block-Shear,-Case-1)">Block Shear, Case 1)<a class="anchor-link" href="#Block-Shear,-Case-1)"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">TonguePlate</span><span class="p">[</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut,Vr&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate, Block Shear Case 1)&#39;</span><span class="p">):</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="p">((</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span> <span class="o">-</span> <span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">ha</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="mi">2</span>
+    <span class="n">Ut</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">Vr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>     <span class="c1"># S16-14: 13.2 a) ii) &amp; 13.11</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Agv = 4600mm²
+    An = 2040mm²
+    e = 40mm
+    Fu = 450MPa
+    Fy = 350MPa
+    g = 75mm
+    ha = 24mm
+    nlines = 2
+    nperline = 3
+    s = 75mm
+    T = 20mm
+    Tr = 1516kN
+    Ut = 1.0
+    Vr = 1516000MPa·mm²
+    W = 280mm
+
+    Tongue Plate, Block Shear Case 1): Tr = 1516 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Block-Shear,-Case-2)">Block Shear, Case 2)<a class="anchor-link" href="#Block-Shear,-Case-2)"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">TonguePlate</span><span class="p">[</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;edge,An,Agv,Ut,Vr&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate, Block Shear Case 2)&#39;</span><span class="p">):</span>
+    <span class="n">edge</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="p">(</span><span class="n">edge</span><span class="o">-</span><span class="n">ha</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span> <span class="o">-</span> <span class="n">nperline</span><span class="o">*</span><span class="n">ha</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">Vr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>      <span class="c1"># S16-14: 13.2 a) ii) &amp; 13.1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Agv = 2300mm²
+    An = 3100mm²
+    e = 40mm
+    edge = 65.0mm
+    Fu = 450MPa
+    Fy = 350MPa
+    g = 75mm
+    ha = 24mm
+    nlines = 2
+    nperline = 3
+    s = 75mm
+    T = 20mm
+    Tr = 1251kN
+    Ut = 0.8
+    Vr = 1251000MPa·mm²
+    W = 280mm
+
+    Tongue Plate, Block Shear Case 2): Tr = 1251 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Block-Shear,-Case-3)">Block Shear, Case 3)<a class="anchor-link" href="#Block-Shear,-Case-3)"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">TonguePlate</span><span class="p">[</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut,Vr&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate, Block Shear Case 3)&#39;</span><span class="p">):</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="n">nperline</span><span class="o">*</span><span class="n">ha</span> <span class="o">-</span> <span class="p">(</span><span class="n">g</span><span class="o">-</span><span class="n">ha</span><span class="p">))</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span> <span class="o">*</span> <span class="mf">2.</span>
+    <span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.6</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">Vr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>       <span class="c1"># S16-14: 13.2 a) ii) &amp; 13.11</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Agv = 4600mm²
+    An = 3140mm²
+    e = 40mm
+    Fu = 450MPa
+    Fy = 350MPa
+    g = 75mm
+    ha = 24mm
+    nlines = 2
+    nperline = 3
+    s = 75mm
+    T = 20mm
+    Tr = 1464kN
+    Ut = 0.6
+    Vr = 1464000MPa·mm²
+    W = 280mm
+
+    Tongue Plate, Block Shear Case 3): Tr = 1464 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Block-Shear,-Tearout">Block Shear, Tearout<a class="anchor-link" href="#Block-Shear,-Tearout"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">TonguePlate</span><span class="p">[</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agv,Vr,An,Ut&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate tearout&#39;</span><span class="p">):</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">mm</span><span class="o">*</span><span class="n">mm</span>
+    <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">nperline</span>
+    <span class="n">Ut</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">Vr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="p">(</span><span class="n">Ut</span><span class="o">*</span><span class="n">An</span><span class="o">*</span><span class="n">Fu</span> <span class="o">+</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>       <span class="c1"># S16-14: 13.2 a) ii) &amp; 13.11</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Agv = 13800mm²
+    An = 0mm²
+    e = 40mm
+    Fu = 450MPa
+    Fy = 350MPa
+    g = 75mm
+    ha = 24mm
+    nlines = 2
+    nperline = 3
+    s = 75mm
+    T = 20mm
+    Tr = 2484kN
+    Ut = 1
+    Vr = 2484000MPa·mm²
+    W = 280mm
+
+    Tongue Plate tearout: Tr = 2484 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Tongue-Plate:-Welded-End">Tongue Plate: Welded End<a class="anchor-link" href="#Tongue-Plate:-Welded-End"> </a></h3><h4 id="Shear-Lag---Effective-Net-Area">Shear Lag - Effective Net Area<a class="anchor-link" href="#Shear-Lag---Effective-Net-Area"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">TonguePlate</span><span class="p">[</span><span class="s1">&#39;W,w2=Dh,L=Lw,T,Fu&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;w3,An2,An3,Ane&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate, Welded End, Net Section Fracture&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">L</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">w2</span><span class="p">:</span>             <span class="c1"># S16-14: 12.3.3.3 b)</span>
+        <span class="n">An2</span> <span class="o">=</span> <span class="mf">1.00</span><span class="o">*</span><span class="n">w2</span><span class="o">*</span><span class="n">T</span>
+    <span class="k">elif</span> <span class="n">L</span> <span class="o">&gt;=</span> <span class="n">w2</span><span class="p">:</span>
+        <span class="n">An2</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">w2</span><span class="o">*</span><span class="n">T</span> <span class="o">+</span> <span class="mf">0.25</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="n">T</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">An2</span> <span class="o">=</span> <span class="mf">0.75</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="n">T</span>
+
+    <span class="n">w3</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span><span class="o">-</span><span class="n">w2</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span>            <span class="c1"># S16-14: 12.3.3.3 c)</span>
+    <span class="n">xbar</span> <span class="o">=</span> <span class="n">w3</span><span class="o">/</span><span class="mf">2.</span>
+    <span class="k">if</span> <span class="n">L</span> <span class="o">&gt;=</span> <span class="n">w3</span><span class="p">:</span>
+        <span class="n">An3</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.</span><span class="o">-</span><span class="n">xbar</span><span class="o">/</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="n">w3</span><span class="o">*</span><span class="n">T</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">An3</span> <span class="o">=</span> <span class="mf">0.50</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Ane</span> <span class="o">=</span> <span class="n">An2</span> <span class="o">+</span> <span class="n">An3</span> <span class="o">+</span> <span class="n">An3</span>     <span class="c1"># S16-14: 12.3.3.3 </span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">Fu</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    An2 = 1500mm²
+    An3 = 944.8mm²
+    Ane = 3390mm²
+    Fu = 450MPa
+    L = 100mm
+    T = 20mm
+    Tr = 1144kN
+    W = 280mm
+    w2 = 127.0mm
+    w3 = 76.5mm
+
+    Tongue Plate, Welded End, Net Section Fracture: Tr = 1144 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Fasteners">Fasteners<a class="anchor-link" href="#Fasteners"> </a></h2><h3 id="Bolts">Bolts<a class="anchor-link" href="#Bolts"> </a></h3><h4 id="Shear">Shear<a class="anchor-link" href="#Shear"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;d,Fu,threads_intercepted,s,nlines,nperline&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;n,m,Ab,Vr&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bolts in Shear&#39;</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">nlines</span><span class="o">*</span><span class="n">nperline</span>             <span class="c1"># no. of bolts</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="mi">2</span>                           <span class="c1"># no. of faying surfaces</span>
+    <span class="n">Ab</span> <span class="o">=</span> <span class="mf">3.14159</span><span class="o">*</span><span class="n">d</span><span class="o">*</span><span class="n">d</span><span class="o">/</span><span class="mf">4.</span>
+    <span class="n">Vr</span> <span class="o">=</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">phib</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">Ab</span><span class="o">*</span><span class="n">Fu</span>         <span class="c1"># S16-14: 13.12.1.2 c)</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span>
+    <span class="k">if</span> <span class="n">L</span> <span class="o">&gt;=</span> <span class="mi">760</span><span class="o">*</span><span class="n">mm</span><span class="p">:</span>
+        <span class="n">Vr</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span><span class="o">/</span><span class="mf">0.6</span><span class="p">)</span><span class="o">*</span><span class="n">Vr</span>
+    <span class="k">if</span> <span class="n">threads_intercepted</span><span class="p">:</span>
+        <span class="n">Vr</span> <span class="o">=</span> <span class="mf">0.7</span><span class="o">*</span><span class="n">Vr</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">Vr</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Ab = 285.0mm²
+    d = 19.05mm
+    Fu = 825MPa
+    m = 2
+    n = 6
+    nlines = 2
+    nperline = 3
+    s = 75mm
+    threads_intercepted = True
+    Tr = 948.1kN
+    Vr = 948100MPa·mm²
+
+    Bolts in Shear: Tr = 948.1 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Bearing">Bearing<a class="anchor-link" href="#Bearing"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;d,nlines,nperline&#39;</span><span class="p">],</span><span class="n">TonguePlate</span><span class="p">[</span><span class="s1">&#39;Fu&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;n,t,Br&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bolts in Bearing&#39;</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">nlines</span><span class="o">*</span><span class="n">nperline</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">GussetPlate</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">TonguePlate</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">LapPlates</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">Br</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">phibr</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">d</span><span class="o">*</span><span class="n">Fu</span>          <span class="c1"># S16-14: 13.12.1.2 a)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Br = 2469000MPa·mm²
+    d = 19.05mm
+    Fu = 450MPa
+    n = 6
+    nlines = 2
+    nperline = 3
+    t = 20mm
+    Tr = 2469kN
+
+    Bolts in Bearing: Tr = 2469 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Welds---HSS-to-Tongue-Plate">Welds - HSS to Tongue Plate<a class="anchor-link" href="#Welds---HSS-to-Tongue-Plate"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">TonguePlate</span><span class="p">[</span><span class="s1">&#39;L=Lw,D&#39;</span><span class="p">],</span><span class="n">Welds</span><span class="p">[</span><span class="s1">&#39;Xu,matching&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Aw,Vr&#39;</span><span class="p">,</span>
+             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fillet Weld (HSS to Plate)&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">matching</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Non matching electrodes&#39;</span><span class="p">)</span>
+    <span class="n">Aw</span> <span class="o">=</span> <span class="mf">4.</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="n">D</span><span class="o">*</span><span class="mf">0.707</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">Vr</span> <span class="o">=</span> <span class="mf">0.67</span><span class="o">*</span><span class="n">phiw</span><span class="o">*</span><span class="n">Aw</span><span class="o">*</span><span class="n">Xu</span>           <span class="c1"># S16-14: 13.13.2.2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    Aw = 2262mm²
+    D = 8mm
+    L = 100mm
+    matching = True
+    Tr = 497.6kN
+    Vr = 497600MPa·mm²
+    Xu = 490MPa
+
+    Fillet Weld (HSS to Plate): Tr = 497.6 kN    &lt;&lt;&lt;--- GOVERNS</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="HSS-+-Cover-Plate">HSS + Cover Plate<a class="anchor-link" href="#HSS-+-Cover-Plate"> </a></h2><p><img src="hss-details.svg" alt="HSS Details"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Net-Section-Fracture">Net Section Fracture<a class="anchor-link" href="#Net-Section-Fracture"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">HSS</span><span class="p">[</span><span class="s1">&#39;D,th=T,A,Fyh=Fy,Fuh=Fu&#39;</span><span class="p">],</span><span class="n">CoverPlate</span><span class="p">[</span><span class="s1">&#39;tp=T,wp=W,Fyp=Fy,Fup=Fu&#39;</span><span class="p">],</span><span class="n">TonguePlate</span><span class="p">[</span><span class="s1">&#39;tt=T,Lw&#39;</span><span class="p">],</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;xbar,Ag,An,Ane,Fy,Fu&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;HSS Net Section Fracture&#39;</span><span class="p">):</span>
+    <span class="n">Fy</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">Fyh</span><span class="p">,</span><span class="n">Fyp</span><span class="p">)</span>     <span class="c1"># use min properties of plate &amp; HSS (conservative)</span>
+    <span class="n">Fu</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">Fuh</span><span class="p">,</span><span class="n">Fup</span><span class="p">)</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="n">D</span><span class="o">/</span><span class="mf">2.</span> <span class="o">-</span> <span class="n">th</span> <span class="o">-</span> <span class="n">tt</span><span class="o">/</span><span class="mf">2.</span>  <span class="c1"># height of vertical leg</span>
+    <span class="n">xbar</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">h</span><span class="o">*</span><span class="n">th</span><span class="o">*</span><span class="n">h</span><span class="o">/</span><span class="mf">2.</span> <span class="o">+</span> <span class="n">D</span><span class="o">*</span><span class="n">th</span><span class="o">*</span><span class="p">(</span><span class="n">h</span><span class="o">+</span><span class="n">th</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span> <span class="o">+</span> <span class="n">wp</span><span class="o">*</span><span class="n">tp</span><span class="o">*</span><span class="p">(</span><span class="n">h</span><span class="o">+</span><span class="n">th</span><span class="o">+</span><span class="n">tp</span><span class="o">/</span><span class="mf">2.</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">h</span><span class="o">*</span><span class="n">th</span> <span class="o">+</span> <span class="n">D</span><span class="o">*</span><span class="n">th</span> <span class="o">+</span> <span class="n">wp</span><span class="o">*</span><span class="n">tp</span><span class="p">)</span>
+    <span class="n">Ag</span> <span class="o">=</span> <span class="n">A</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">wp</span><span class="o">*</span><span class="n">tp</span>       <span class="c1"># gross area of HSS + cover plates</span>
+    <span class="n">An</span> <span class="o">=</span> <span class="n">Ag</span> <span class="o">-</span> <span class="mf">2.</span><span class="o">*</span><span class="n">tt</span><span class="o">*</span><span class="n">th</span>     <span class="c1"># net area, remove slots cut for tongue</span>
+    <span class="k">if</span> <span class="n">xbar</span><span class="o">/</span><span class="n">Lw</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">:</span>                 <span class="c1"># S16-14: 12.3.3.4</span>
+        <span class="n">Ane</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.1</span> <span class="o">-</span> <span class="n">xbar</span><span class="o">/</span><span class="n">Lw</span><span class="p">)</span><span class="o">*</span><span class="n">An</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Ane</span> <span class="o">=</span> <span class="n">An</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">Fu</span>                <span class="c1"># S16-14: 13.2 a) iii)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    A = 5390mm²
+    Ag = 6590mm²
+    An = 6082mm²
+    Ane = 4214mm²
+    D = 127.0mm
+    Fu = 450MPa
+    Fuh = 450MPa
+    Fup = 450MPa
+    Fy = 350MPa
+    Fyh = 350MPa
+    Fyp = 350MPa
+    Lw = 100mm
+    th = 12.7mm
+    tp = 10mm
+    Tr = 1422kN
+    tt = 20mm
+    wp = 60mm
+    xbar = 40.71mm
+
+    HSS Net Section Fracture: Tr = 1422 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Gross-Section-Yield">Gross Section Yield<a class="anchor-link" href="#Gross-Section-Yield"> </a></h3><p>Of HSS <em>without</em> coverplate.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">HSS</span><span class="p">[</span><span class="s1">&#39;A,Fy&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Ag&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;HSS Gross Section Yield&#39;</span><span class="p">):</span>
+    <span class="n">Ag</span> <span class="o">=</span> <span class="n">A</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Ag</span><span class="o">*</span><span class="n">Fy</span>          <span class="c1"># S16-14: 13.2 a) i)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea ">
+<pre>    A = 5390mm²
+    Ag = 5390mm²
+    Fy = 350MPa
+    Tr = 1698kN
+
+    HSS Gross Section Yield: Tr = 1698 kN</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Cover-Plate-to-HSS-Weld">Cover Plate to HSS Weld<a class="anchor-link" href="#Cover-Plate-to-HSS-Weld"> </a></h2><p>Ensure that the length of the weld can develop the full strength of the cover plate, between
+the slot end (@ minimum x-sect area) and end of HSS.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">CoverPlate</span><span class="p">[</span><span class="s1">&#39;T,W,L=Lw,D,Fy,Fu&#39;</span><span class="p">],</span><span class="n">Welds</span><span class="p">[</span><span class="s1">&#39;Xu&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Aw,Vr,An,An2,Ane&#39;</span><span class="p">):</span>
+    <span class="n">Aw</span> <span class="o">=</span> <span class="mf">0.707</span><span class="o">*</span><span class="n">D</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="mf">2.</span>
+    <span class="n">Vr</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.67</span><span class="o">*</span><span class="n">phiw</span><span class="o">*</span><span class="n">Aw</span><span class="o">*</span><span class="n">Xu</span><span class="o">*</span><span class="mi">1</span><span class="o">*</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">kN</span><span class="p">)</span>            <span class="c1"># S16-14: 13.13.2.2, weld strength, to one side</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="p">(</span><span class="n">phi</span><span class="o">*</span><span class="p">(</span><span class="n">T</span><span class="o">*</span><span class="n">W</span><span class="p">)</span><span class="o">*</span><span class="n">Fy</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">kN</span><span class="p">)</span>                   <span class="c1"># S16-14: 13.2 a) i) gross section yield, of cover Plate</span>
+
+    <span class="n">CHECK</span><span class="p">(</span><span class="n">Vr</span><span class="o">&gt;=</span><span class="n">Tr</span><span class="p">,</span><span class="s1">&#39;Coverplate weld strength, gross yield&#39;</span><span class="p">,</span><span class="s1">&#39;L,D,Aw,Vr,Tr&#39;</span><span class="p">)</span>
+
+    <span class="n">An</span> <span class="o">=</span> <span class="n">W</span><span class="o">*</span><span class="n">T</span>                             <span class="c1"># S16-14: 12.3.3.3 b)</span>
+    <span class="k">if</span> <span class="n">L</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">W</span><span class="p">:</span>                         <span class="c1"># Ane of plate</span>
+        <span class="n">An2</span> <span class="o">=</span> <span class="n">W</span><span class="o">*</span><span class="n">T</span>
+    <span class="k">elif</span> <span class="n">L</span> <span class="o">&gt;=</span> <span class="n">W</span><span class="p">:</span>
+        <span class="n">An2</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">W</span><span class="o">*</span><span class="n">T</span> <span class="o">+</span> <span class="mf">0.25</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="n">T</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">An2</span> <span class="o">=</span> <span class="mf">0.75</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">Ane</span> <span class="o">=</span> <span class="n">An2</span>
+    <span class="n">Tr</span> <span class="o">=</span> <span class="p">(</span><span class="n">phiu</span><span class="o">*</span><span class="n">An2</span><span class="o">*</span><span class="n">Fu</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">kN</span><span class="p">)</span>         <span class="c1"># S16-14: 13.2 a) iii)</span>
+    <span class="n">CHECK</span><span class="p">(</span><span class="n">Vr</span><span class="o">&gt;=</span><span class="n">Tr</span><span class="p">,</span><span class="s1">&#39;Coverplate weld strength, net fracture&#39;</span><span class="p">,</span><span class="s1">&#39;L,W,An2,Ane,Vr,Tr&#39;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>    Coverplate weld strength, gross yield?  NG! *****
+      (L=90mm, D=6mm, Aw=763.6mm², Vr=168.0kN, Tr=189.0kN)
+    Coverplate weld strength, net fracture?  NG! *****
+      (L=90mm, W=60mm, An2=525.0mm², Ane=525.0mm², Vr=168.0kN, Tr=177.2kN)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="To-Do">To Do<a class="anchor-link" href="#To-Do"> </a></h2><ul>
+<li>Alterrnate method for cover plate wld check: Compute Tr with and without cover plate.  Diff is the reqd force
+in the cover plate. Ensure welds can develop that.</li>
+<li>Check that gusset plate doesn't cause undue flexural problems in the flange of the HSS column member.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Bolting-Details">Bolting Details<a class="anchor-link" href="#Bolting-Details"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Lap-Plates">Lap Plates<a class="anchor-link" href="#Lap-Plates"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">LapPlates</span><span class="p">[</span><span class="s1">&#39;W,T,L,e&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;s,g,nlines,nperline,d&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;minedge,maxedge,minend,minpitch&#39;</span><span class="p">):</span>
+
+    <span class="n">minedge</span> <span class="o">=</span> <span class="mi">32</span><span class="o">*</span><span class="n">mm</span>                <span class="c1"># S16-14: 22.3.2 Table 6, 3/4&quot; bolt, sheared edge</span>
+    <span class="n">maxedge</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">150</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span><span class="mf">12.</span><span class="o">*</span><span class="n">T</span><span class="p">)</span>    <span class="c1"># S16-14: 22.3.3</span>
+    <span class="n">minend</span> <span class="o">=</span> <span class="mi">32</span><span class="o">*</span><span class="n">mm</span>                 <span class="c1"># S16-14: 22.3.4</span>
+    <span class="n">minpitch</span> <span class="o">=</span> <span class="mf">2.7</span><span class="o">*</span><span class="n">d</span>               <span class="c1"># S16-14: 22.3.1</span>
+
+    <span class="n">edge</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span>
+    <span class="n">CHECK</span><span class="p">(</span><span class="n">edge</span><span class="o">&gt;=</span><span class="n">minedge</span><span class="p">,</span><span class="s1">&#39;Bolt min edge distance, lap plate&#39;</span><span class="p">,</span><span class="s1">&#39;edge,minedge&#39;</span><span class="p">,)</span>
+    <span class="n">CHECK</span><span class="p">(</span><span class="n">edge</span><span class="o">&lt;=</span><span class="n">maxedge</span><span class="p">,</span><span class="s1">&#39;Bolt max edge distance, lap plate&#39;</span><span class="p">,</span><span class="s1">&#39;edge,maxedge&#39;</span><span class="p">,)</span>
+    <span class="n">CHECK</span><span class="p">(</span><span class="n">e</span><span class="o">&gt;=</span><span class="n">minend</span><span class="p">,</span><span class="s1">&#39;Bolt min end distance, lap plate&#39;</span><span class="p">,</span><span class="s1">&#39;e,minend&#39;</span><span class="p">,)</span>
+    <span class="n">CHECK</span><span class="p">(</span><span class="n">s</span><span class="o">&gt;=</span><span class="n">minpitch</span> <span class="ow">and</span> <span class="n">g</span><span class="o">&gt;=</span><span class="n">minpitch</span><span class="p">,</span><span class="s1">&#39;Bolt spacing, lap plate&#39;</span><span class="p">,</span><span class="s1">&#39;s,g,minpitch&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>    Bolt min edge distance, lap plate?  OK 
+      (edge=40.0mm, minedge=32mm)
+    Bolt max edge distance, lap plate?  OK 
+      (edge=40.0mm, maxedge=150mm)
+    Bolt min end distance, lap plate?  OK 
+      (e=40mm, minend=32mm)
+    Bolt spacing, lap plate?  OK 
+      (s=75mm, g=75mm, minpitch=51.43mm)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Tongue-Plate">Tongue Plate<a class="anchor-link" href="#Tongue-Plate"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TODO</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Gusset-Plate">Gusset Plate<a class="anchor-link" href="#Gusset-Plate"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TODO</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Welding-Details">Welding Details<a class="anchor-link" href="#Welding-Details"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="HSS-to-Tongue">HSS to Tongue<a class="anchor-link" href="#HSS-to-Tongue"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TODO</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Cover-PLate-to-HSS">Cover PLate to HSS<a class="anchor-link" href="#Cover-PLate-to-HSS"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TODO</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Summary">Summary<a class="anchor-link" href="#Summary"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">notes</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Summary of DesignNotes for Tr: Typical HSS Cross Brace
+======================================================
+
+Checks:
+-------
+    Coverplate weld strength, gross yield?    NG! *****
+      (L=90mm, D=6mm, Aw=763.6mm², Vr=168.0kN, Tr=189.0kN)
+    Coverplate weld strength, net fracture?   NG! *****
+      (L=90mm, W=60mm, An2=525.0mm², Ane=525.0mm², Vr=168.0kN, Tr=177.2kN)
+    Bolt min edge distance, lap plate?        OK 
+      (edge=40.0mm, minedge=32mm)
+    Bolt max edge distance, lap plate?        OK 
+      (edge=40.0mm, maxedge=150mm)
+    Bolt min end distance, lap plate?         OK 
+      (e=40mm, minend=32mm)
+    Bolt spacing, lap plate?                  OK 
+      (s=75mm, g=75mm, minpitch=51.43mm)
+
+Values of Tr:
+-------------
+    Gusset to HSS Weld:                             Tr = 2010 kN
+    Gusset Block Shear Case 1):                     Tr = 1520 kN
+    Gusset Block Shear Case 2):                     Tr = 1250 kN
+    Gusset tearout:                                 Tr = 2480 kN
+    Lap Plates, Gross Yield:                        Tr = 1450 kN
+    Lap Plates, Net Fracture:                       Tr = 1070 kN
+    Lap Plates, Block Shear Case 1):                Tr = 1520 kN
+    Lap Plates, Block Shear Case 2):                Tr = 1120 kN
+    Lap Plates, Block Shear Case 3):                Tr = 1260 kN
+    Lap Plates, tearout:                            Tr = 2480 kN
+    Tongue Plate, Gross Yield:                      Tr = 1760 kN
+    Tongue Plate, Bolted End, Net Section Fracture: Tr = 1400 kN
+    Tongue Plate, Block Shear Case 1):              Tr = 1520 kN
+    Tongue Plate, Block Shear Case 2):              Tr = 1250 kN
+    Tongue Plate, Block Shear Case 3):              Tr = 1460 kN
+    Tongue Plate tearout:                           Tr = 2480 kN
+    Tongue Plate, Welded End, Net Section Fracture: Tr = 1140 kN
+    Bolts in Shear:                                 Tr = 948 kN
+    Bolts in Bearing:                               Tr = 2470 kN
+    Fillet Weld (HSS to Plate):                     Tr = 498 kN    &lt;&lt;&lt;--- GOVERNS
+    HSS Net Section Fracture:                       Tr = 1420 kN
+    HSS Gross Section Yield:                        Tr = 1700 kN
+
+    Governing Value:
+    ----------------
+       Tr = 498 kN
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Notes">Notes<a class="anchor-link" href="#Notes"> </a></h2><ul>
+<li>The factored resistance of this component is low, governed by the weld of the HSS to the tongue plate.  Its capacity is 498 kN, almost 1/2 of the next lowest item (the shear strength of the bolts).</li>
+<li>To increase the overall strength, the first thing to do would be to increase length of that weld from 100mm to something considerably larger. 200mm of weld would require increasing the length of tongue from 280mm to 380mm but would double that strength at very small cost.</li>
+<li>The cover plate welding to the HSS may be inadequate as it is shown. Increasing the length of the HSS to tongue weld will leave space for more weld on the cover plate, up to 190mm on one side of the minimum cross-section, which should be more than enough.</li>
+<li>Increasing the HSS to tongue plate weld length may also increase $T_r$ for <em>Tongue Plate, Welded End, Net Section Fracture</em> and <em>HSS Net Section Fracture</em>.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

@@ -1,8 +1,12 @@
 ## Revision History
 
+### 2020-02-10:
+
+1. Added today's PA lecture material to the [Study Guide](Study-Guide).
+
 ### 2020-02-05:
 
-1. Added today's lecture material to  [Study Guide](Study-Guide).
+1. Added today's lecture material to the [Study Guide](Study-Guide).
 
 ### 2020-02-28:
 

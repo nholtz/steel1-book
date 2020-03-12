@@ -1,10 +1,15 @@
 ## Revision History
 
-### 2020-02-10:
+### 2020-03-11:
+
+1. Added section on [flexural members](flexure/flexure).
+1. Updated [Study Guide](Study-Guide) for material on flexural members.
+
+### 2020-03-10:
 
 1. Added today's PA lecture material to the [Study Guide](Study-Guide).
 
-### 2020-02-05:
+### 2020-03-05:
 
 1. Added today's lecture material to the [Study Guide](Study-Guide).
 

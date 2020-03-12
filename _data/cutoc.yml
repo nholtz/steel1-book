@@ -118,6 +118,20 @@
       url: /text/compression/AC50/index
   - title: "ACPS: Suggested Problems"
     url: /text/compression/ACPS/index
+- title: Flexural Members
+  url: /text/flexure/flexure
+  sections:
+  - title: Examples
+    url: /text/flexure/index
+    subsections:
+    - title: "F10: Bracing Effects"
+      url: /text/flexure/F10/index
+    - title: "F20: Beam Selection (1)"
+      url: /text/flexure/F20/index
+    - title: "F30: Beam Selection (2)"
+      url: /text/flexure/F30/index
+  - title: "FPS: Suggested Problems"
+    url: /text/flexure/FPS/index
 
 - divider: true
 

@@ -45,6 +45,7 @@ cuserver:
 	bundle exec jekyll build
 	touch _site/.nojekyll
 	rsync -av --delete-delay _site holtz3.cee.carleton.ca:/files/www/html/cive3205/steel1-book/
+	rsync -av --delete-delay _site pdb:/files/www/html/cive3205/steel1-book/
 	mv -vf _data/saved-toc.yml _data/toc.yml
 	/bin/rm -rf _build _site
 	mv -vf _build.save _build

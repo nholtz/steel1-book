@@ -1,4 +1,12 @@
-## Revision History
+### Revision History
+
+### 2020-03-22:
+
+1. Updated [Study Guide](Study-Guide) for material of "Lecture" [2020-03-19](http://holtz3.cee.carleton.ca/recordings/3205/2020/2020-03-19/).
+
+### 2020-03-15:
+
+1. Posted material for "Lecture" [2020-03-12](http://holtz3.cee.carleton.ca/recordings/3205/2020/2020-03-12/).
 
 ### 2020-03-11:
 

@@ -132,6 +132,26 @@
       url: /text/flexure/F30/index
   - title: "FPS: Suggested Problems"
     url: /text/flexure/FPS/index
+- title: Beam-Columns
+  url: /text/beam-column/beam-column
+  sections:
+  - title: Examples
+    url: /text/beam-column/index
+    subsections:
+    - title: "BC05: Interaction Curves"
+      url: /text/beam-column/BC05/RandW-CM-Interaction
+    - title: "BC10: Eccentrically Loaded Column"
+      url: /text/beam-column/BC10/index
+    - title: "BC20: Eccentrically Loaded Column (2)"
+      url: /text/beam-column/BC20/index
+    - title: "BC30: Beam-column in braced frame"
+      url: /text/beam-column/BC30/index
+    - title: "BC35: Beam-column in unbraced frame"
+      url: /text/beam-column/BC35/index
+    - title: "BC40: Lecture Example"
+      url: /text/beam-column/BC40/Beam-Column-Example-BC40
+  - title: "BCPS: Suggested Problems"
+    url: /text/beam-column/BCPS/index
 
 - divider: true
 

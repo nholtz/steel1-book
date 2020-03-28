@@ -1,0 +1,650 @@
+---
+redirect_from:
+  - "/text/beam-column/bc05/randw-cm-interaction"
+interact_link: content/text/beam-column/BC05/RandW-CM-Interaction.ipynb
+kernel_name: python3
+kernel_path: content/text/beam-column/BC05
+has_widgets: false
+title: |-
+  BC05: Interaction Curves
+pagenum: 48
+prev_page:
+  url: /text/beam-column/index.html
+next_page:
+  url: /text/beam-column/BC10/index.html
+suffix: .ipynb
+search: shape c m y w interaction values mp cy line rectangular cross section svg default properties function calculate corresponding sentinel moment axial force d generate complete curve above difference frac curves given dimensions wx position n less obtained directly using handbook suspect due fillets etc example compare computed area vs published again blue green rectangle almost significance red matches basis formulae s le
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">BC05: Interaction Curves</div>
+</div>
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="C-M-Interaction-Curves">C-M Interaction Curves<a class="anchor-link" href="#C-M-Interaction-Curves"> </a></h1><h2 id="1.-Rectangular-Cross-Section">1. Rectangular Cross-Section<a class="anchor-link" href="#1.-Rectangular-Cross-Section"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">pylab</span> inline
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Populating the interactive namespace from numpy and matplotlib
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">]</span>  <span class="c1"># make plots a bit bigger</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="rectangular-shape.svg" alt="shape"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Default-Properties">Default Properties<a class="anchor-link" href="#Default-Properties"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="mf">100.</span>
+<span class="n">d</span> <span class="o">=</span> <span class="mf">300.</span>
+<span class="n">Fy</span> <span class="o">=</span> <span class="mf">345.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Function-to-calculate-C-and-M-corresponding-to-given-$y_0$">Function to calculate C and M corresponding to given $y_0$<a class="anchor-link" href="#Function-to-calculate-C-and-M-corresponding-to-given-$y_0$"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">calcCM_R</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span><span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="n">d</span><span class="p">,</span><span class="n">Fy</span><span class="o">=</span><span class="n">Fy</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">y0</span> <span class="o">&gt;=</span> <span class="mf">0.</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">y0</span> <span class="o">&lt;=</span> <span class="n">d</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>  <span class="c1"># y0 can be an array of values</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="mf">2.</span><span class="o">*</span><span class="n">y0</span><span class="o">*</span><span class="n">b</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-3</span>
+    <span class="c1"># dist between T forces dt = d - 2*(d/2-y0)/2 = d/2+y0</span>
+    <span class="c1"># M = T*dt</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="mf">2.</span><span class="o">-</span><span class="n">y0</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="o">*</span><span class="n">Fy</span><span class="o">*</span><span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="mf">2.</span><span class="o">+</span><span class="n">y0</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-6</span>
+    <span class="k">return</span> <span class="n">C</span><span class="p">,</span><span class="n">M</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sentinel-values">Sentinel values<a class="anchor-link" href="#Sentinel-values"> </a></h3><p>$M_p$ is moment when $y_0=0$ (and $C=0$).  $C_y$ is axial force when $y_0=d/2$ (and $M=0$).</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">zz</span><span class="p">,</span><span class="n">Mp</span> <span class="o">=</span> <span class="n">calcCM_R</span><span class="p">(</span><span class="mf">0.</span><span class="p">)</span>
+<span class="n">Cy</span><span class="p">,</span><span class="n">zz</span> <span class="o">=</span> <span class="n">calcCM_R</span><span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+<span class="n">Mp</span><span class="p">,</span><span class="n">Cy</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(776.25, 10350.0)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Now-generate-complete-interaction-curve">Now generate complete interaction curve<a class="anchor-link" href="#Now-generate-complete-interaction-curve"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">C</span><span class="p">,</span><span class="n">M</span> <span class="o">=</span> <span class="n">calcCM_R</span><span class="p">(</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">)</span><span class="o">*</span><span class="n">d</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$M/M_p$&#39;</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$C/C_y$&#39;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="n">Mp</span><span class="p">,</span><span class="n">C</span><span class="o">/</span><span class="n">Cy</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../../images/text/beam-column/BC05/RandW-CM-Interaction_12_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.-W-Shape-Cross-Section">2. W-Shape Cross-Section<a class="anchor-link" href="#2.-W-Shape-Cross-Section"> </a></h2>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">Designer</span> <span class="k">import</span> <span class="n">sst</span><span class="p">,</span> <span class="n">show</span>
+<span class="n">SST</span> <span class="o">=</span> <span class="n">sst</span><span class="o">.</span><span class="n">SST</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="W-Shape2.svg" alt="w shape"></p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Default-dimensions-(W250x73)">Default dimensions (W250x73)<a class="anchor-link" href="#Default-dimensions-(W250x73)"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">B</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">A</span><span class="p">,</span><span class="n">Zx</span> <span class="o">=</span> <span class="n">SST</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="s1">&#39;W250x73&#39;</span><span class="p">,</span><span class="n">properties</span><span class="o">=</span><span class="s1">&#39;B,T,W,D,A,Zx&#39;</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;B,T,W,D,A,*1e3,Zx&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>B  = 254       
+T  = 14.2      
+W  = 8.6       
+D  = 253       
+A  = 9280      
+Zx = 985 * 1e3 
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Function-to-calculate-C-and-M-in-a-W-Shape-corresponding-to-position-of-N.A.-($y_0$)">Function to calculate C and M in a W-Shape corresponding to position of N.A. ($y_0$)<a class="anchor-link" href="#Function-to-calculate-C-and-M-in-a-W-Shape-corresponding-to-position-of-N.A.-($y_0$)"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">calcCM_W</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span><span class="n">B</span><span class="o">=</span><span class="n">B</span><span class="p">,</span><span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span><span class="n">D</span><span class="o">=</span><span class="n">D</span><span class="p">,</span><span class="n">W</span><span class="o">=</span><span class="n">W</span><span class="p">,</span><span class="n">Fy</span><span class="o">=</span><span class="n">Fy</span><span class="p">):</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">D</span> <span class="o">-</span> <span class="mf">2.</span><span class="o">*</span><span class="n">T</span>
+    <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">y0</span><span class="o">&gt;=</span><span class="mf">0.</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">y0</span><span class="o">&lt;=</span><span class="n">D</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>  <span class="c1"># y0 can be an array of values</span>
+    
+    <span class="k">def</span> <span class="nf">case1</span><span class="p">(</span><span class="n">y0</span><span class="p">):</span>   <span class="c1"># y0 &lt;= H/2</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="mf">2.</span><span class="o">*</span><span class="n">y0</span><span class="o">*</span><span class="n">W</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-3</span>
+        <span class="n">T1</span> <span class="o">=</span> <span class="p">(</span><span class="n">H</span><span class="o">/</span><span class="mf">2.</span><span class="o">-</span><span class="n">y0</span><span class="p">)</span><span class="o">*</span><span class="n">W</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-3</span>   <span class="c1"># web</span>
+        <span class="n">T2</span> <span class="o">=</span> <span class="n">B</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-3</span>           <span class="c1"># flange</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="p">(</span><span class="n">T1</span><span class="o">*</span><span class="p">(</span><span class="n">y0</span><span class="o">+</span><span class="p">(</span><span class="n">H</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="n">y0</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span><span class="o">*</span><span class="mf">2.</span> <span class="o">+</span> <span class="n">T2</span><span class="o">*</span><span class="p">(</span><span class="n">H</span><span class="o">/</span><span class="mf">2.</span><span class="o">+</span><span class="n">T</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span><span class="o">*</span><span class="mf">2.</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
+        <span class="k">return</span> <span class="n">C</span><span class="p">,</span><span class="n">M</span>
+    
+    <span class="k">def</span> <span class="nf">case2</span><span class="p">(</span><span class="n">y0</span><span class="p">):</span>   <span class="c1"># y0 &gt; H/2</span>
+        <span class="n">C1</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span><span class="n">W</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-3</span>             <span class="c1"># web</span>
+        <span class="n">C2</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">y0</span><span class="o">-</span><span class="n">H</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span><span class="o">*</span><span class="n">B</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-3</span>   <span class="c1"># flange</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">C1</span> <span class="o">+</span> <span class="n">C2</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="p">(</span><span class="n">D</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="n">y0</span><span class="p">)</span><span class="o">*</span><span class="n">B</span><span class="o">*</span><span class="n">Fy</span><span class="o">*</span><span class="p">(</span><span class="n">D</span><span class="o">-</span><span class="p">(</span><span class="n">D</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="n">y0</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1E-6</span>    <span class="c1"># could be simplified. who cares?</span>
+        <span class="k">return</span> <span class="n">C</span><span class="p">,</span><span class="n">M</span>
+        
+    <span class="k">if</span> <span class="n">isscalar</span><span class="p">(</span><span class="n">y0</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">case1</span><span class="p">(</span><span class="n">y0</span><span class="p">)</span> <span class="k">if</span> <span class="n">y0</span> <span class="o">&lt;=</span> <span class="n">H</span><span class="o">/</span><span class="mf">2.</span> <span class="k">else</span> <span class="n">case2</span><span class="p">(</span><span class="n">y0</span><span class="p">)</span>
+        
+    <span class="n">cm</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">case1</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">if</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">H</span><span class="o">/</span><span class="mi">2</span> <span class="k">else</span> <span class="n">case2</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">y0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">cm</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">cm</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sentinel-values">Sentinel values<a class="anchor-link" href="#Sentinel-values"> </a></h3><p>$M_p$ is moment when $y_0=0$ (and $C=0$).  $C_y$ is axial force when $y_0=d/2$ (and $M=0$).</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">zz</span><span class="p">,</span><span class="n">Mpw</span> <span class="o">=</span> <span class="n">calcCM_W</span><span class="p">(</span><span class="mf">0.</span><span class="p">)</span>
+<span class="n">Cyw</span><span class="p">,</span><span class="n">zz</span> <span class="o">=</span> <span class="n">calcCM_W</span><span class="p">(</span><span class="n">D</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+<span class="n">Mpw</span><span class="p">,</span><span class="n">Cyw</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(334.56752223, 3155.0802000000003)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The above values are about 1.5% less than values obtained directly using properties from the handbook.  I suspect that is difference due to fillets, etc.  For example, compare computed Area vs published:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Ac</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">B</span><span class="o">*</span><span class="n">T</span> <span class="o">+</span> <span class="p">(</span><span class="n">D</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">*</span><span class="n">W</span>
+<span class="n">A</span><span class="p">,</span><span class="n">Ac</span><span class="p">,</span><span class="n">A</span><span class="o">/</span><span class="n">Ac</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(9280.0, 9145.16, 1.0147444112514161)</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Again, about 1.5% difference.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Now-generate-complete-interaction-curve">Now generate complete interaction curve<a class="anchor-link" href="#Now-generate-complete-interaction-curve"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Cw</span><span class="p">,</span><span class="n">Mw</span> <span class="o">=</span> <span class="n">calcCM_W</span><span class="p">(</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">)</span><span class="o">*</span><span class="n">D</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$M/M_p$&#39;</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$C/C_y$&#39;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">Mw</span><span class="o">/</span><span class="n">Mpw</span><span class="p">,</span><span class="n">Cw</span><span class="o">/</span><span class="n">Cyw</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../../images/text/beam-column/BC05/RandW-CM-Interaction_27_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># comput 2 pts on the S16-14 curve:</span>
+<span class="c1"># c/cy + 0.85*m/mp = 1;   c/cy = 1 - 0.85*m/mp</span>
+<span class="n">mrat</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">])</span>
+<span class="n">crat</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">0.85</span><span class="o">*</span><span class="n">mrat</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$M/M_p$&#39;</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$C/C_y$&#39;</span><span class="p">)</span>
+
+<span class="n">plot</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="n">Mp</span><span class="p">,</span><span class="n">C</span><span class="o">/</span><span class="n">Cy</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">Mw</span><span class="o">/</span><span class="n">Mpw</span><span class="p">,</span><span class="n">Cw</span><span class="o">/</span><span class="n">Cyw</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="n">mrat</span><span class="p">,</span><span class="n">crat</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="../../../images/text/beam-column/BC05/RandW-CM-Interaction_29_0.png"
+>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the above, the blue line is for the W shape, the green line is for the rectangle (and has almost no significance), and the red line matches the basis of the interaction formulae in S16-14:</p>
+$$
+\frac{C}{C_y} + 0.85 \frac{M}{M_p} \le 1
+$$
+</div>
+</div>
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

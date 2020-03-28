@@ -6,5 +6,5 @@
 * **[Connections](text/connection/index.html)**
 * **[Axially Loaded Compression Members](text/compression/index.html)**
 * **[Flexural Members (Beams)](text/flexure/flexure.html)**
-* Beam Columns
+* **[Beam Columns](text/beam-column/beam-column)**
 

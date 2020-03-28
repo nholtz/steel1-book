@@ -1,5 +1,10 @@
 ### Revision History
 
+### 2020-03-28:
+
+1. Added section on [beam columns](beam-column/beam-column).
+1. Updated [Study Guide](Study-Guide) for material of "Lecture" [2020-03-26](http://holtz3.cee.carleton.ca/recordings/3205/2020/2020-03-26/) on beam columns.
+
 ### 2020-03-22:
 
 1. Updated [Study Guide](Study-Guide) for material of "Lecture" [2020-03-19](http://holtz3.cee.carleton.ca/recordings/3205/2020/2020-03-19/).

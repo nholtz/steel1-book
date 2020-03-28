@@ -1,0 +1,681 @@
+---
+redirect_from:
+  - "/text/beam-column/bc40/beam-column-example-bc40"
+interact_link: content/text/beam-column/BC40/Beam-Column-Example-BC40.ipynb
+kernel_name: python3
+kernel_path: content/text/beam-column/BC40
+has_widgets: false
+title: |-
+  BC40: Lecture Example
+pagenum: 53
+prev_page:
+  url: /text/beam-column/BC35/index.html
+next_page:
+  url: /text/beam-column/BCPS/index.html
+suffix: .ipynb
+search: strength column class lateral example buckling beam shaped sections loads applied analysis forces must include p delta effects bc lecture part real lectures because covid section local cross sectional b overall member c torsional
+
+comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
+---
+
+    <main class="jupyter-page">
+    <div id="page-info"><div id="page-title">BC40: Lecture Example</div>
+</div>
+    
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Beam-Column-Strength-by-13.8.2---class-1-and-2-I-shaped-sections">Beam Column Strength by 13.8.2 - class 1 and 2 I-shaped sections<a class="anchor-link" href="#Beam-Column-Strength-by-13.8.2---class-1-and-2-I-shaped-sections"> </a></h2><p>No lateral loads applied to column.  Analysis for forces must include $P-\Delta$ effects.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="k">import</span> <span class="n">show</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">pi</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">Designer</span> <span class="k">import</span> <span class="n">sst</span>
+<span class="n">SST</span> <span class="o">=</span> <span class="n">sst</span><span class="o">.</span><span class="n">SST</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Fy</span> <span class="o">=</span> <span class="mf">345.</span>     <span class="c1"># ASTM A992</span>
+<span class="n">E</span> <span class="o">=</span> <span class="mf">200000.</span>
+<span class="n">G</span> <span class="o">=</span> <span class="mf">77000.</span>
+<span class="n">phi</span> <span class="o">=</span> <span class="mf">0.9</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example-BC40">Example BC40<a class="anchor-link" href="#Example-BC40"> </a></h2><h3 id="'Lecture'-example-of-2020-03-26-Part-3-(no-real-lectures-because-of-COVID-19)">'Lecture' example of 2020-03-26 Part-3 (no real lectures because of COVID-19)<a class="anchor-link" href="#'Lecture'-example-of-2020-03-26-Part-3-(no-real-lectures-because-of-COVID-19)"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Dsg</span> <span class="o">=</span> <span class="s1">&#39;W250x101&#39;</span>
+<span class="n">Lcol</span> <span class="o">=</span> <span class="mf">5500.</span> <span class="c1"># total length of column, in mm</span>
+<span class="n">Lx</span> <span class="o">=</span> <span class="n">Lcol</span>       <span class="c1"># unbraced length, x-axis</span>
+<span class="n">Ly</span> <span class="o">=</span> <span class="n">Lcol</span>       <span class="c1"># unbraced length, y-axis</span>
+<span class="n">Kx</span> <span class="o">=</span> <span class="mf">1.</span>      <span class="c1"># effective length factor</span>
+<span class="n">Ky</span> <span class="o">=</span> <span class="mf">1.</span>
+<span class="n">Lc</span> <span class="o">=</span> <span class="n">Ly</span>      <span class="c1"># unbraced length of compression flange</span>
+<span class="n">Cf</span> <span class="o">=</span> <span class="mf">1000.</span>   <span class="c1"># factored axial load, kN</span>
+<span class="n">Mfx1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">200.</span>  <span class="c1"># moment about strong axis, top and bottom</span>
+<span class="n">Mfx2</span> <span class="o">=</span> <span class="mf">240.</span>  <span class="c1"># same sign for double curvature</span>
+<span class="n">Mfy1</span> <span class="o">=</span> <span class="mf">0.</span>    <span class="c1"># momemt about weak axis, top and bottom</span>
+<span class="n">Mfy2</span> <span class="o">=</span> <span class="mf">0.</span>
+<span class="n">bracedx</span> <span class="o">=</span> <span class="kc">True</span>   <span class="c1"># braced for bending about strong axis?</span>
+<span class="n">bracedy</span> <span class="o">=</span> <span class="kc">True</span>   <span class="c1"># braced for bending about weak axis</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">Ix</span><span class="p">,</span><span class="n">Iy</span><span class="p">,</span><span class="n">Zx</span><span class="p">,</span><span class="n">Zy</span><span class="p">,</span><span class="n">Rx</span><span class="p">,</span><span class="n">Ry</span><span class="p">,</span><span class="n">J</span><span class="p">,</span><span class="n">Cw</span> <span class="o">=</span> <span class="n">SST</span><span class="o">.</span><span class="n">section</span><span class="p">(</span><span class="n">Dsg</span><span class="p">,</span><span class="s1">&#39;A,D,T,B,W,Ix,Iy,Zx,Zy,Rx,Ry,J,Cw&#39;</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;Dsg,A,D,T,B,W,Rx,Ry,*1E6,Ix,Iy,*1E3,Zx,Zy,J,*1E9,Cw&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Dsg = W250x101   
+A   = 12900      
+D   = 264        
+T   = 19.6       
+B   = 257        
+W   = 11.9       
+Rx  = 113        
+Ry  = 65.6       
+Ix  = 164 * 1E6  
+Iy  = 55.5 * 1E6 
+Zx  = 1400 * 1E3 
+Zy  = 656 * 1E3  
+J   = 1490 * 1E3 
+Cw  = 829 * 1E9  
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Section-class,-local-buckling">Section class, local buckling<a class="anchor-link" href="#Section-class,-local-buckling"> </a></h4>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fclass</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="k">if</span> <span class="n">B</span><span class="o">/</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">T</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">145.</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Fy</span><span class="p">):</span>
+    <span class="n">fclass</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">elif</span> <span class="n">B</span><span class="o">/</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">T</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">170.</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Fy</span><span class="p">):</span>
+    <span class="n">fclass</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">elif</span> <span class="n">B</span><span class="o">/</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">T</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">200.</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Fy</span><span class="p">):</span>
+    <span class="n">fclass</span> <span class="o">=</span> <span class="mi">3</span>
+    
+<span class="n">H</span> <span class="o">=</span> <span class="p">(</span><span class="n">D</span> <span class="o">-</span> <span class="mf">2.</span><span class="o">*</span><span class="n">T</span><span class="p">)</span>
+<span class="n">phiCy</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">wclass</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">H</span><span class="o">/</span><span class="n">W</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1100.</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.39</span><span class="o">*</span><span class="n">Cf</span><span class="o">/</span><span class="n">phiCy</span><span class="p">)</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Fy</span><span class="p">):</span>
+    <span class="n">wclass</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">elif</span> <span class="p">(</span><span class="n">H</span><span class="o">/</span><span class="n">W</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1700.</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.61</span><span class="o">*</span><span class="n">Cf</span><span class="o">/</span><span class="n">phiCy</span><span class="p">)</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Fy</span><span class="p">):</span>
+    <span class="n">wclass</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="k">elif</span> <span class="p">(</span><span class="n">H</span><span class="o">/</span><span class="n">W</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1900.</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.65</span><span class="o">*</span><span class="n">Cf</span><span class="o">/</span><span class="n">phiCy</span><span class="p">)</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Fy</span><span class="p">):</span>
+    <span class="n">wclass</span> <span class="o">=</span> <span class="mi">3</span>
+    
+<span class="n">sclass</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">fclass</span><span class="p">,</span><span class="n">wclass</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;B/(2.*T),145./sqrt(Fy),170./sqrt(Fy),200./sqrt(Fy),fclass&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;H,H/W,Cf/phiCy&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;1100.*(1-0.39*Cf/phiCy)/sqrt(Fy),1700.*(1-0.61*Cf/phiCy)/sqrt(Fy),1900.*(1-0.65*Cf/phiCy)/sqrt(Fy)&#39;</span>
+     <span class="p">,</span><span class="s1">&#39;wclass,sclass,sclass &lt;= 2&#39;</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">sclass</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;This only works for class 1 or class 2 sections&#39;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>B/(2.*T)                         = 6.556  
+145./sqrt(Fy)                    = 7.807  
+170./sqrt(Fy)                    = 9.152  
+200./sqrt(Fy)                    = 10.77  
+fclass                           = 1      
+H                                = 224.8  
+H/W                              = 18.89  
+Cf/phiCy                         = 0.2497 
+1100.*(1-0.39*Cf/phiCy)/sqrt(Fy) = 53.46  
+1700.*(1-0.61*Cf/phiCy)/sqrt(Fy) = 77.59  
+1900.*(1-0.65*Cf/phiCy)/sqrt(Fy) = 85.69  
+wclass                           = 1      
+sclass                           = 1      
+sclass &lt;= 2                      = True   
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="13.8.2-(a)----cross-sectional-strength:">13.8.2 (a) -- cross-sectional strength:<a class="anchor-link" href="#13.8.2-(a)----cross-sectional-strength:"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Mfx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Mfx1</span><span class="p">),</span><span class="nb">abs</span><span class="p">(</span><span class="n">Mfx2</span><span class="p">))</span>
+<span class="n">Mfy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Mfy1</span><span class="p">),</span><span class="nb">abs</span><span class="p">(</span><span class="n">Mfy2</span><span class="p">))</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;Mfx,Mfy&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Mfx = 240 
+Mfy = 0   
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">kappa</span><span class="p">(</span><span class="n">Mf1</span><span class="p">,</span><span class="n">Mf2</span><span class="p">):</span>    
+    <span class="n">Mfmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Mf1</span><span class="p">),</span><span class="nb">abs</span><span class="p">(</span><span class="n">Mf2</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">Mfmax</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">:</span>
+        <span class="n">kap</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Mf1</span><span class="p">),</span><span class="nb">abs</span><span class="p">(</span><span class="n">Mf2</span><span class="p">))</span><span class="o">/</span><span class="n">Mfmax</span>
+        <span class="k">if</span> <span class="n">Mf1</span><span class="o">*</span><span class="n">Mf2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">kap</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">kap</span>
+    <span class="k">return</span> <span class="mf">0.</span>
+<span class="k">def</span> <span class="nf">U1</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">I</span><span class="p">,</span><span class="n">Cf</span><span class="p">,</span><span class="n">Mf1</span><span class="p">,</span><span class="n">Mf2</span><span class="p">):</span>
+    <span class="n">w1</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.6</span><span class="o">-</span><span class="mf">0.4</span><span class="o">*</span><span class="n">kappa</span><span class="p">(</span><span class="n">Mf1</span><span class="p">,</span><span class="n">Mf2</span><span class="p">),</span><span class="mf">0.4</span><span class="p">)</span>
+    <span class="n">Ce</span> <span class="o">=</span> <span class="n">pi</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">E</span><span class="o">*</span><span class="n">I</span><span class="o">/</span><span class="p">(</span><span class="n">L</span><span class="o">*</span><span class="n">L</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
+    <span class="k">return</span> <span class="n">w1</span><span class="p">,</span><span class="n">Ce</span><span class="p">,</span><span class="n">w1</span><span class="o">/</span><span class="p">(</span><span class="mf">1.</span><span class="o">-</span><span class="n">Cf</span><span class="o">/</span><span class="n">Ce</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Mfx1</span><span class="p">,</span><span class="n">Mfx2</span><span class="p">,</span><span class="n">kappa</span><span class="p">(</span><span class="n">Mfx1</span><span class="p">,</span><span class="n">Mfx2</span><span class="p">),</span><span class="n">U1</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span><span class="n">Ix</span><span class="p">,</span><span class="n">Cf</span><span class="p">,</span><span class="n">Mfx1</span><span class="p">,</span><span class="n">Mfx2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(-200.0,
+ 240.0,
+ -0.8333333333333334,
+ (0.9333333333333333, 10701.587582007634, 1.029537519034267))</pre>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">bracedx</span> <span class="ow">or</span> <span class="n">bracedy</span><span class="p">:</span>
+    <span class="n">Cr</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-3</span>
+    <span class="n">Mrx</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Zx</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-6</span>
+    <span class="n">w1</span><span class="p">,</span><span class="n">Ce</span><span class="p">,</span><span class="n">U1xc</span> <span class="o">=</span> <span class="n">U1</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span><span class="n">Ix</span><span class="p">,</span><span class="n">Cf</span><span class="p">,</span><span class="n">Mfx1</span><span class="p">,</span><span class="n">Mfx2</span><span class="p">)</span>
+    <span class="n">U1x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="n">U1xc</span><span class="p">)</span>    
+    <span class="n">lhs_a</span> <span class="o">=</span> <span class="n">Cf</span><span class="o">/</span><span class="n">Cr</span> <span class="o">+</span> <span class="mf">0.85</span><span class="o">*</span><span class="n">U1x</span><span class="o">*</span><span class="n">Mfx</span><span class="o">/</span><span class="n">Mrx</span>
+    <span class="n">show</span><span class="p">(</span><span class="s1">&#39;Cf,Cr,w1,Ce,U1xc,U1x,Mfx,Mrx,Cf/Cr,0.85*U1x*Mfx/Mrx&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">Mfy</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">:</span>
+        <span class="n">Mry</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Zy</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-6</span>
+        <span class="n">Beta</span> <span class="o">=</span> <span class="mf">0.6</span>
+        <span class="n">w1y</span><span class="p">,</span><span class="n">Cey</span><span class="p">,</span><span class="n">U1yc</span> <span class="o">=</span> <span class="n">U1</span><span class="p">(</span><span class="n">Ly</span><span class="p">,</span><span class="n">Iy</span><span class="p">,</span><span class="n">Cf</span><span class="p">,</span><span class="n">Mfy1</span><span class="p">,</span><span class="n">Mfy2</span><span class="p">)</span>
+        <span class="n">U1y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="n">U1yc</span><span class="p">)</span>
+        <span class="n">lhs_a</span> <span class="o">+=</span> <span class="n">Beta</span><span class="o">*</span><span class="n">U1y</span><span class="o">*</span><span class="n">Mfy</span><span class="o">/</span><span class="n">Mry</span>
+        <span class="n">show</span><span class="p">(</span><span class="s1">&#39;Beta,w1y,Cey,U1yc,U1y,Mfy,Mry,Beta*U1y*Mfy/Mry&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Unbraced frame: cross-sectional strength not checked&#39;</span><span class="p">)</span>
+    <span class="n">lhs_a</span> <span class="o">=</span> <span class="mf">0.</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;lhs_a,lhs_a &lt;= 1&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Cf               = 1000   
+Cr               = 4005   
+w1               = 0.9333 
+Ce               = 10700  
+U1xc             = 1.03   
+U1x              = 1.03   
+Mfx              = 240    
+Mrx              = 434.7  
+Cf/Cr            = 0.2497 
+0.85*U1x*Mfx/Mrx = 0.4832 
+lhs_a      = 0.7328 
+lhs_a &lt;= 1 = True   
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="13.8.2-(b)----overall-member-strength">13.8.2 (b) -- overall member strength<a class="anchor-link" href="#13.8.2-(b)----overall-member-strength"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">Mfx</span> <span class="o">&gt;</span> <span class="mf">0.</span> <span class="ow">or</span> <span class="n">Mfy</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">,</span> <span class="s2">&quot;No end bending moments in either direction&quot;</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mf">1.</span>
+<span class="k">if</span> <span class="n">Mfx</span> <span class="o">&gt;</span> <span class="mf">0.</span> <span class="ow">and</span> <span class="n">Mfy</span> <span class="o">==</span> <span class="mf">0.</span><span class="p">:</span>
+    <span class="n">KLr</span> <span class="o">=</span> <span class="n">K</span><span class="o">*</span><span class="n">Lx</span><span class="o">/</span><span class="n">Rx</span>
+<span class="k">elif</span> <span class="n">Mfx</span> <span class="o">==</span> <span class="mf">0.</span> <span class="ow">and</span> <span class="n">Mfy</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">:</span>
+    <span class="n">KLr</span> <span class="o">=</span> <span class="n">K</span><span class="o">*</span><span class="n">Ly</span><span class="o">/</span><span class="n">Ry</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">KLr</span> <span class="o">=</span> <span class="n">K</span><span class="o">*</span><span class="n">Ly</span><span class="o">/</span><span class="n">Ry</span>
+<span class="c1"># Cr by 13.3</span>
+<span class="n">Fe</span> <span class="o">=</span> <span class="n">pi</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">E</span><span class="o">/</span><span class="p">(</span><span class="n">KLr</span><span class="o">*</span><span class="n">KLr</span><span class="p">)</span>
+<span class="n">lamda</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">Fy</span><span class="o">/</span><span class="n">Fe</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mf">1.34</span>
+<span class="n">Cr</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="n">Fy</span><span class="o">*</span><span class="p">(</span><span class="mf">1.</span><span class="o">+</span><span class="n">lamda</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">Mrx</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Zx</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-6</span>
+<span class="n">U1x</span> <span class="o">=</span> <span class="n">U1</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span><span class="n">Ix</span><span class="p">,</span><span class="n">Cf</span><span class="p">,</span><span class="n">Mfx1</span><span class="p">,</span><span class="n">Mfx2</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="n">bracedx</span> <span class="k">else</span> <span class="mf">1.0</span>
+<span class="n">lhs_b</span> <span class="o">=</span> <span class="n">Cf</span><span class="o">/</span><span class="n">Cr</span> <span class="o">+</span> <span class="mf">0.85</span><span class="o">*</span><span class="n">U1x</span><span class="o">*</span><span class="n">Mfx</span><span class="o">/</span><span class="n">Mrx</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;Cf,K,K*Lx/Rx,K*Ly/Ry,KLr,Fe,lamda,n,Cr,U1x,Mfx,Mrx,Cf/Cr,0.85*U1x*Mfx/Mrx&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">Mfy</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">:</span>
+    <span class="n">Mry</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Zy</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-6</span>
+    <span class="n">KLry</span> <span class="o">=</span> <span class="n">Ky</span><span class="o">*</span><span class="n">Ly</span><span class="o">/</span><span class="n">Ry</span>
+    <span class="n">Fey</span> <span class="o">=</span> <span class="n">pi</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">E</span><span class="o">/</span><span class="p">(</span><span class="n">KLry</span><span class="o">*</span><span class="n">KLry</span><span class="p">)</span>
+    <span class="n">lamday</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">Fy</span><span class="o">/</span><span class="n">Fey</span><span class="p">)</span>
+    <span class="n">Beta</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.85</span><span class="p">,</span><span class="mf">0.6</span> <span class="o">+</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">lamday</span><span class="p">)</span>
+    <span class="n">U1y</span> <span class="o">=</span> <span class="n">U1</span><span class="p">(</span><span class="n">Ly</span><span class="p">,</span><span class="n">Iy</span><span class="p">,</span><span class="n">Cf</span><span class="p">,</span><span class="n">Mfy1</span><span class="p">,</span><span class="n">Mfy2</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="n">bracedy</span> <span class="k">else</span> <span class="mf">1.0</span>
+    <span class="n">lhs_b</span> <span class="o">+=</span> <span class="n">Beta</span><span class="o">*</span><span class="n">U1y</span><span class="o">*</span><span class="n">Mfy</span><span class="o">/</span><span class="n">Mry</span>
+    <span class="n">show</span><span class="p">(</span><span class="s1">&#39;lamday,Beta,U1y,Mfy,Mry,Beta*U1y*Mfy/Mry&#39;</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;lhs_b,lhs_b &lt;= 1&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Cf               = 1000   
+K                = 1      
+K*Lx/Rx          = 48.67  
+K*Ly/Ry          = 83.84  
+KLr              = 48.67  
+Fe               = 833.2  
+lamda            = 0.6435 
+n                = 1.34   
+Cr               = 3280   
+U1x              = 1.03   
+Mfx              = 240    
+Mrx              = 434.7  
+Cf/Cr            = 0.3048 
+0.85*U1x*Mfx/Mrx = 0.4832 
+lhs_b      = 0.788 
+lhs_b &lt;= 1 = True  
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="13.8.2-(c)-lateral-torsional-buckling-strength">13.8.2 (c) lateral torsional buckling strength<a class="anchor-link" href="#13.8.2-(c)-lateral-torsional-buckling-strength"> </a></h3>
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">KLr</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">Kx</span><span class="o">*</span><span class="n">Lx</span><span class="o">/</span><span class="n">Rx</span><span class="p">,</span><span class="n">Ky</span><span class="o">*</span><span class="n">Ly</span><span class="o">/</span><span class="n">Ry</span><span class="p">)</span>
+<span class="n">Fe</span> <span class="o">=</span> <span class="n">pi</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">E</span><span class="o">/</span><span class="p">(</span><span class="n">KLr</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">lamda</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">Fy</span><span class="o">/</span><span class="n">Fe</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mf">1.34</span>
+<span class="n">Cr</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">A</span><span class="o">*</span><span class="n">Fy</span><span class="o">*</span><span class="p">(</span><span class="mf">1.</span><span class="o">+</span><span class="n">lamda</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span><span class="o">/</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-3</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;Cf,Kx,Lx,Rx,Ky,Ly,Ry,Kx*Lx/Rx,Ky*Ly/Ry,KLr,Fe,lamda,n,Cr&#39;</span><span class="p">)</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">Lc</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">E</span><span class="o">*</span><span class="n">Iy</span><span class="o">*</span><span class="n">G</span><span class="o">*</span><span class="n">J</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">Iy</span><span class="o">*</span><span class="n">Cw</span><span class="o">*</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="n">E</span><span class="o">/</span><span class="n">L</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">kap</span> <span class="o">=</span> <span class="n">kappa</span><span class="p">(</span><span class="n">Mfx1</span><span class="p">,</span><span class="n">Mfx2</span><span class="p">)</span>
+<span class="n">omega2</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.75</span> <span class="o">+</span> <span class="mf">1.05</span><span class="o">*</span><span class="n">kap</span> <span class="o">+</span> <span class="mf">0.3</span><span class="o">*</span><span class="n">kap</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">)</span>
+<span class="n">Mu</span> <span class="o">=</span> <span class="p">(</span><span class="n">omega2</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="n">L</span><span class="p">)</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">P</span><span class="o">+</span><span class="n">Q</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1E-6</span>
+<span class="n">Mp</span> <span class="o">=</span> <span class="n">Zx</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-6</span>
+<span class="k">if</span> <span class="n">Mu</span> <span class="o">&lt;=</span> <span class="mf">0.67</span><span class="o">*</span><span class="n">Mp</span><span class="p">:</span>
+    <span class="n">Mrx</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Mu</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">Mrx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.15</span><span class="o">*</span><span class="n">phi</span><span class="o">*</span><span class="n">Mp</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.28</span><span class="o">*</span><span class="n">Mp</span><span class="o">/</span><span class="n">Mu</span><span class="p">),</span><span class="n">phi</span><span class="o">*</span><span class="n">Mp</span><span class="p">)</span>
+<span class="n">U1x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">U1</span><span class="p">(</span><span class="n">Lx</span><span class="p">,</span><span class="n">Ix</span><span class="p">,</span><span class="n">Cf</span><span class="p">,</span><span class="n">Mfx1</span><span class="p">,</span><span class="n">Mfx2</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span><span class="mf">1.0</span><span class="p">)</span> <span class="k">if</span> <span class="n">bracedx</span> <span class="k">else</span> <span class="mf">1.0</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;L,kap,omega2,Mu,Mp,Mfx,U1x,Mrx,Cf/Cr,0.85*U1x*Mfx/Mrx&#39;</span><span class="p">)</span>
+<span class="n">lhs_c</span> <span class="o">=</span> <span class="n">Cf</span><span class="o">/</span><span class="n">Cr</span> <span class="o">+</span> <span class="mf">0.85</span><span class="o">*</span><span class="n">U1x</span><span class="o">*</span><span class="n">Mfx</span><span class="o">/</span><span class="n">Mrx</span>
+<span class="k">if</span> <span class="n">Mfy</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">:</span>
+    <span class="n">Mry</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Zy</span><span class="o">*</span><span class="n">Fy</span> <span class="o">*</span> <span class="mf">1E-6</span>
+    <span class="n">KLry</span> <span class="o">=</span> <span class="n">Ky</span><span class="o">*</span><span class="n">Ly</span><span class="o">/</span><span class="n">Ry</span>
+    <span class="n">Fey</span> <span class="o">=</span> <span class="n">pi</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">E</span><span class="o">/</span><span class="p">(</span><span class="n">KLry</span><span class="o">*</span><span class="n">KLry</span><span class="p">)</span>
+    <span class="n">lamday</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">Fy</span><span class="o">/</span><span class="n">Fey</span><span class="p">)</span>
+    <span class="n">Beta</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.85</span><span class="p">,</span><span class="mf">0.6</span> <span class="o">+</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">lamday</span><span class="p">)</span>
+    <span class="n">U1y</span> <span class="o">=</span> <span class="n">U1</span><span class="p">(</span><span class="n">Ly</span><span class="p">,</span><span class="n">Iy</span><span class="p">,</span><span class="n">Cf</span><span class="p">,</span><span class="n">Mfy1</span><span class="p">,</span><span class="n">Mfy2</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="n">bracedy</span> <span class="k">else</span> <span class="mf">1.0</span>
+    <span class="n">lhs_c</span> <span class="o">+=</span> <span class="n">Beta</span><span class="o">*</span><span class="n">U1y</span><span class="o">*</span><span class="n">Mfy</span><span class="o">/</span><span class="n">Mry</span>
+    <span class="n">show</span><span class="p">(</span><span class="s1">&#39;Mfy,lamday,Beta,U1y,Mry,Beta*U1y*Mfy/Mry&#39;</span><span class="p">)</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;lhs_c,lhs_c &lt;= 1&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Cf       = 1000  
+Kx       = 1     
+Lx       = 5500  
+Rx       = 113   
+Ky       = 1     
+Ly       = 5500  
+Ry       = 65.6  
+Kx*Lx/Rx = 48.67 
+Ky*Ly/Ry = 83.84 
+KLr      = 83.84 
+Fe       = 280.8 
+lamda    = 1.108 
+n        = 1.34  
+Cr       = 2139  
+L                = 5500    
+kap              = -0.8333 
+omega2           = 1.083   
+Mu               = 847.1   
+Mp               = 483     
+Mfx              = 240     
+U1x              = 1.03    
+Mrx              = 420.1   
+Cf/Cr            = 0.4675  
+0.85*U1x*Mfx/Mrx = 0.4999  
+lhs_c      = 0.9674 
+lhs_c &lt;= 1 = True   
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lhs_d</span> <span class="o">=</span> <span class="n">Mfx</span><span class="o">/</span><span class="n">Mrx</span>
+<span class="k">if</span> <span class="n">Mfy</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">:</span>
+    <span class="n">lhs_d</span> <span class="o">+=</span> <span class="n">Mfy</span><span class="o">/</span><span class="n">Mry</span>
+<span class="n">show</span><span class="p">(</span><span class="s1">&#39;lhs_d, lhs_d &lt; 1&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>lhs_d     = 0.5713 
+lhs_d &lt; 1 = True   
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">lhs_a</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">lhs_b</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">lhs_c</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">lhs_d</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">Dsg</span><span class="p">,</span> <span class="s1">&#39;is OK!&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">Dsg</span><span class="p">,</span> <span class="s1">&#39;is NG!&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>W250x101 is OK!
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+ 
+
+
+    </main>
+    

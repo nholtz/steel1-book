@@ -1,5 +1,10 @@
 ### Revision History
 
+### 2020-03-29:
+
+1. Fixed links to Examples [BC05](beam-column/BC05/index) and [BC40](beam-column/BC40/index).
+2. Added sample manual calculations for [BC05](beam-column/BC05/index) (interaction curves).
+
 ### 2020-03-28:
 
 1. Added section on [beam columns](beam-column/beam-column).

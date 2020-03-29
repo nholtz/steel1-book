@@ -139,7 +139,7 @@
     url: /text/beam-column/index
     subsections:
     - title: "BC05: Interaction Curves"
-      url: /text/beam-column/BC05/RandW-CM-Interaction
+      url: /text/beam-column/BC05/index
     - title: "BC10: Eccentrically Loaded Column"
       url: /text/beam-column/BC10/index
     - title: "BC20: Eccentrically Loaded Column (2)"
@@ -149,9 +149,16 @@
     - title: "BC35: Beam-column in unbraced frame"
       url: /text/beam-column/BC35/index
     - title: "BC40: Lecture Example"
-      url: /text/beam-column/BC40/Beam-Column-Example-BC40
+      url: /text/beam-column/BC40/index
   - title: "BCPS: Suggested Problems"
     url: /text/beam-column/BCPS/index
+  - title: "Notebooks"
+    url: /text/beam-column/notebooks
+    subsections:
+    - title: "BC05: Interaction Curves"
+      url: /text/beam-column/BC05/RandW-CM-Interaction
+    - title: "BC40: Lecture Example"
+      url: /text/beam-column/BC40/Beam-Column-Example-BC40
 
 - divider: true
 

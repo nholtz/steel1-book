@@ -13,7 +13,7 @@ prev_page:
 next_page:
   url: /text/beam-column/BC10/index.html
 suffix: .ipynb
-search: shape c m y w interaction values mp cy line rectangular cross section svg default properties function calculate corresponding sentinel moment axial force d generate complete curve above difference frac curves given dimensions wx position n less obtained directly using handbook suspect due fillets etc example compare computed area vs published again blue green rectangle almost significance red matches basis formulae s le
+search: y shape c m values w interaction d cy mp generate line rectangular cross section svg default properties function calculate corresponding sentinel axial force moment checking complete curve above difference halfway frac curves given print dimensions wx position n less obtained directly using handbook suspect due fillets etc example compare computed area vs published again h along web t through flange only blue green rectangle almost significance red matches basis formulae s le
 
 comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /content***"
 ---
@@ -26,7 +26,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="C-M-Interaction-Curves">C-M Interaction Curves<a class="anchor-link" href="#C-M-Interaction-Curves"> </a></h1><h2 id="1.-Rectangular-Cross-Section">1. Rectangular Cross-Section<a class="anchor-link" href="#1.-Rectangular-Cross-Section"> </a></h2>
+<h1 id="C-M-Interaction-Curves">C-M Interaction Curves<a class="anchor-link" href="#C-M-Interaction-Curves"> </a></h1>
 </div>
 </div>
 </div>
@@ -78,6 +78,16 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 </div>
 </div>
 
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.-Rectangular-Cross-Section">1. Rectangular Cross-Section<a class="anchor-link" href="#1.-Rectangular-Cross-Section"> </a></h2>
+</div>
+</div>
 </div>
 </div>
 
@@ -158,7 +168,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Sentinel-values">Sentinel values<a class="anchor-link" href="#Sentinel-values"> </a></h3><p>$M_p$ is moment when $y_0=0$ (and $C=0$).  $C_y$ is axial force when $y_0=d/2$ (and $M=0$).</p>
+<h3 id="Sentinel-values">Sentinel values<a class="anchor-link" href="#Sentinel-values"> </a></h3><p>$C_y$ is axial force when $y_0=d/2$ (and $M=0$).  $M_p$ is moment when $y_0=0$ (and $C=0$).</p>
 
 </div>
 </div>
@@ -172,9 +182,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">zz</span><span class="p">,</span><span class="n">Mp</span> <span class="o">=</span> <span class="n">calcCM_R</span><span class="p">(</span><span class="mf">0.</span><span class="p">)</span>
-<span class="n">Cy</span><span class="p">,</span><span class="n">zz</span> <span class="o">=</span> <span class="n">calcCM_R</span><span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
-<span class="n">Mp</span><span class="p">,</span><span class="n">Cy</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">zz</span><span class="p">,</span><span class="n">Mpr</span> <span class="o">=</span> <span class="n">calcCM_R</span><span class="p">(</span><span class="mf">0.</span><span class="p">)</span>
+<span class="n">Cyr</span><span class="p">,</span><span class="n">zz</span> <span class="o">=</span> <span class="n">calcCM_R</span><span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Cyr</span><span class="p">,</span><span class="n">Mpr</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -187,12 +197,54 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(776.25, 10350.0)</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>10350.0 776.25
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Print values for checking when $y_0 = 0.2 d$:</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">C</span><span class="p">,</span><span class="n">M</span> <span class="o">=</span> <span class="n">calcCM_R</span><span class="p">(</span><span class="mf">0.2</span><span class="o">*</span><span class="n">d</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mf">0.2</span><span class="o">*</span><span class="n">d</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">M</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>60.0 4140.0 652.05
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -218,7 +270,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">C</span><span class="p">,</span><span class="n">M</span> <span class="o">=</span> <span class="n">calcCM_R</span><span class="p">(</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">)</span><span class="o">*</span><span class="n">d</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Cr</span><span class="p">,</span><span class="n">Mr</span> <span class="o">=</span> <span class="n">calcCM_R</span><span class="p">(</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">)</span><span class="o">*</span><span class="n">d</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -238,7 +290,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$M/M_p$&#39;</span><span class="p">)</span>
 <span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$C/C_y$&#39;</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="n">Mp</span><span class="p">,</span><span class="n">C</span><span class="o">/</span><span class="n">Cy</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">Mr</span><span class="o">/</span><span class="n">Mpr</span><span class="p">,</span><span class="n">Cr</span><span class="o">/</span><span class="n">Cyr</span><span class="p">);</span>
 </pre></div>
 
     </div>
@@ -254,7 +306,7 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 
 <div class="output_png output_subarea ">
-<img src="../../../images/text/beam-column/BC05/RandW-CM-Interaction_12_0.png"
+<img src="../../../images/text/beam-column/BC05/RandW-CM-Interaction_15_0.png"
 >
 </div>
 
@@ -510,7 +562,56 @@ Zx = 985 * 1e3
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Now-generate-complete-interaction-curve">Now generate complete interaction curve<a class="anchor-link" href="#Now-generate-complete-interaction-curve"> </a></h3>
+<p>Now generate C,M values at $y_0 = H/4$ (halfway along web) and $y_0 = D/2 - T/2$ (halfway through flange) for checking.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y0</span> <span class="o">=</span> <span class="p">(</span><span class="n">D</span><span class="o">-</span><span class="mf">2.</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">/</span><span class="mf">4.</span>
+<span class="n">C</span><span class="p">,</span><span class="n">M</span> <span class="o">=</span> <span class="n">calcCM_W</span><span class="p">(</span><span class="n">y0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">M</span><span class="p">)</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="n">D</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">T</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">C</span><span class="p">,</span><span class="n">M</span> <span class="o">=</span> <span class="n">calcCM_W</span><span class="p">(</span><span class="n">y0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span><span class="n">C</span><span class="p">,</span><span class="n">M</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>56.15 333.1941 325.21309787250004
+119.4 1910.7342000000012 152.9923406999999
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="jb_cell">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Now-generate-complete-interaction-curve,-for-the-W-shape-only.">Now generate complete interaction curve, for the W shape only.<a class="anchor-link" href="#Now-generate-complete-interaction-curve,-for-the-W-shape-only."> </a></h3>
 </div>
 </div>
 </div>
@@ -559,7 +660,7 @@ Zx = 985 * 1e3
 
 
 <div class="output_png output_subarea ">
-<img src="../../../images/text/beam-column/BC05/RandW-CM-Interaction_27_0.png"
+<img src="../../../images/text/beam-column/BC05/RandW-CM-Interaction_32_0.png"
 >
 </div>
 
@@ -602,7 +703,7 @@ Zx = 985 * 1e3
 <span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$M/M_p$&#39;</span><span class="p">)</span>
 <span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$C/C_y$&#39;</span><span class="p">)</span>
 
-<span class="n">plot</span><span class="p">(</span><span class="n">M</span><span class="o">/</span><span class="n">Mp</span><span class="p">,</span><span class="n">C</span><span class="o">/</span><span class="n">Cy</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">Mw</span><span class="o">/</span><span class="n">Mpw</span><span class="p">,</span><span class="n">Cw</span><span class="o">/</span><span class="n">Cyw</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="n">mrat</span><span class="p">,</span><span class="n">crat</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">Mr</span><span class="o">/</span><span class="n">Mpr</span><span class="p">,</span><span class="n">Cr</span><span class="o">/</span><span class="n">Cyr</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">Mw</span><span class="o">/</span><span class="n">Mpw</span><span class="p">,</span><span class="n">Cw</span><span class="o">/</span><span class="n">Cyw</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="n">mrat</span><span class="p">,</span><span class="n">crat</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">);</span>
 </pre></div>
 
     </div>
@@ -618,7 +719,7 @@ Zx = 985 * 1e3
 
 
 <div class="output_png output_subarea ">
-<img src="../../../images/text/beam-column/BC05/RandW-CM-Interaction_29_0.png"
+<img src="../../../images/text/beam-column/BC05/RandW-CM-Interaction_34_0.png"
 >
 </div>
 

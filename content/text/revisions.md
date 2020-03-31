@@ -1,5 +1,13 @@
 ### Revision History
 
+### 2020-03-31:
+
+1. Added page summarizing useful [CISC Handbook Tables](Handbook-Tables).
+
+### 2020-03-30:
+
+1. Partial update on use of tables in beam-column design. [Study Guide](Study-Guide) and ["lecture"](http://holtz3.cee.carleton.ca/recordings/3205/2020/2020-04-02/) _(video to come)_.
+
 ### 2020-03-29:
 
 1. Fixed links to Examples [BC05](beam-column/BC05/index) and [BC40](beam-column/BC40/index).

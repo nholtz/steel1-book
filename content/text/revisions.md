@@ -1,5 +1,9 @@
 ### Revision History
 
+### 2020-04-02:
+
+1. Updated [study guide](Study-Guide) for [last lecture topic](http://holtz3.cee.carleton.ca/recordings/3205/2020/2020-04-02/).
+
 ### 2020-03-31:
 
 1. Added page summarizing useful [CISC Handbook Tables](Handbook-Tables).

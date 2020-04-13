@@ -1,5 +1,10 @@
 ### Revision History
 
+### 2020-04-13:
+
+1. Updated [study guide](Study-Guide) to include topics before spring break. Relinked pointers to recorded lectures to point to backup server.
+
+
 ### 2020-04-02:
 
 1. Updated [study guide](Study-Guide) for [last lecture topic](http://holtz3.cee.carleton.ca/recordings/3205/2020/2020-04-02/).

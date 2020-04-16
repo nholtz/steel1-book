@@ -1,5 +1,11 @@
 ### Revision History
 
+### 2020-04-16:
+
+1. Added [Aid Sheet](aid-sheet/index.html) for final exam.  This is the 
+   aid-sheet attached to the final exam last year, updated slightly. It
+   will not be attached to the final exam this year.
+
 ### 2020-04-13:
 
 1. Updated [study guide](Study-Guide) to include topics before spring break. Relinked pointers to recorded lectures to point to backup server.

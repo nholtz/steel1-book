@@ -9,7 +9,7 @@ understand the examples in this section, you may safely ignore them.
 The following is a work in progress and is very much an experiment.  Things may 
 frequently change.
 
-* **[Tension Members](/notebooks/tension/tension)**
+* **[Tension Members](tension/tension)**
 * Connections
 * Axially Loaded Compression
 * Bending

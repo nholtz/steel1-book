@@ -9,9 +9,9 @@ title: |-
   T20: W Brace
 pagenum: 67
 prev_page:
-  url: /notebooks/tension/T15/T15-bolted-single-angle-v2.html
+  url: /notebooks/tension/T15/T15-bolted-single-angle-v3.html
 next_page:
-  url: /notebooks/tension/T30/T30-HSS-brace-v6.html
+  url: /notebooks/tension/T30/T30-HSS-brace-v9.html
 suffix: .ipynb
 search: w section brace bolts bolt factored tension shape shown note flange mm angles check flanges gusset gross yield shear not example resistance following photo tips compute tr fit thickness net fracture block bearing between web t reduced cross shows computation used member lateral building such braces upper left removed ensure ductility under seismic forces strength similar load setup library modules problem statement assembly steel g astm punched holes cut tip wx details done spacings edge distances within need tearout summary detailing weld reinforcing plates plate allow too little notes should govern does large margin obviously required detail threads intercepted risky
 
@@ -128,10 +128,10 @@ in the photo.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">notes</span> <span class="o">=</span> <span class="n">DesignNotes</span><span class="p">(</span><span class="s1">&#39;Tr&#39;</span><span class="p">,</span><span class="n">trace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">units</span><span class="o">=</span><span class="n">kN</span><span class="p">)</span>      <span class="c1"># initial the note/record keeping object</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">notes</span> <span class="o">=</span> <span class="n">DesignNotes</span><span class="p">(</span><span class="s1">&#39;Tr&#39;</span><span class="p">,</span><span class="n">units</span><span class="o">=</span><span class="n">kN</span><span class="p">)</span>      <span class="c1"># initial the note/record keeping object</span>
 <span class="n">RECORD</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">record</span>     <span class="c1"># useful abbreviations</span>
 <span class="n">CHECK</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">check</span>
-<span class="n">SETVARS</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">setvars</span>
+<span class="n">USEVARS</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">usevars</span>
 </pre></div>
 
     </div>
@@ -571,7 +571,7 @@ in the photo.</p>
     <span class="n">s</span> <span class="o">=</span> <span class="mf">75.</span><span class="o">*</span><span class="n">mm</span>                  <span class="c1"># bolt spacing</span>
     <span class="n">threads_intercepted</span> <span class="o">=</span> <span class="kc">True</span>
 
-<span class="n">Bolts</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;grade,size,d,Fu,Ab,n,s&#39;</span><span class="p">)</span>
+<span class="n">Bolts</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -585,13 +585,14 @@ in the photo.</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>grade = ASTM A325 
-size  = 3/4&#34;  
-d     = 19.05 mm
-Fu    = 825   MPa
-Ab    = 285   mm²
-n     = 4     
-s     = 75    mm
+<pre>Ab                  = 285   mm²
+d                   = 19.05 mm
+Fu                  = 825   MPa
+grade               = ASTM A325 
+n                   = 4     
+s                   = 75    mm
+size                = 3/4&#34;  
+threads_intercepted = True  
 </pre>
 </div>
 </div>
@@ -624,7 +625,7 @@ s     = 75    mm
     <span class="n">g2</span> <span class="o">=</span> <span class="mi">45</span><span class="o">*</span><span class="n">mm</span>        <span class="c1"># gauge, shorter leg</span>
     <span class="n">s</span> <span class="o">=</span> <span class="mi">80</span><span class="o">*</span><span class="n">mm</span>         <span class="c1"># dist between innermost holes on each end</span>
 
-<span class="n">Angles</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s1">&#39;grade,Fy,Fu,size,d,b,t,Ag,g1,g2,s,ha&#39;</span><span class="p">)</span>
+<span class="n">Angles</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -638,18 +639,18 @@ s     = 75    mm
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>grade = CSA G40.21 350W 
-Fy    = 350  MPa
-Fu    = 450  MPa
-size  = L102x76x13 
-d     = 102  mm
+<pre>Ag    = 2100 mm²
 b     = 76.2 mm
-t     = 12.7 mm
-Ag    = 2100 mm²
+d     = 102  mm
+Fu    = 450  MPa
+Fy    = 350  MPa
 g1    = 65   mm
 g2    = 45   mm
-s     = 80   mm
+grade = CSA G40.21 350W 
 ha    = 24   mm
+s     = 80   mm
+size  = L102x76x13 
+t     = 12.7 mm
 </pre>
 </div>
 </div>
@@ -724,8 +725,13 @@ ha    = 24   mm
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">Angles</span><span class="p">[</span><span class="s1">&#39;d,b,t,ha,g1,g2,Fu,s&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;n&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;wg,wn1,g,wn2,wn,An,Ane&#39;</span><span class="p">,</span><span class="nb">globals</span><span class="o">=</span><span class="s1">&#39;phiu&#39;</span><span class="p">,</span>
-             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Net section fracture, 4 angles&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">phiu</span> <span class="o">=</span> <span class="mf">0.75</span>
+
+<span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;d,b,t,ha,g1,g2,Fu,s&#39;</span><span class="p">,</span><span class="n">Angles</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;wg,wn1,g,wn2,wn,An,Ane&#39;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="s1">&#39;phiu&#39;</span><span class="p">,</span>
+             <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Tr&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Net section fracture, 4 angles&#39;</span><span class="p">,</span>
+             <span class="p">):</span>
     <span class="c1"># gross width = &quot;flattened&quot; width of angle:</span>
     <span class="n">wg</span> <span class="o">=</span> <span class="n">d</span> <span class="o">+</span> <span class="n">b</span> <span class="o">-</span> <span class="n">t</span>
 
@@ -740,7 +746,7 @@ ha    = 24   mm
 
     <span class="n">An</span> <span class="o">=</span> <span class="n">wn</span><span class="o">*</span><span class="n">t</span>
     <span class="n">Ane</span> <span class="o">=</span> <span class="mf">0.8</span><span class="o">*</span><span class="n">An</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">4</span> <span class="k">else</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">An</span>   <span class="c1"># S16-14: 12.3.3.2 (b) (i) - connected 1 leg n lines of bolts</span>
-    <span class="n">phiu</span> <span class="o">=</span> <span class="mf">0.75</span>
+    
     <span class="n">Tr</span> <span class="o">=</span> <span class="mf">4.</span> <span class="o">*</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">Fu</span>    <span class="c1"># S16-14: 13.2 a) iii)</span>
 </pre></div>
 
@@ -754,28 +760,36 @@ ha    = 24   mm
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>d     = 102       mm
+b     = 76.2      mm
+t     = 12.7      mm
+ha    = 24        mm
+g1    = 65        mm
+g2    = 45        mm
+Fu    = 450       MPa
+s     = 80        mm
+n     = 4         
+wg    = 165.5     mm
+wn1   = 141.5     mm
+g     = 97.3      mm
+wn2   = 133.9     mm
+wn    = 133.9     mm
+An    = 1701      mm²
+Ane   = 1361      mm²
+Tr    = 1.837e+06 MPa·mm²
+phiu  = 0.75      
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
 
 
 <div class="output_text output_subarea ">
-<pre>    An = 1701mm²
-    Ane = 1361mm²
-    b = 76.2mm
-    d = 102.0mm
-    Fu = 450MPa
-    g = 97.3mm
-    g1 = 65mm
-    g2 = 45mm
-    ha = 24mm
-    n = 4
-    phiu = 0.75
-    s = 80mm
-    t = 12.7mm
-    Tr = 1837kN
-    wg = 165.5mm
-    wn = 133.9mm
-    wn1 = 141.5mm
-    wn2 = 133.9mm
-
+<pre>
     Net section fracture, 4 angles: Tr = 1837 kN</pre>
 </div>
 
@@ -804,8 +818,9 @@ ha    = 24   mm
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">Angles</span><span class="p">[</span><span class="s1">&#39;Ag,Fy&#39;</span><span class="p">],</span><span class="nb">globals</span><span class="o">=</span><span class="s1">&#39;phi&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gross section yield, 4 angles&#39;</span><span class="p">):</span>
-    <span class="n">phi</span> <span class="o">=</span> <span class="mf">0.9</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">phi</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;Ag,Fy&#39;</span><span class="p">,</span><span class="n">Angles</span><span class="p">),</span>
+            <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gross section yield, 4 angles&#39;</span><span class="p">):</span>
     <span class="n">Tr</span> <span class="o">=</span> <span class="mf">4.</span> <span class="o">*</span> <span class="n">phi</span><span class="o">*</span><span class="n">Ag</span><span class="o">*</span><span class="n">Fy</span>    <span class="c1"># S16-14: 13.2 a) i)</span>
 </pre></div>
 
@@ -819,14 +834,21 @@ ha    = 24   mm
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Ag    = 2100      mm²
+Fy    = 350       MPa
+Tr    = 2.646e+06 MPa·mm²
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
 
 
 <div class="output_text output_subarea ">
-<pre>    Ag = 2100mm²
-    Fy = 350MPa
-    phi = 0.9
-    Tr = 2646kN
-
+<pre>
     Gross section yield, 4 angles: Tr = 2646 kN</pre>
 </div>
 
@@ -855,7 +877,9 @@ ha    = 24   mm
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">Angles</span><span class="p">[</span><span class="s1">&#39;t,d,b,g1,g2,ha,Fy,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;n,s&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agv,An,Ut&#39;</span><span class="p">,</span><span class="nb">globals</span><span class="o">=</span><span class="s1">&#39;phiu&#39;</span><span class="p">,</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;t,d,b,g1,g2,ha,Fy,Fu&#39;</span><span class="p">,</span><span class="n">Angles</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;n,s&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agv,An,Ut&#39;</span><span class="p">,</span>
              <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Block shear, 4 angles&#39;</span><span class="p">):</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">40</span><span class="o">*</span><span class="n">mm</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">t</span>
     <span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">d</span><span class="o">-</span><span class="n">g1</span><span class="p">,</span><span class="n">b</span><span class="o">-</span><span class="n">g2</span><span class="p">)</span> <span class="o">-</span> <span class="n">ha</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span><span class="o">*</span><span class="n">t</span>
@@ -873,25 +897,32 @@ ha    = 24   mm
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>t     = 12.7      mm
+d     = 102       mm
+b     = 76.2      mm
+g1    = 65        mm
+g2    = 45        mm
+ha    = 24        mm
+Fy    = 350       MPa
+Fu    = 450       MPa
+n     = 4         
+s     = 75        mm
+Agv   = 3366      mm²
+An    = 243.8     mm²
+Ut    = 0.3       
+Tr    = 2.522e+06 MPa·mm²
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
 
 
 <div class="output_text output_subarea ">
-<pre>    Agv = 3366mm²
-    An = 243.8mm²
-    b = 76.2mm
-    d = 102.0mm
-    Fu = 450MPa
-    Fy = 350MPa
-    g1 = 65mm
-    g2 = 45mm
-    ha = 24mm
-    n = 4
-    phiu = 0.75
-    s = 75.0mm
-    t = 12.7mm
-    Tr = 2522kN
-    Ut = 0.3
-
+<pre>
     Block shear, 4 angles: Tr = 2522 kN</pre>
 </div>
 
@@ -1139,7 +1170,9 @@ ha    = 24   mm
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Path 1-1: net = gross  +  plates  -  holes</span>
-<span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">Angles</span><span class="p">[</span><span class="s1">&#39;ha&#39;</span><span class="p">],</span><span class="n">WShape</span><span class="p">[</span><span class="s1">&#39;Ag,tp,wp,w,Fu&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Ane&#39;</span><span class="p">,</span><span class="nb">globals</span><span class="o">=</span><span class="s1">&#39;phiu&#39;</span><span class="p">,</span>
+<span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;ha&#39;</span><span class="p">,</span><span class="n">Angles</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Ag,tp,wp,w,Fu&#39;</span><span class="p">,</span><span class="n">WShape</span><span class="p">),</span> 
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Ane&#39;</span><span class="p">,</span>
              <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Net section fracture, W shape&#39;</span><span class="p">):</span>
     <span class="n">An</span> <span class="o">=</span> <span class="n">Ag</span>  <span class="o">+</span>  <span class="mi">2</span><span class="o">*</span><span class="n">tp</span><span class="o">*</span><span class="n">wp</span>   <span class="o">-</span>  <span class="mi">2</span><span class="o">*</span><span class="n">ha</span><span class="o">*</span><span class="p">(</span><span class="n">w</span><span class="o">+</span><span class="n">tp</span><span class="o">+</span><span class="n">tp</span><span class="p">)</span>
     <span class="n">Ane</span> <span class="o">=</span> <span class="mf">0.85</span><span class="o">*</span><span class="n">An</span>    <span class="c1"># S16-14: 12.3.3.2 (c) (i)</span>
@@ -1157,20 +1190,27 @@ ha    = 24   mm
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>ha    = 24        mm
+Ag    = 8550      mm²
+tp    = 8         mm
+wp    = 190       mm
+w     = 8.9       mm
+Fu    = 450       MPa
+An    = 10390     mm²
+Ane   = 8836      mm²
+Tr    = 2.982e+06 MPa·mm²
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
 
 
 <div class="output_text output_subarea ">
-<pre>    Ag = 8550mm²
-    An = 10390mm²
-    Ane = 8836mm²
-    Fu = 450MPa
-    ha = 24mm
-    phiu = 0.75
-    tp = 8mm
-    Tr = 2982kN
-    w = 8.9mm
-    wp = 190mm
-
+<pre>
     Net section fracture, W shape: Tr = 2982 kN</pre>
 </div>
 
@@ -1199,7 +1239,8 @@ ha    = 24   mm
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">WShape</span><span class="p">[</span><span class="s1">&#39;Ag,wc,t,Fy&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agr&#39;</span><span class="p">,</span><span class="nb">globals</span><span class="o">=</span><span class="s1">&#39;phi&#39;</span><span class="p">,</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;Ag,wc,t,Fy&#39;</span><span class="p">,</span><span class="n">WShape</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agr&#39;</span><span class="p">,</span>
              <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gross section yield, W shape&#39;</span><span class="p">):</span>
     <span class="n">Agr</span> <span class="o">=</span> <span class="n">Ag</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">wc</span><span class="o">*</span><span class="n">t</span>   <span class="c1"># reduced area due to flange cuts</span>
     <span class="n">phi</span> <span class="o">=</span> <span class="mf">0.9</span>
@@ -1216,17 +1257,24 @@ ha    = 24   mm
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Ag    = 8550      mm²
+wc    = 40        mm
+t     = 15.7      mm
+Fy    = 345       MPa
+Agr   = 6038      mm²
+Tr    = 1.875e+06 MPa·mm²
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
 
 
 <div class="output_text output_subarea ">
-<pre>    Ag = 8550mm²
-    Agr = 6038mm²
-    Fy = 345MPa
-    phi = 0.9
-    t = 15.7mm
-    Tr = 1875kN
-    wc = 40mm
-
+<pre>
     Gross section yield, W shape: Tr = 1875 kN</pre>
 </div>
 
@@ -1255,7 +1303,10 @@ ha    = 24   mm
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">Angles</span><span class="p">[</span><span class="s1">&#39;ha,g2&#39;</span><span class="p">],</span><span class="n">WShape</span><span class="p">[</span><span class="s1">&#39;w,tp,Fy,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;n,s&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agv,An,Ut&#39;</span><span class="p">,</span><span class="nb">globals</span><span class="o">=</span><span class="s1">&#39;phiu&#39;</span><span class="p">,</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;ha,g2&#39;</span><span class="p">,</span><span class="n">Angles</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;w,tp,Fy,Fu&#39;</span><span class="p">,</span><span class="n">WShape</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;n,s&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agv,An,Ut&#39;</span><span class="p">,</span>
              <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Block shear, W shape&#39;</span><span class="p">):</span>
     <span class="n">T</span> <span class="o">=</span> <span class="n">w</span> <span class="o">+</span> <span class="n">tp</span> <span class="o">+</span> <span class="n">tp</span>          <span class="c1"># thickness of web + reinforcing plates</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">40</span><span class="o">*</span><span class="n">mm</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
@@ -1275,23 +1326,30 @@ ha    = 24   mm
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>ha    = 24        mm
+g2    = 45        mm
+w     = 8.9       mm
+tp    = 8         mm
+Fy    = 345       MPa
+Fu    = 450       MPa
+n     = 4         
+s     = 75        mm
+Agv   = 13200     mm²
+An    = 2266      mm²
+Ut    = 1         
+Tr    = 3.125e+06 MPa·mm²
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
 
 
 <div class="output_text output_subarea ">
-<pre>    Agv = 13200mm²
-    An = 2266mm²
-    Fu = 450MPa
-    Fy = 345MPa
-    g2 = 45mm
-    ha = 24mm
-    n = 4
-    phiu = 0.75
-    s = 75.0mm
-    tp = 8mm
-    Tr = 3125kN
-    Ut = 1.0
-    w = 8.9mm
-
+<pre>
     Block shear, W shape: Tr = 3125 kN</pre>
 </div>
 
@@ -1320,8 +1378,9 @@ ha    = 24   mm
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">WShape</span><span class="p">[</span><span class="s1">&#39;w,tp,Fy,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;n,s&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Ahv,Ut&#39;</span><span class="p">,</span><span class="nb">globals</span><span class="o">=</span><span class="s1">&#39;phiu&#39;</span><span class="p">,</span>
-             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tearout, W shape&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;w,tp,Fy,Fu&#39;</span><span class="p">,</span><span class="n">WShape</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;n,s&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Ahv,Ut&#39;</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tearout, W shape&#39;</span><span class="p">):</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="p">(</span><span class="mi">40</span><span class="o">*</span><span class="n">mm</span> <span class="o">+</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
     <span class="n">An</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">mm</span><span class="o">*</span><span class="n">mm</span>
     <span class="n">Ut</span> <span class="o">=</span> <span class="mf">1.0</span>
@@ -1339,20 +1398,28 @@ ha    = 24   mm
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>w     = 8.9       mm
+tp    = 8         mm
+Fy    = 345       MPa
+Fu    = 450       MPa
+n     = 4         
+s     = 75        mm
+An    = 0         mm²
+Ahv   = None      
+Ut    = 1         
+Tr    = 4.721e+06 MPa·mm²
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
 
 
 <div class="output_text output_subarea ">
-<pre>    An = 0mm²
-    Fu = 450MPa
-    Fy = 345MPa
-    n = 4
-    phiu = 0.75
-    s = 75.0mm
-    tp = 8mm
-    Tr = 4721kN
-    Ut = 1.0
-    w = 8.9mm
-
+<pre>
     Tearout, W shape: Tr = 4721 kN</pre>
 </div>
 
@@ -1381,8 +1448,8 @@ ha    = 24   mm
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;n,s,Ab,Fu,threads_intercepted&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;m,L&#39;</span><span class="p">,</span><span class="nb">globals</span><span class="o">=</span><span class="s1">&#39;phib&#39;</span><span class="p">,</span>
-             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bolt Shear&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;n,s,Ab,Fu,threads_intercepted&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;m,L&#39;</span><span class="p">,</span>    <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bolt Shear&#39;</span><span class="p">):</span>
     <span class="n">phib</span> <span class="o">=</span> <span class="mf">0.8</span>
     <span class="n">m</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">Tr</span> <span class="o">=</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">phib</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">Ab</span><span class="o">*</span><span class="n">Fu</span> <span class="o">*</span> <span class="mi">2</span>   <span class="c1"># S16 13.12.1.2.b)</span>
@@ -1403,19 +1470,26 @@ ha    = 24   mm
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>n                   = 4         
+s                   = 75        mm
+Ab                  = 285       mm²
+Fu                  = 825       MPa
+threads_intercepted = True      
+m                   = 2         
+L                   = 225       mm
+Tr                  = 1.264e+06 MPa·mm²
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
 
 
 <div class="output_text output_subarea ">
-<pre>    Ab = 285.0mm²
-    Fu = 825MPa
-    L = 225.0mm
-    m = 2
-    n = 4
-    phib = 0.8
-    s = 75.0mm
-    threads_intercepted = True
-    Tr = 1264kN
-
+<pre>
     Bolt Shear: Tr = 1264 kN    &lt;&lt;&lt;--- GOVERNS</pre>
 </div>
 
@@ -1444,8 +1518,9 @@ ha    = 24   mm
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">Angles</span><span class="p">[</span><span class="s1">&#39;t,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;n,d&#39;</span><span class="p">],</span><span class="nb">globals</span><span class="o">=</span><span class="s1">&#39;phibr&#39;</span><span class="p">,</span><span class="n">result_var</span><span class="o">=</span><span class="s1">&#39;Br&#39;</span><span class="p">,</span>
-             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bolt Bearing (on 4 angles)&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;t,Fu&#39;</span><span class="p">,</span><span class="n">Angles</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;n,d&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Br&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bolt Bearing (on 4 angles)&#39;</span><span class="p">):</span>
     <span class="n">phibr</span> <span class="o">=</span> <span class="mf">0.8</span>
     <span class="n">Br</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">phibr</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">d</span><span class="o">*</span><span class="n">Fu</span> <span class="o">*</span> <span class="mi">4</span>
 </pre></div>
@@ -1460,17 +1535,23 @@ ha    = 24   mm
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>t     = 12.7      mm
+Fu    = 450       MPa
+n     = 4         
+d     = 19.05     mm
+Br    = 4.181e+06 MPa·mm²
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
 
 
 <div class="output_text output_subarea ">
-<pre>    Br = 4181000MPa·mm²
-    d = 19.05mm
-    Fu = 450MPa
-    n = 4
-    phibr = 0.8
-    t = 12.7mm
-    Tr = 4181kN
-
+<pre>
     Bolt Bearing (on 4 angles): Tr = 4181 kN</pre>
 </div>
 
@@ -1489,8 +1570,9 @@ ha    = 24   mm
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">SETVARS</span><span class="p">(</span><span class="n">WShape</span><span class="p">[</span><span class="s1">&#39;w,tp,Fu&#39;</span><span class="p">],</span><span class="n">Bolts</span><span class="p">[</span><span class="s1">&#39;n,d&#39;</span><span class="p">],</span><span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span><span class="nb">globals</span><span class="o">=</span><span class="s1">&#39;phibr&#39;</span><span class="p">,</span><span class="n">result_var</span><span class="o">=</span><span class="s1">&#39;Br&#39;</span><span class="p">,</span>
-             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bolt Bearing (on web of W)&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;w,tp,Fu&#39;</span><span class="p">,</span><span class="n">WShape</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;n,d&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span>     <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Br&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bolt Bearing (on web of W)&#39;</span><span class="p">):</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">w</span><span class="o">+</span><span class="n">tp</span><span class="o">+</span><span class="n">tp</span>
     <span class="n">Br</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">phibr</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">d</span><span class="o">*</span><span class="n">Fu</span>
 </pre></div>
@@ -1505,19 +1587,25 @@ ha    = 24   mm
 <div class="jb_output_wrapper }}">
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>w     = 8.9       mm
+tp    = 8         mm
+Fu    = 450       MPa
+n     = 4         
+d     = 19.05     mm
+t     = 24.9      mm
+Br    = 4.098e+06 MPa·mm²
+</pre>
+</div>
+</div>
+</div>
+<div class="jb_output_wrapper }}">
+<div class="output_area">
+
 
 
 <div class="output_text output_subarea ">
-<pre>    Br = 4098000MPa·mm²
-    d = 19.05mm
-    Fu = 450MPa
-    n = 4
-    phibr = 0.8
-    t = 24.9mm
-    tp = 8mm
-    Tr = 4098kN
-    w = 8.9mm
-
+<pre>
     Bolt Bearing (on web of W): Tr = 4098 kN</pre>
 </div>
 

@@ -178,8 +178,6 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 <span class="n">REQUIRE</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">require</span>       <span class="c1"># a requirement</span>
 <span class="n">CHECK</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">check</span>           <span class="c1"># a check</span>
 <span class="n">USEVARS</span> <span class="o">=</span> <span class="n">notes</span><span class="o">.</span><span class="n">usevars</span>
-<span class="k">def</span> <span class="nf">DATA</span><span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="n">label</span><span class="p">,</span><span class="o">*</span><span class="n">items</span><span class="p">,</span><span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">USEVARS</span><span class="p">(</span><span class="o">*</span><span class="n">items</span><span class="p">,</span><span class="n">record</span><span class="o">=</span><span class="n">var</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -319,10 +317,9 @@ comment: "***PROGRAMMATICALLY GENERATED, DO NOT EDIT. SEE ORIGINAL FILES IN /con
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Gusset to HSS Weld&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;W,W2,theta,D&#39;</span><span class="p">,</span><span class="n">GussetPlate</span><span class="p">),</span>
-          <span class="p">(</span><span class="s1">&#39;Xu&#39;</span><span class="p">,</span><span class="n">Welds</span><span class="p">),</span>
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;L,L1,Mw,Aw&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;W,W2,theta,D&#39;</span><span class="p">,</span><span class="n">GussetPlate</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Xu&#39;</span><span class="p">,</span><span class="n">Welds</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;L,L1,Mw,Aw&#39;</span><span class="p">,</span>  <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gusset to HSS Weld&#39;</span><span class="p">):</span>
     <span class="n">L1</span> <span class="o">=</span> <span class="n">W2</span><span class="o">+</span><span class="n">W</span><span class="o">*</span><span class="n">cosd</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
     <span class="n">L</span> <span class="o">=</span> <span class="p">(</span><span class="n">L1</span><span class="o">/</span><span class="n">sind</span><span class="p">(</span><span class="n">theta</span><span class="p">))</span><span class="o">*</span><span class="n">cosd</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">W</span><span class="o">*</span><span class="n">sind</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
 
@@ -395,10 +392,10 @@ here because of the increased width of the gusset.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Gusset Block Shear Case 1)&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;nlines,nperline,g,s,ha&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
-          <span class="p">(</span><span class="s1">&#39;W,e,T,Fy,Fu&#39;</span><span class="p">,</span><span class="n">GussetPlate</span><span class="p">),</span> 
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;nlines,nperline,g,s,ha&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
+             <span class="p">(</span><span class="s1">&#39;W,e,T,Fy,Fu&#39;</span><span class="p">,</span><span class="n">GussetPlate</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut&#39;</span><span class="p">,</span> 
+             <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gusset Block Shear Case 1)&#39;</span><span class="p">):</span>
     <span class="n">An</span> <span class="o">=</span> <span class="n">T</span><span class="o">*</span><span class="p">((</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span> <span class="o">-</span> <span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">ha</span><span class="p">)</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="p">((</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span>
     <span class="n">Ut</span> <span class="o">=</span> <span class="mf">1.0</span>
@@ -469,10 +466,10 @@ Vr       = 1.516e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Gusset Block Shear Case 2)&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;nlines,nperline,g,s,ha&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
-          <span class="p">(</span><span class="s1">&#39;W,e,T,Fy,Fu&#39;</span><span class="p">,</span><span class="n">GussetPlate</span><span class="p">),</span>
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;edge,Ut,An,Agv&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;nlines,nperline,g,s,ha&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;W,e,T,Fy,Fu&#39;</span><span class="p">,</span><span class="n">GussetPlate</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;edge,Ut,An,Agv&#39;</span><span class="p">,</span> 
+             <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gusset Block Shear Case 2)&#39;</span><span class="p">):</span>
     <span class="n">edge</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span>
     <span class="n">An</span> <span class="o">=</span> <span class="p">(((</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="o">+</span><span class="n">edge</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">ha</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="n">T</span><span class="o">*</span><span class="p">((</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span>
@@ -545,10 +542,10 @@ Vr       = 1.251e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Gusset tearout&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;nlines,nperline,s&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
-          <span class="p">(</span><span class="s1">&#39;e,T,Fy,Fu&#39;</span><span class="p">,</span><span class="n">GussetPlate</span><span class="p">),</span>
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agv&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;nlines,nperline,s&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;e,T,Fy,Fu&#39;</span><span class="p">,</span><span class="n">GussetPlate</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agv&#39;</span><span class="p">,</span> 
+             <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gusset tearout&#39;</span><span class="p">):</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="n">T</span><span class="o">*</span><span class="p">((</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span> <span class="o">+</span> <span class="n">e</span><span class="p">)</span> <span class="o">*</span> <span class="n">nperline</span> <span class="o">*</span> <span class="mi">2</span>
     <span class="n">Vr</span> <span class="o">=</span> <span class="n">phiu</span> <span class="o">*</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">Agv</span><span class="o">*</span><span class="p">(</span><span class="n">Fy</span><span class="o">+</span><span class="n">Fu</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span>               <span class="c1"># S16-14: 13.2 a) ii) &amp; 13.11</span>
 </pre></div>
@@ -647,7 +644,7 @@ As the plate is symmetric, we only have to investigate one end.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Tr&#39;</span><span class="p">,</span><span class="s1">&#39;Lap Plates, Gross Yield&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;W,T,Fy&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span> <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Ag&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;W,T,Fy&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span> <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Ag&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lap Plates, Gross Yield&#39;</span><span class="p">):</span>
     <span class="n">Ag</span> <span class="o">=</span> <span class="n">W</span><span class="o">*</span><span class="n">T</span>
     <span class="n">Tr</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Ag</span><span class="o">*</span><span class="n">Fy</span>          <span class="c1"># S16-14: 13.2 a) i)</span>
 </pre></div>
@@ -707,10 +704,9 @@ Tr    = 1.449e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Tr&#39;</span><span class="p">,</span><span class="s1">&#39;Lap Plates, Net Fracture&#39;</span><span class="p">,</span> 
-          <span class="p">(</span><span class="s1">&#39;W,T,Fu&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span>
-          <span class="p">(</span><span class="s1">&#39;nperline,ha&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;wn,Ane&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;W,T,Fu&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;nperline,ha&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;wn,Ane&#39;</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lap Plates, Net Fracture&#39;</span><span class="p">):</span>
     <span class="n">wn</span> <span class="o">=</span> <span class="n">W</span> <span class="o">-</span> <span class="n">nperline</span><span class="o">*</span><span class="n">ha</span>
     <span class="n">Ane</span> <span class="o">=</span> <span class="n">An</span> <span class="o">=</span> <span class="n">wn</span><span class="o">*</span><span class="n">T</span>
     <span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">Fu</span>          <span class="c1"># S16-14: 13.2 a) iii)</span>
@@ -774,10 +770,9 @@ Tr       = 1.066e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Lap Plates, Block Shear Case 1)&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span>
-          <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut&#39;</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lap Plates, Block Shear Case 1)&#39;</span><span class="p">):</span>
     <span class="n">An</span> <span class="o">=</span> <span class="p">((</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span> <span class="o">-</span> <span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">ha</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="mi">2</span>
     <span class="n">Ut</span> <span class="o">=</span> <span class="mf">1.0</span>
@@ -848,10 +843,9 @@ Vr       = 1.516e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Lap Plates, Block Shear Case 2)&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span> 
-          <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;edge,An,Agv,Ut&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span> 
+             <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;edge,An,Agv,Ut&#39;</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lap Plates, Block Shear Case 2)&#39;</span><span class="p">):</span>
     <span class="n">edge</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span>
     <span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="p">(</span><span class="n">edge</span><span class="o">-</span><span class="n">ha</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">nperline</span><span class="o">*</span><span class="n">ha</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
@@ -924,10 +918,9 @@ Vr       = 1.116e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Lap Plates, Block Shear Case 3)&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span> 
-          <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span> 
+             <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut&#39;</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lap Plates, Block Shear Case 3)&#39;</span><span class="p">):</span>
     <span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="n">nperline</span><span class="o">*</span><span class="n">ha</span> <span class="o">-</span> <span class="p">(</span><span class="n">g</span><span class="o">-</span><span class="n">ha</span><span class="p">))</span><span class="o">*</span><span class="n">T</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span> <span class="o">*</span> <span class="mf">2.</span>
     <span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.6</span>
@@ -998,10 +991,9 @@ Vr       = 1.261e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Lap Plates, tearout&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span> 
-          <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agv,An,Ut&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span> 
+             <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agv,An,Ut&#39;</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lap Plates, tearout&#39;</span><span class="p">):</span>
     <span class="n">An</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">mm</span><span class="o">*</span><span class="n">mm</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">nperline</span>
     <span class="n">Ut</span> <span class="o">=</span> <span class="mi">1</span>
@@ -1104,8 +1096,8 @@ Vr       = 2.484e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Tr&#39;</span><span class="p">,</span><span class="s1">&#39;Tongue Plate, Gross Yield&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;W,T,Fy&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span> <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Ag&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;W,T,Fy&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span> 
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Ag&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate, Gross Yield&#39;</span><span class="p">):</span>
     <span class="n">Ag</span> <span class="o">=</span> <span class="n">W</span><span class="o">*</span><span class="n">T</span>
     <span class="n">Tr</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Ag</span><span class="o">*</span><span class="n">Fy</span>                <span class="c1"># S16-14: 13.2 a) i)</span>
 </pre></div>
@@ -1165,9 +1157,9 @@ Tr    = 1.764e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Tr&#39;</span><span class="p">,</span><span class="s1">&#39;Tongue Plate, Bolted End, Net Section Fracture&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;W,T,Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span>
-          <span class="p">(</span><span class="s1">&#39;ha,nperline&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;wn,Ane&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;W,T,Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;ha,nperline&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;wn,Ane&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate, Bolted End, Net Section Fracture&#39;</span><span class="p">):</span>
     <span class="n">wn</span> <span class="o">=</span> <span class="n">W</span> <span class="o">-</span> <span class="n">nperline</span><span class="o">*</span><span class="n">ha</span>
     <span class="n">Ane</span> <span class="o">=</span> <span class="n">An</span> <span class="o">=</span> <span class="n">wn</span><span class="o">*</span><span class="n">T</span>
     <span class="n">Tr</span> <span class="o">=</span> <span class="n">phiu</span><span class="o">*</span><span class="n">Ane</span><span class="o">*</span><span class="n">Fu</span>              <span class="c1"># S16-14: 13.2 a) iii)</span>
@@ -1231,10 +1223,9 @@ Tr       = 1.404e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Tongue Plate, Block Shear Case 1)&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span> 
-          <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span> 
+             <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut&#39;</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate, Block Shear Case 1)&#39;</span><span class="p">):</span>
     <span class="n">An</span> <span class="o">=</span> <span class="p">((</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span> <span class="o">-</span> <span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">ha</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="mi">2</span>
     <span class="n">Ut</span> <span class="o">=</span> <span class="mf">1.0</span>
@@ -1305,10 +1296,9 @@ Vr       = 1.516e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Tongue Plate, Block Shear Case 2)&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span> 
-          <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;edge,An,Agv,Ut&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;edge,An,Agv,Ut&#39;</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate, Block Shear Case 2)&#39;</span><span class="p">):</span>
     <span class="n">edge</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="p">(</span><span class="n">nperline</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span>
     <span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="p">(</span><span class="n">edge</span><span class="o">-</span><span class="n">ha</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span> <span class="o">-</span> <span class="n">nperline</span><span class="o">*</span><span class="n">ha</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
@@ -1381,10 +1371,9 @@ Vr       = 1.251e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Tongue Plate, Block Shear Case 3)&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span> 
-          <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;An,Agv,Ut&#39;</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate, Block Shear Case 3)&#39;</span><span class="p">):</span>
     <span class="n">An</span> <span class="o">=</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="n">nperline</span><span class="o">*</span><span class="n">ha</span> <span class="o">-</span> <span class="p">(</span><span class="n">g</span><span class="o">-</span><span class="n">ha</span><span class="p">))</span><span class="o">*</span><span class="n">T</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span> <span class="o">*</span> <span class="mf">2.</span>
     <span class="n">Ut</span> <span class="o">=</span> <span class="mf">0.6</span>
@@ -1455,10 +1444,9 @@ Vr       = 1.464e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Tongue Plate tearout&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span> 
-          <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agv,An,Ut&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;T,e,W,Fy,Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;ha,nperline,nlines,s,g&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Agv,An,Ut&#39;</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate tearout&#39;</span><span class="p">):</span>
     <span class="n">An</span> <span class="o">=</span> <span class="mi">0</span><span class="o">*</span><span class="n">mm</span><span class="o">*</span><span class="n">mm</span>
     <span class="n">Agv</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">nlines</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">nperline</span>
     <span class="n">Ut</span> <span class="o">=</span> <span class="mi">1</span>
@@ -1529,9 +1517,8 @@ Vr       = 2.484e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Tr&#39;</span><span class="p">,</span><span class="s1">&#39;Tongue Plate, Welded End, Net Section Fracture&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;W,w2=Dh,L=Lw,T,Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span>
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;w3,An2,An3,Ane&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;W,w2=Dh,L=Lw,T,Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;w3,An2,An3,Ane&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tongue Plate, Welded End, Net Section Fracture&#39;</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">L</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">w2</span><span class="p">:</span>             <span class="c1"># S16-14: 12.3.3.3 b)</span>
         <span class="n">An2</span> <span class="o">=</span> <span class="mf">1.00</span><span class="o">*</span><span class="n">w2</span><span class="o">*</span><span class="n">T</span>
     <span class="k">elif</span> <span class="n">L</span> <span class="o">&gt;=</span> <span class="n">w2</span><span class="p">:</span>
@@ -1609,8 +1596,8 @@ Tr    = 1.144e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Bolts in Shear&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;d,Fu,threads_intercepted,s,nlines,nperline&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;n,m,Ab&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;d,Fu,threads_intercepted,s,nlines,nperline&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span> 
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;n,m,Ab&#39;</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bolts in Shear&#39;</span><span class="p">):</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">nlines</span><span class="o">*</span><span class="n">nperline</span>             <span class="c1"># no. of bolts</span>
     <span class="n">m</span> <span class="o">=</span> <span class="mi">2</span>                           <span class="c1"># no. of faying surfaces</span>
     <span class="n">Ab</span> <span class="o">=</span> <span class="mf">3.14159</span><span class="o">*</span><span class="n">d</span><span class="o">*</span><span class="n">d</span><span class="o">/</span><span class="mf">4.</span>
@@ -1682,9 +1669,9 @@ Vr                  = 948100 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Br&#39;</span><span class="p">,</span><span class="s1">&#39;Bolts in Bearing&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;d,nlines,nperline&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
-          <span class="p">(</span><span class="s1">&#39;Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span> <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;n,t&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;d,nlines,nperline&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Fu&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span> 
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;n,t&#39;</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Br&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bolts in Bearing&#39;</span><span class="p">):</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">nlines</span><span class="o">*</span><span class="n">nperline</span>
     <span class="n">t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">GussetPlate</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">TonguePlate</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">LapPlates</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
     <span class="n">Br</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">phibr</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">d</span><span class="o">*</span><span class="n">Fu</span>          <span class="c1"># S16-14: 13.12.1.2 a)</span>
@@ -1747,9 +1734,9 @@ Br       = 2.469e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span><span class="s1">&#39;Fillet Weld (HSS to Plate)&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;L=Lw,D&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span> 
-          <span class="p">(</span><span class="s1">&#39;Xu,matching&#39;</span><span class="p">,</span><span class="n">Welds</span><span class="p">),</span> <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Aw&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;L=Lw,D&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Xu,matching&#39;</span><span class="p">,</span><span class="n">Welds</span><span class="p">),</span> 
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Aw&#39;</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="s1">&#39;Vr&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fillet Weld (HSS to Plate)&#39;</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">matching</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Non matching electrodes&#39;</span><span class="p">)</span>
     <span class="n">Aw</span> <span class="o">=</span> <span class="mf">4.</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="n">D</span><span class="o">*</span><span class="mf">0.707</span>
@@ -1823,11 +1810,10 @@ Vr       = 497600 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Tr&#39;</span><span class="p">,</span><span class="s1">&#39;HSS Net Section Fracture&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;D,th=T,A,Fyh=Fy,Fuh=Fu&#39;</span><span class="p">,</span><span class="n">HSS</span><span class="p">),</span>  
-          <span class="p">(</span><span class="s1">&#39;tp=T,wp=W,Fyp=Fy,Fup=Fu&#39;</span><span class="p">,</span><span class="n">CoverPlate</span><span class="p">),</span>\
-          <span class="p">(</span><span class="s1">&#39;tt=T,Lw&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span> 
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;xbar,Ag,An,Ane,Fy,Fu&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;D,th=T,A,Fyh=Fy,Fuh=Fu&#39;</span><span class="p">,</span><span class="n">HSS</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;tp=T,wp=W,Fyp=Fy,Fup=Fu&#39;</span><span class="p">,</span><span class="n">CoverPlate</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;tt=T,Lw&#39;</span><span class="p">,</span><span class="n">TonguePlate</span><span class="p">),</span> 
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;xbar,Ag,An,Ane,Fy,Fu&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;HSS Net Section Fracture&#39;</span><span class="p">):</span>
     <span class="n">Fy</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">Fyh</span><span class="p">,</span><span class="n">Fyp</span><span class="p">)</span>     <span class="c1"># use min properties of plate &amp; HSS (conservative)</span>
     <span class="n">Fu</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">Fuh</span><span class="p">,</span><span class="n">Fup</span><span class="p">)</span>
 
@@ -1911,7 +1897,8 @@ Tr    = 1.422e+06 MPa·mm²
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;Tr&#39;</span><span class="p">,</span><span class="s1">&#39;HSS Gross Section Yield&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;A,Fy&#39;</span><span class="p">,</span><span class="n">HSS</span><span class="p">),</span> <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Ag&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;A,Fy&#39;</span><span class="p">,</span><span class="n">HSS</span><span class="p">),</span> 
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Ag&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;HSS Gross Section Yield&#39;</span><span class="p">):</span>
     <span class="n">Ag</span> <span class="o">=</span> <span class="n">A</span>
     <span class="n">Tr</span> <span class="o">=</span> <span class="n">phi</span><span class="o">*</span><span class="n">Ag</span><span class="o">*</span><span class="n">Fy</span>          <span class="c1"># S16-14: 13.2 a) i)</span>
 </pre></div>
@@ -1972,10 +1959,9 @@ the slot end (@ minimum x-sect area) and end of HSS.</p>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;Checking Cover Plate&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;T,W,L=Lw,D,Fy,Fu&#39;</span><span class="p">,</span><span class="n">CoverPlate</span><span class="p">),</span>
-          <span class="p">(</span><span class="s1">&#39;Xu&#39;</span><span class="p">,</span><span class="n">Welds</span><span class="p">),</span>
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Aw,Vr,An,An2,Ane&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;T,W,L=Lw,D,Fy,Fu&#39;</span><span class="p">,</span><span class="n">CoverPlate</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;Xu&#39;</span><span class="p">,</span><span class="n">Welds</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;Aw,Vr,An,An2,Ane&#39;</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Checking Cover Plate&#39;</span><span class="p">):</span>
     <span class="n">Aw</span> <span class="o">=</span> <span class="mf">0.707</span><span class="o">*</span><span class="n">D</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="mf">2.</span>
     <span class="n">Vr</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.67</span><span class="o">*</span><span class="n">phiw</span><span class="o">*</span><span class="n">Aw</span><span class="o">*</span><span class="n">Xu</span><span class="o">*</span><span class="mi">1</span><span class="o">*</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">kN</span><span class="p">)</span>            <span class="c1"># S16-14: 13.13.2.2, weld strength, to one side</span>
     <span class="n">Tr</span> <span class="o">=</span> <span class="p">(</span><span class="n">phi</span><span class="o">*</span><span class="p">(</span><span class="n">T</span><span class="o">*</span><span class="n">W</span><span class="p">)</span><span class="o">*</span><span class="n">Fy</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">kN</span><span class="p">)</span>                   <span class="c1"># S16-14: 13.2 a) i) gross section yield, of cover Plate</span>
@@ -2073,10 +2059,9 @@ in the cover plate. Ensure welds can develop that.</li>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">DATA</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-          <span class="p">(</span><span class="s1">&#39;W,T,L,e&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span>
-          <span class="p">(</span><span class="s1">&#39;s,g,nlines,nperline,d&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
-          <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;minedge,maxedge,minend,minpitch&#39;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">USEVARS</span><span class="p">((</span><span class="s1">&#39;W,T,L,e&#39;</span><span class="p">,</span><span class="n">LapPlates</span><span class="p">),</span>
+             <span class="p">(</span><span class="s1">&#39;s,g,nlines,nperline,d&#39;</span><span class="p">,</span><span class="n">Bolts</span><span class="p">),</span>
+             <span class="nb">locals</span><span class="o">=</span><span class="s1">&#39;minedge,maxedge,minend,minpitch&#39;</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 
     <span class="n">minedge</span> <span class="o">=</span> <span class="mi">32</span><span class="o">*</span><span class="n">mm</span>                <span class="c1"># S16-14: 22.3.2 Table 6, 3/4&quot; bolt, sheared edge</span>
     <span class="n">maxedge</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">150</span><span class="o">*</span><span class="n">mm</span><span class="p">,</span><span class="mf">12.</span><span class="o">*</span><span class="n">T</span><span class="p">)</span>    <span class="c1"># S16-14: 22.3.3</span>
